@@ -1,0 +1,9 @@
+<resources>
+    <string name="title_activity_crop">CropActivity</string>
+    <!--Crop-->
+    <string name="label_crop">Crop</string>
+    <string name="label_skip">Skip</string>
+    <string name="label_back">Back</string>
+    <string name="label_done">Done</string>
+
+</resources>

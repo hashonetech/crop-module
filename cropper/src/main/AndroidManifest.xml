@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application >
+        <activity
+            android:name=".CropActivity"
+            android:exported="false"
+            android:label="@string/title_activity_crop"
+            android:theme="@style/Theme.Cropmodule" />
+    </application>
+
+</manifest>
