@@ -41,9 +41,10 @@ In AndroidManifest.xml
 	 
  Implementation
 
-  private var myCropDataSaved: CropDataSaved? = null
+  
+  	private var myCropDataSaved: CropDataSaved? = null
 	
-  if (checkPermissions()) {
+  	if (checkPermissions()) {
             mActivityLauncher.launch(
                 Crop.open(activity = this, Crop.build(
                     originalImageFilePath = originalImageFilePath,
