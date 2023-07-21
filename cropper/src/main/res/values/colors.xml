@@ -4,6 +4,8 @@
     <color name="black">#000000</color>
     <color name="red">#E91E63</color>
     <color name="extra_extra_light_gray_color">#FBFBFB</color>
+    <color name="window_bg_color">#efefef</color>
     <color name="dark_gray_color_2">#767676</color>
+    <color name="un_select_color">#999999</color>
 
 </resources>

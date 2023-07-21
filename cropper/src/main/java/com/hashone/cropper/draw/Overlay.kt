@@ -18,9 +18,11 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
+import com.hashone.cropper.builder.Crop
 import com.hashone.cropper.model.CropImageMask
 import com.hashone.cropper.model.CropOutline
 import com.hashone.cropper.model.CropPath
@@ -46,6 +48,7 @@ internal fun DrawingOverlay(
     strokeWidth: Dp,
     drawHandles: Boolean,
     handleSize: Float,
+    cropBuilder: Crop.Builder,
     onDrawGrid: (DrawScope.(rect: Rect, strokeWidth: Float, color: Color) -> Unit)?
 ) {
     val density = LocalDensity.current
@@ -77,9 +80,11 @@ internal fun DrawingOverlay(
                 handleSize = handleSize,
                 pathHandles = pathHandles,
                 outline = outline,
+                cropBuilder = cropBuilder,
                 onDrawGrid = onDrawGrid,
             )
         }
+
         is CropPath -> {
             val path = remember(rect, cropOutline) {
                 Path().apply {
@@ -102,9 +107,11 @@ internal fun DrawingOverlay(
                 handleSize = handleSize,
                 pathHandles = pathHandles,
                 path = path,
+                cropBuilder = cropBuilder,
                 onDrawGrid = onDrawGrid,
             )
         }
+
         is CropImageMask -> {
             val imageBitmap = cropOutline.image
 
@@ -121,6 +128,7 @@ internal fun DrawingOverlay(
                 handleSize = handleSize,
                 pathHandles = pathHandles,
                 image = imageBitmap,
+                cropBuilder = cropBuilder,
                 onDrawGrid = onDrawGrid,
             )
         }
@@ -141,6 +149,7 @@ private fun DrawingOverlayImpl(
     handleSize: Float,
     pathHandles: Path,
     outline: Outline,
+    cropBuilder: Crop.Builder,
     onDrawGrid: (DrawScope.(rect: Rect, strokeWidth: Float, color: Color) -> Unit)?,
 ) {
     Canvas(modifier = modifier) {
@@ -155,6 +164,7 @@ private fun DrawingOverlayImpl(
             drawHandles,
             handleSize,
             pathHandles,
+            cropBuilder,
             onDrawGrid,
         ) {
             drawCropOutline(outline = outline)
@@ -176,6 +186,7 @@ private fun DrawingOverlayImpl(
     handleSize: Float,
     pathHandles: Path,
     path: Path,
+    cropBuilder: Crop.Builder,
     onDrawGrid: (DrawScope.(rect: Rect, strokeWidth: Float, color: Color) -> Unit)?,
 ) {
     Canvas(modifier = modifier) {
@@ -190,6 +201,7 @@ private fun DrawingOverlayImpl(
             drawHandles,
             handleSize,
             pathHandles,
+            cropBuilder,
             onDrawGrid,
         ) {
             drawCropPath(path)
@@ -211,6 +223,7 @@ private fun DrawingOverlayImpl(
     handleSize: Float,
     pathHandles: Path,
     image: ImageBitmap,
+    cropBuilder: Crop.Builder,
     onDrawGrid: (DrawScope.(rect: Rect, strokeWidth: Float, color: Color) -> Unit)?,
 ) {
     Canvas(modifier = modifier) {
@@ -225,6 +238,7 @@ private fun DrawingOverlayImpl(
             drawHandles,
             handleSize,
             pathHandles,
+            cropBuilder,
             onDrawGrid,
         ) {
             drawCropImage(rect, image)
@@ -243,39 +257,41 @@ private fun DrawScope.drawOverlay(
     drawHandles: Boolean,
     handleSize: Float,
     pathHandles: Path,
+    cropBuilder: Crop.Builder,
     onDrawGrid: (DrawScope.(rect: Rect, strokeWidth: Float, color: Color) -> Unit)?,
     drawBlock: DrawScope.() -> Unit,
 ) {
-   drawWithLayer {
+    drawWithLayer {
 
-       // Destination
-       drawRect(transparentColor)
+        // Destination
+        drawRect(transparentColor)
+//       drawRect(Color(cropBuilder.cropOuterBorderColor))
 
        // Source
        translate(left = rect.left, top = rect.top) {
            drawBlock()
        }
 
-       if (drawGrid) {
-           if (onDrawGrid != null) {
-               onDrawGrid(rect, strokeWidth, overlayColor)
-           } else {
-               drawGrid(
-                   rect = rect,
-                   strokeWidth = strokeWidth,
-                   color = overlayColor,
-               )
+        if (drawGrid) {
+            if (onDrawGrid != null) {
+                onDrawGrid(rect, strokeWidth, overlayColor)
+            } else {
+                drawGrid(
+                    rect = rect,
+                    strokeWidth = strokeWidth,
+                    color = overlayColor,
+                )
             }
         }
     }
 
     if (drawOverlay) {
-            drawRect(
-                topLeft = Offset(rect.topLeft.x + strokeWidth/2, rect.topLeft.y + strokeWidth/2),
-                size = Size(rect.size.width - strokeWidth, rect.size.height - strokeWidth),
-                color = overlayColor,
-                style = Stroke(width = strokeWidth)
-            )
+        drawRect(
+            topLeft = Offset(rect.topLeft.x + strokeWidth / 2, rect.topLeft.y + strokeWidth / 2),
+            size = Size(rect.size.width - strokeWidth , rect.size.height - strokeWidth ),
+            color = overlayColor,
+            style = Stroke(width = strokeWidth)
+        )
 
 //        if (drawHandles) {
 //            pathHandles.apply {

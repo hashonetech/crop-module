@@ -155,21 +155,21 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
                 title = {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = cropBuilder.toolBarTitle,
-                        fontSize = cropBuilder.toolBarTitleSize.sp,
-                        fontFamily = FontFamily(Font(cropBuilder.toolBarTitleFont)),
+                        text = cropBuilder.toolBarBuilder.toolBarTitle,
+                        fontSize = cropBuilder.toolBarBuilder.toolBarTitleSize.sp,
+                        fontFamily = FontFamily(Font(cropBuilder.toolBarBuilder.toolBarTitleFont)),
                     )
                 },
 
                 navigationIcon = {
                     IconButton(onClick = { activity?.finish() }) {
                         Icon(
-                            ImageVector.vectorResource(id = cropBuilder.backPressIcon),
+                            ImageVector.vectorResource(id = cropBuilder.toolBarBuilder.backPressIcon),
                             contentDescription = stringResource(id = R.string.label_back)
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = colorResource (cropBuilder.toolBarColor))
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = colorResource (cropBuilder.toolBarBuilder.toolBarColor))
             )
         },
     ) {
@@ -235,21 +235,21 @@ private fun MainContent(
                 val bitmap = Glide.with(activity!!)
                     .asBitmap()
                     .load(cropBuilder.originalImageFilePath)
-                    .apply(RequestOptions().override(cropBuilder.LOCAL_FILE_SIZE))
+                    .apply(RequestOptions().override(cropBuilder.sizeBuilder.localFileSize))
                     .submit().get()
 
                 val maxSize = max(bitmap.width, bitmap.height)
-                if (maxSize > cropBuilder.MAX_FILE_SIZE) {
+                if (maxSize > cropBuilder.sizeBuilder.maxFileSize) {
                     if (bitmap.height > bitmap.width) {
                         bitmap.scale(
-                            (cropBuilder.LOCAL_FILE_SIZE * bitmap.width) / bitmap.height,
-                            cropBuilder.LOCAL_FILE_SIZE,
+                            (cropBuilder.sizeBuilder.localFileSize * bitmap.width) / bitmap.height,
+                            cropBuilder.sizeBuilder.localFileSize,
                             true
                         )
                     } else {
                         bitmap.scale(
-                            cropBuilder.LOCAL_FILE_SIZE,
-                            (cropBuilder.LOCAL_FILE_SIZE * bitmap.height) / bitmap.width,
+                            cropBuilder.sizeBuilder.localFileSize,
+                            (cropBuilder.sizeBuilder.localFileSize * bitmap.height) / bitmap.width,
                             true
                         )
                     }
@@ -331,7 +331,7 @@ private fun MainContent(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.extra_extra_light_gray_color))
+            .background(colorResource(id = cropBuilder.screenBuilder.windowBackgroundColor))
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -355,6 +355,7 @@ private fun MainContent(
                         aspectRationChange = aspectRationChange,
                         mCropData = cropData,
                         resetCrop = resetCrop,
+                        cropBuilder = cropBuilder,
                         onCropStart = {
                             isCropping = true
                         },
@@ -435,7 +436,7 @@ private fun MainContent(
                 modifier = Modifier
                     .height(2.dp)
                     .fillMaxWidth()
-                    .background(colorResource(cropBuilder.dividerColor))
+                    .background(colorResource(cropBuilder.bottomBuilder.dividerColor))
             )
             Row(
                 modifier = Modifier
@@ -449,7 +450,7 @@ private fun MainContent(
                             .fillMaxWidth()
                             .weight(1f)
                             .align(Alignment.CenterVertically)
-                            .background(colorResource(cropBuilder.cropBottomBackgroundColor)),
+                            .background(colorResource(cropBuilder.bottomBuilder.cropBottomBackgroundColor)),
                         contentAlignment = Alignment.Center
                     ) {
                         if (it == 1) {
@@ -466,16 +467,16 @@ private fun MainContent(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(
-                                    ImageVector.vectorResource(id = cropBuilder.cropCancelIcon),
+                                    ImageVector.vectorResource(id = cropBuilder.bottomBuilder.cropCancelButtonBuilder.icon),
                                     contentDescription = stringResource(id = R.string.label_skip),
                                 )
 
                                 Text(
                                     modifier = Modifier.padding(paddingValues = PaddingValues(8.dp)),
-                                    text = cropBuilder.cropCancelText,
-                                    fontSize = cropBuilder.cropCancelTextSize.sp,
-                                    color = colorResource(cropBuilder.cropCancelTextColor),
-                                    fontFamily = FontFamily(Font(cropBuilder.cropCancelTextFont))
+                                    text = cropBuilder.bottomBuilder.cropCancelButtonBuilder.buttonText,
+                                    fontSize = cropBuilder.bottomBuilder.cropCancelButtonBuilder.textSize.sp,
+                                    color = colorResource(cropBuilder.bottomBuilder.cropCancelButtonBuilder.textColor),
+                                    fontFamily = FontFamily(Font(cropBuilder.bottomBuilder.cropCancelButtonBuilder.textFont))
                                 )
                             }
                         } else {
@@ -499,15 +500,15 @@ private fun MainContent(
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Icon(
-                                    ImageVector.vectorResource(id = cropBuilder.cropDoneIcon),
+                                    ImageVector.vectorResource(id = cropBuilder.bottomBuilder.cropDoneButtonBuilder.icon),
                                     contentDescription = stringResource(id = R.string.label_done),
                                 )
                                 Text(
                                     modifier = Modifier.padding(paddingValues = PaddingValues(8.dp)),
-                                    text = cropBuilder.cropDoneText,
-                                    fontSize = cropBuilder.cropDoneTextSize.sp,
-                                    color = colorResource(cropBuilder.cropDoneTextColor),
-                                    fontFamily = FontFamily(Font(cropBuilder.cropDoneTextFont))
+                                    text = cropBuilder.bottomBuilder.cropDoneButtonBuilder.buttonText,
+                                    fontSize = cropBuilder.bottomBuilder.cropDoneButtonBuilder.textSize.sp,
+                                    color = colorResource(cropBuilder.bottomBuilder.cropDoneButtonBuilder.textColor),
+                                    fontFamily = FontFamily(Font(cropBuilder.bottomBuilder.cropDoneButtonBuilder.textFont))
                                 )
                             }
                         }

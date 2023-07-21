@@ -58,62 +58,70 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setDummyData() {
-
-        val out = Environment.getExternalStorageDirectory().absolutePath
-        val outFile = File(out, "hashone_phone_wallpaper.png")
-        if (!outFile.exists())
-            copyAssets()
-        originalImageFilePath = outFile.absolutePath
-        Glide.with(this).load(outFile.absolutePath).into(mBinding.originalImage)
-
+        originalImageFilePath = getFileFromAssets().absolutePath
+        Glide.with(this).load(originalImageFilePath).into(mBinding.originalImage)
     }
 
     private fun clickEvent() {
+        val cropIntent = Crop.build(
+            originalImageFilePath = originalImageFilePath,
+            cropDataSaved = myCropDataSaved,
+            cropState = null,
+            croppedImageBitmap = null
+        ) {
+
+            //TODO: Screen
+            screenBuilder = Crop.ScreenBuilder(
+                windowBackgroundColor = com.hashone.cropper.R.color.window_bg_color,
+                statusBarColor = com.hashone.cropper.R.color.white,
+                navigationBarColor = com.hashone.cropper.R.color.white,
+                cropOuterBorderColor = com.hashone.cropper.R.color.un_select_color
+            )
+
+            //TODO: Toolbar
+            toolBarBuilder = Crop.ToolBarBuilder(
+                toolBarColor = com.hashone.cropper.R.color.white,
+                backPressIcon = com.hashone.cropper.R.drawable.ic_back,
+                backPressIconDescription = "",
+                toolBarTitle = "Crop",
+                toolBarTitleColor = com.hashone.cropper.R.color.black,
+                toolBarTitleFont = com.hashone.cropper.R.font.roboto_medium,
+                toolBarTitleSize = 16F,
+            )
+
+
+            //TODO: AspectRatio
+            aspectRatioBuilder = Crop.AspectRatioBuilder(
+                aspectRatioBackgroundColor = com.hashone.cropper.R.color.white,
+                aspectRatioSelectedColor = com.hashone.cropper.R.color.black,
+                aspectRatioUnSelectedColor = com.hashone.cropper.R.color.un_select_color,
+                aspectRatioTitleFont = com.hashone.cropper.R.font.roboto_medium,
+            )
+
+
+            //TODO: Bottom Icon & Text
+            bottomBuilder = Crop.BottomBuilder(
+                cropBottomBackgroundColor = com.hashone.cropper.R.color.white,
+                dividerColor = com.hashone.cropper.R.color.white,
+                cropDoneButtonBuilder = Crop.ButtonBuilder(
+                    textColor = com.hashone.cropper.R.color.black,
+                    icon = com.hashone.cropper.R.drawable.ic_check_croppy_selected,
+                    buttonText = "Crop",
+                    textFont = com.hashone.cropper.R.font.roboto_medium,
+                    textSize = 16F,
+                ),
+                cropCancelButtonBuilder = Crop.ButtonBuilder(
+                    textColor = com.hashone.cropper.R.color.black,
+                    icon = com.hashone.cropper.R.drawable.ic_cancel,
+                    buttonText = "Skip",
+                    textFont = com.hashone.cropper.R.font.roboto_medium,
+                    textSize = 16F,
+                ),
+            )
+        }
         mBinding.txtCropImage.setOnClickListener {
             mActivityLauncher.launch(
-                Crop.open(activity = this, Crop.build(
-                    originalImageFilePath = originalImageFilePath,
-                    cropDataSaved = myCropDataSaved,
-                ) {
-                    cropState = null
-                    croppedImageBitmap = null
-                    //TODO: Screen
-                    windowBackgroundColor = com.hashone.cropper.R.color.extra_extra_light_gray_color
-                    statusBarColor = com.hashone.cropper.R.color.extra_extra_light_gray_color
-                    navigationBarColor = com.hashone.cropper.R.color.white
-
-                    //TODO: Toolbar
-                    toolBarColor = com.hashone.cropper.R.color.white
-                    backPressIcon = com.hashone.cropper.R.drawable.ic_back
-                    backPressIconDescription = ""
-                    toolBarTitle = "Crop"
-                    toolBarTitleColor = com.hashone.cropper.R.color.black
-                    toolBarTitleFont = com.hashone.cropper.R.font.outfit_regular
-                    toolBarTitleSize = 16F
-
-                    //TODO: AspectRatio
-                    aspectRatioBackgroundColor = com.hashone.cropper.R.color.white
-                    aspectRatioSelectedColor = com.hashone.cropper.R.color.black
-                    aspectRatioUnSelectedColor = com.hashone.cropper.R.color.dark_gray_color_2
-                    aspectRatioTitleFont = com.hashone.cropper.R.font.roboto_medium
-
-                    //TODO: Bottom Icon & Text
-                    cropDoneTextColor = com.hashone.cropper.R.color.black
-                    cropDoneIcon = com.hashone.cropper.R.drawable.ic_check_croppy_selected
-                    cropDoneText = "Crop"
-                    cropDoneTextFont = com.hashone.cropper.R.font.roboto_medium
-                    cropDoneTextSize = 16F
-
-                    cropCancelTextColor = com.hashone.cropper.R.color.black
-                    cropCancelIcon = com.hashone.cropper.R.drawable.ic_cancel
-                    cropCancelText = "Skip"
-                    cropCancelTextFont = com.hashone.cropper.R.font.roboto_medium
-                    cropCancelTextSize = 16F
-
-                    cropBottomBackgroundColor = com.hashone.cropper.R.color.white
-                    dividerColor = com.hashone.cropper.R.color.extra_extra_light_gray_color
-
-                }),
+                Crop.open(activity = this, cropIntent),
                 onActivityResult = object : BetterActivityResult.OnActivityResult<ActivityResult> {
                     override fun onActivityResult(activityResult: ActivityResult) {
                         if (activityResult.resultCode == Activity.RESULT_OK) {
@@ -192,46 +200,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    private fun copyAssets() {
-        val assetManager = assets
-        var files: Array<String>? = null
-        try {
-            files = assetManager.list("")
-        } catch (e: IOException) {
-            Log.e("tag", "Failed to get asset file list.", e)
-        }
-        for (filename in files!!) {
-            var `in`: InputStream? = null
-            var out: OutputStream? = null
-            try {
-                `in` = assetManager.open(filename)
-                val outDir = Environment.getExternalStorageDirectory().absolutePath
-                val outFile = File(outDir, filename)
-                out = FileOutputStream(outFile)
-                copyFile(`in`, out)
-                `in`.close()
-                `in` = null
-                out.flush()
-                out.close()
-                out = null
-            } catch (e: IOException) {
-                Log.e("tag", "Failed to copy asset file: $filename", e)
+
+    private fun getFileFromAssets(): File = File(cacheDir, "hashone_phone_wallpaper.png")
+        .also {
+            if (!it.exists()) {
+                it.outputStream().use { cache ->
+                    assets.open("hashone_phone_wallpaper.png").use { inputStream ->
+                        inputStream.copyTo(cache)
+                    }
+                }
             }
         }
-    }
-
-    @Throws(IOException::class)
-    private fun copyFile(`in`: InputStream, out: OutputStream) {
-        val buffer = ByteArray(1024)
-        var read: Int
-        while (`in`.read(buffer).also { read = it } != -1) {
-            out.write(buffer, 0, read)
-        }
-    }
 
     //TODO: Screen UI - Start
     private fun setWindowUI() {
-            setStatusBarColor(getColorCode(R.color.black))
-
+        setStatusBarColor(getColorCode(R.color.black))
     }
 }

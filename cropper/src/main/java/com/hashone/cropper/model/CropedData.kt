@@ -27,7 +27,7 @@ class CropDataSaved : Serializable {
 
     var cropAspectRatioId: Int = 0
     var cropAspectRatioTitle: String = "Original"
-    var cropAspectRatioImg: Int = R.drawable.ic_aspect_orginal
+    var cropAspectRatioImg: Int = R.drawable.ic_orginal_crop
 
     var cropRectTop: Float = 0F
     var cropRectBottom: Float = 0F

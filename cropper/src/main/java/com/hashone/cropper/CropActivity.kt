@@ -59,7 +59,7 @@ class CropActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.Black)
+                        .background(colorResource(id = builder.screenBuilder.windowBackgroundColor))
                 ) {
                     Column {
                         ImageCropDemo(builder)
@@ -72,9 +72,9 @@ class CropActivity : ComponentActivity() {
 
     //TODO: Screen UI - Start
     private fun setWindowUI() {
-            if (builder.statusBarColor != -1) {
-                setStatusBarColor(getColorCode(builder.statusBarColor))
-                navigationUI(true, getColorCode(builder.navigationBarColor))
+            if (builder.screenBuilder.statusBarColor != -1) {
+                setStatusBarColor(getColorCode(builder.screenBuilder.statusBarColor))
+                navigationUI(true, getColorCode(builder.screenBuilder.navigationBarColor))
                 WindowCompat.getInsetsController(window, window.decorView).apply {
                     isAppearanceLightStatusBars = true
                 }

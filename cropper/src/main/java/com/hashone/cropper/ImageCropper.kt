@@ -10,6 +10,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,8 +31,11 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
+import com.hashone.cropper.builder.Crop
 import com.hashone.cropper.crop
 import com.hashone.cropper.crop.CropAgent
 import com.hashone.cropper.draw.DrawingOverlay
@@ -68,6 +72,7 @@ fun ImageCropper(
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
     crop: Boolean = false,
     aspectRationChange: Boolean = false,
+    cropBuilder: Crop.Builder,
     mCropData: CropData? = null,
     resetCrop: Boolean = false,
     onCropStart: () -> Unit,
@@ -248,7 +253,8 @@ fun ImageCropper(
             cropType = cropType,
             cropOutline = cropOutline,
             cropStyle = cropStyle,
-            transparentColor = transparentColor,
+            transparentColor = colorResource(id = cropBuilder.screenBuilder.windowBackgroundColor),
+            cropBuilder = cropBuilder,
             onDrawGrid = onDrawGrid,
         )
     }
@@ -296,12 +302,13 @@ private fun ImageCropper(
     cropStyle: CropStyle,
     overlayRect: Rect,
     transparentColor: Color,
+    cropBuilder: Crop.Builder,
     onDrawGrid: (DrawScope.(rect: Rect, strokeWidth: Float, color: Color) -> Unit)?,
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(DefaultBackgroundColor)
+            .background(transparentColor)
     ) {
 
         AnimatedVisibility(
@@ -322,6 +329,7 @@ private fun ImageCropper(
                 cropStyle = cropStyle,
                 rectOverlay = overlayRect,
                 transparentColor = transparentColor,
+                cropBuilder = cropBuilder,
                 onDrawGrid = onDrawGrid,
             )
         }
@@ -359,6 +367,7 @@ private fun ImageCropperImpl(
     cropStyle: CropStyle,
     transparentColor: Color,
     rectOverlay: Rect,
+    cropBuilder: Crop.Builder,
     onDrawGrid: (DrawScope.(rect: Rect, strokeWidth: Float, color: Color) -> Unit)?,
 ) {
 
@@ -386,12 +395,13 @@ private fun ImageCropperImpl(
             rect = rectOverlay,
             cropOutline = cropOutline,
             drawGrid = drawGrid,
-            overlayColor = overlayColor,
+            overlayColor = colorResource(id = cropBuilder.screenBuilder.cropOuterBorderColor),
             handleColor = handleColor,
             strokeWidth = strokeWidth,
             drawHandles = drawHandles,
             handleSize = handleSize,
             transparentColor = transparentColor,
+            cropBuilder = cropBuilder,
             onDrawGrid = onDrawGrid,
         )
 

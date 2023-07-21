@@ -18,6 +18,6 @@ data class CropData(
     var drawSize: IntSize,
     var overlaySize: IntSize,
     var aspectRatio: AspectRatio = aspectRatios[0].aspectRatio,
-    var cropAspectRatio: CropAspectRatio = CropAspectRatio(id=1,title = "Original",  aspectRatio = AspectRatio.Original, img = R.drawable.ic_aspect_orginal),
+    var cropAspectRatio: CropAspectRatio = CropAspectRatio(id=1,title = "Original",  aspectRatio = AspectRatio.Original, img = R.drawable.ic_orginal_crop),
     var cropOutlineProperty: CropOutlineProperty = CropOutlineProperty(OutlineType.Rect, RectCropShape(0, "Rect")),
     )

@@ -1,6 +1,6 @@
 [versions]
 accompanist-systemuicontroller = "0.31.5-beta"
-agp = "8.2.0-alpha12"
+agp = "8.2.0-alpha13"
 commons = "v1.0.18"
 compose-extended-gestures = "3.0.0"
 glide = "4.15.1"

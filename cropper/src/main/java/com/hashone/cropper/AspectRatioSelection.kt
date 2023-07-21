@@ -3,28 +3,44 @@ package com.hashone.cropper
 import android.app.Activity
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.animateScrollBy
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.material.ripple.RippleAlpha
+import androidx.compose.material.ripple.RippleTheme
+import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.FloatingActionButtonDefaults.elevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import com.hashone.commons.utils.dpToPx
 import com.hashone.cropper.builder.Crop
 import com.hashone.cropper.settings.CropFrameFactory
 import com.hashone.cropper.model.CropAspectRatio
@@ -52,8 +68,22 @@ import com.hashone.cropper.settings.Paths
 import com.hashone.cropper.util.Utils
 import com.hashone.cropper.util.createPolygonShape
 import com.hashone.cropper.widget.AspectRatioSelectionCard
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
+
+private class CustomRippleTheme : RippleTheme {
+    @Composable
+    override fun defaultColor(): Color = Color.Unspecified
+
+    @Composable
+    override fun rippleAlpha(): RippleAlpha = RippleAlpha(
+        draggedAlpha = 0f,
+        focusedAlpha = 0f,
+        hoveredAlpha = 0f,
+        pressedAlpha = 0f,
+    )
+}
 
 @Composable
 internal fun AnimatedAspectRatioSelection(
@@ -89,62 +119,81 @@ internal fun AnimatedAspectRatioSelection(
     BoxWithConstraints {
         LazyRow(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .background(colorResource(id = cropBuilder.aspectRatioBuilder.aspectRatioBackgroundColor))
+                ,
             state = listState,
         ) {
             itemsIndexed(aspectRatios) { index: Int, item: CropAspectRatio ->
-                Layout(
-                    content = {
-                        val currentHeight =
-                            0.1555555555555556 * Utils.getScreenWidth(activity).toDouble()
-                        val viewRatio = if (aspectRatios.size <= 6) {
-                            (Utils.getScreenWidth(activity) / aspectRatios.size.toFloat()) / currentHeight
-                        } else {
-                            (Utils.getScreenWidth(activity) / 5.1555F) / currentHeight
-                        }
-                        // Here's the content of each list item.
-                        AspectRatioSelectionCard(
-                            modifier = Modifier
-                                .graphicsLayer {
-                                    scaleX = 1f
-                                    scaleY = 1f
-                                }
-                                .width(Utils.pxToDp((currentHeight * viewRatio).roundToInt()).dp)
-                                .clickable {
-                                    if(Utils.checkClickTime300()) {
-                                        isAspectRatioChangeManually = true
-                                        if (currentIndex != index) {
-                                            currentIndex = index
-                                             conCropOutlinePropertyChange(
-                                                 CropOutlineProperty(
-                                                     aspectRatios[index].outlineType,
-                                                     createCropOutlineContainer(aspectRatios[index].outlineType)
-                                                 ), aspectRatios[index]
-                                            )
-
+                CompositionLocalProvider(LocalRippleTheme provides CustomRippleTheme()) {
+                    Layout(
+                        content = {
+                            val currentHeight =
+                                0.1555555555555556 * Utils.getScreenWidth(activity).toDouble()
+                            val viewRatio = if (aspectRatios.size <= 6) {
+                                (Utils.getScreenWidth(activity) / aspectRatios.size.toFloat()) / currentHeight
+                            } else {
+                                (Utils.getScreenWidth(activity) / 5.8F) / currentHeight
+                            }
+                            // Here's the content of each list item.
+                            AspectRatioSelectionCard(
+                                modifier = Modifier
+                                    .graphicsLayer {
+                                        scaleX = 1f
+                                        scaleY = 1f
+                                    }
+                                    .width(Utils.pxToDp((currentHeight * viewRatio * 1.015).roundToInt()).dp)
+                                    .clip(CircleShape)
+                                    .clickable(
+                                        indication = rememberRipple(),
+                                        interactionSource = remember {
+                                            MutableInteractionSource()
+                                        }
+                                    ) {
+                                        if (Utils.checkClickTime300()) {
+                                            isAspectRatioChangeManually = true
+                                            if (currentIndex != index) {
+                                                currentIndex = index
+                                                conCropOutlinePropertyChange(
+                                                    CropOutlineProperty(
+                                                        aspectRatios[index].outlineType,
+                                                        createCropOutlineContainer(aspectRatios[index].outlineType)
+                                                    ), aspectRatios[index]
+                                                )
+                                                coroutineScope.launch {
+                                                    val itemInfo =
+                                                        listState.layoutInfo.visibleItemsInfo.firstOrNull { it.index == currentIndex }
+                                                    val center =
+                                                        listState.layoutInfo.viewportEndOffset / 2
+                                                    val childCenter =
+                                                        itemInfo!!.offset + itemInfo.size / 2
+                                                    listState.animateScrollBy(
+                                                        (childCenter - center).toFloat(),
+                                                        tween(300)
+                                                    )
+                                                }
+                                            }
                                         }
                                     }
-                                },
-                            bgColor = colorResource(id = cropBuilder.aspectRatioBackgroundColor),
-                            itemColor = colorResource(id = if (currentIndex == index) cropBuilder.aspectRatioSelectedColor else cropBuilder.aspectRatioUnSelectedColor),
-                            cropAspectRatio = item,
-                            font = FontFamily(Font(cropBuilder.aspectRatioTitleFont)),
-                        )
-
-                    },
-                    measurePolicy = { measures, constraints ->
-                        // so it's measuring just the Box
-                        val placeable = measures.first().measure(constraints)
-                        layout(placeable.width, placeable.height) {
-                            // Placing the Box in the right X position
-                            placeable.place(0, 0)
+                                    .padding(8.dp),
+                                bgColor = colorResource(id = cropBuilder.aspectRatioBuilder.aspectRatioBackgroundColor),
+                                itemColor = colorResource(id = if (currentIndex == index) cropBuilder.aspectRatioBuilder.aspectRatioSelectedColor else cropBuilder.aspectRatioBuilder.aspectRatioUnSelectedColor),
+                                cropAspectRatio = item,
+                                font = FontFamily(Font(cropBuilder.aspectRatioBuilder.aspectRatioTitleFont)),
+                            )
+                        },
+                        measurePolicy = { measures, constraints ->
+                            // so it's measuring just the Box
+                            val placeable = measures.first().measure(constraints)
+                            layout(placeable.width, placeable.height) {
+                                // Placing the Box in the right X position
+                                placeable.place(dpToPx(8f).toInt(), 0)
+                            }
                         }
-                    }
-                )
-
+                    )
+                }
             }
 
-//            if (currentIndex == 0)
             if (!isAspectRatioChangeManually)
                 coroutineScope.launch {
                     val itemInfo = listState.layoutInfo.visibleItemsInfo.firstOrNull { it.index == currentIndex }
