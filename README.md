@@ -120,9 +120,12 @@ Media Gallery module, used to select Photo, Video, Capture Photo or Video from C
             )
         }
 ## Screenshot
-![Screenshot_20230722-121650](https://github.com/hashonetech/crop-module/assets/104345897/b995db31-40e7-4b5d-b379-4559639e7f90)
-![Screenshot_20230722-121703](https://github.com/hashonetech/crop-module/assets/104345897/104e01ee-30a8-45c7-a102-b47b82933d6e)
-![Screenshot_20230722-121715](https://github.com/hashonetech/crop-module/assets/104345897/3db2c226-4440-423a-a900-1eb836b71043)
+
+<div style="display:flex;">
+<img alt="App image" src="https://github.com/hashonetech/crop-module/assets/104345897/b624fb4b-c970-4513-a077-a76b56134669" width="30%">
+<img alt="App image" src="https://github.com/hashonetech/crop-module/assets/104345897/3135fbee-d6e7-4b98-a243-3ff54576970a" width="30%">
+<img alt="App image" src="https://github.com/hashonetech/crop-module/assets/104345897/385f29e7-75cd-4864-ae51-71c132bbde71" width="30%">
+</div>
 
 
 
