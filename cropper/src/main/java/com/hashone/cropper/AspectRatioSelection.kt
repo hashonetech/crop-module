@@ -1,11 +1,6 @@
 package com.hashone.cropper
 
 import android.app.Activity
-import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.animation.core.AnimationSpec
-import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,7 +18,6 @@ import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.FloatingActionButtonDefaults.elevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -44,31 +38,13 @@ import com.hashone.commons.utils.dpToPx
 import com.hashone.cropper.builder.Crop
 import com.hashone.cropper.settings.CropFrameFactory
 import com.hashone.cropper.model.CropAspectRatio
-import com.hashone.cropper.model.CropOutline
-import com.hashone.cropper.model.CropOutlineContainer
-import com.hashone.cropper.model.CustomOutlineContainer
-import com.hashone.cropper.model.CustomPathOutline
-import com.hashone.cropper.model.CutCornerCropShape
-import com.hashone.cropper.model.CutCornerRectOutlineContainer
 import com.hashone.cropper.model.OutlineType
-import com.hashone.cropper.model.OvalCropShape
-import com.hashone.cropper.model.OvalOutlineContainer
-import com.hashone.cropper.model.PolygonCropShape
-import com.hashone.cropper.model.PolygonOutlineContainer
-import com.hashone.cropper.model.PolygonProperties
 import com.hashone.cropper.model.RectCropShape
-import com.hashone.cropper.model.RectOutlineContainer
-import com.hashone.cropper.model.RoundedCornerCropShape
-import com.hashone.cropper.model.RoundedRectOutlineContainer
 import com.hashone.cropper.model.aspectRatios
 import com.hashone.cropper.model.createCropOutlineContainer
-import com.hashone.cropper.model.getOutlineContainer
 import com.hashone.cropper.settings.CropOutlineProperty
-import com.hashone.cropper.settings.Paths
 import com.hashone.cropper.util.Utils
-import com.hashone.cropper.util.createPolygonShape
 import com.hashone.cropper.widget.AspectRatioSelectionCard
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -120,7 +96,7 @@ internal fun AnimatedAspectRatioSelection(
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(colorResource(id = cropBuilder.aspectRatioBuilder.aspectRatioBackgroundColor))
+                .background(colorResource(id = cropBuilder.aspectRatioBuilder.backgroundColor))
                 ,
             state = listState,
         ) {
@@ -176,10 +152,10 @@ internal fun AnimatedAspectRatioSelection(
                                         }
                                     }
                                     .padding(8.dp),
-                                bgColor = colorResource(id = cropBuilder.aspectRatioBuilder.aspectRatioBackgroundColor),
-                                itemColor = colorResource(id = if (currentIndex == index) cropBuilder.aspectRatioBuilder.aspectRatioSelectedColor else cropBuilder.aspectRatioBuilder.aspectRatioUnSelectedColor),
+                                bgColor = colorResource(id = cropBuilder.aspectRatioBuilder.backgroundColor),
+                                itemColor = colorResource(id = if (currentIndex == index) cropBuilder.aspectRatioBuilder.selectedColor else cropBuilder.aspectRatioBuilder.unSelectedColor),
                                 cropAspectRatio = item,
-                                font = FontFamily(Font(cropBuilder.aspectRatioBuilder.aspectRatioTitleFont)),
+                                font = FontFamily(Font(cropBuilder.aspectRatioBuilder.titleFont)),
                             )
                         },
                         measurePolicy = { measures, constraints ->
@@ -187,7 +163,7 @@ internal fun AnimatedAspectRatioSelection(
                             val placeable = measures.first().measure(constraints)
                             layout(placeable.width, placeable.height) {
                                 // Placing the Box in the right X position
-                                placeable.place(dpToPx(8f).toInt(), 0)
+                                placeable.place(dpToPx(10f).toInt(), 0)
                             }
                         }
                     )

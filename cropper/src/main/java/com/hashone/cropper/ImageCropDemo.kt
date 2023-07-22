@@ -36,8 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
@@ -76,7 +74,6 @@ import com.hashone.cropper.util.Utils
 import com.hashone.cropper.util.copy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -90,7 +87,7 @@ internal enum class SelectionPage {
 fun ImageCropDemo(cropBuilder: Crop.Builder) {
     val coroutineScope = rememberCoroutineScope()
     val activity = (LocalContext.current as? ComponentActivity)
-    val cropStyle by remember { mutableStateOf(CropDefaults.style()) }
+    val cropStyle by remember { mutableStateOf(CropDefaults.style(strokeWidth = cropBuilder.screenBuilder.borderWidth.dp)) }
     val handleSize: Float = LocalDensity.current.run { 15.dp.toPx() }
     var resetCrop by remember { mutableStateOf(false) }
     var aspectRatioChange by remember { mutableStateOf(false) }
@@ -124,7 +121,6 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
             )
         }
     )*/ else defaultCropOuterProp
-
     var cropProperties by remember {
         mutableStateOf(
             CropDefaults.properties(
@@ -155,16 +151,17 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
                 title = {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = cropBuilder.toolBarBuilder.toolBarTitle,
-                        fontSize = cropBuilder.toolBarBuilder.toolBarTitleSize.sp,
-                        fontFamily = FontFamily(Font(cropBuilder.toolBarBuilder.toolBarTitleFont)),
+                        text = cropBuilder.toolBarBuilder.title,
+                        fontSize = cropBuilder.toolBarBuilder.titleSize.sp,
+                        color = colorResource(cropBuilder.toolBarBuilder.titleColor),
+                        fontFamily = FontFamily(Font(cropBuilder.toolBarBuilder.titleFont))
                     )
                 },
 
                 navigationIcon = {
                     IconButton(onClick = { activity?.finish() }) {
                         Icon(
-                            ImageVector.vectorResource(id = cropBuilder.toolBarBuilder.backPressIcon),
+                            ImageVector.vectorResource(id = cropBuilder.toolBarBuilder.backIcon),
                             contentDescription = stringResource(id = R.string.label_back)
                         )
                     }
@@ -340,7 +337,7 @@ private fun MainContent(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(30.dp, 24.dp)
+                    .padding(30.dp, 22.dp)
                     .weight(1F),
                 verticalArrangement = Arrangement.Center,
             ) {
@@ -436,7 +433,7 @@ private fun MainContent(
                 modifier = Modifier
                     .height(2.dp)
                     .fillMaxWidth()
-                    .background(colorResource(cropBuilder.bottomBuilder.dividerColor))
+                    .background(colorResource(cropBuilder.bottomPanelBuilder.dividerColor))
             )
             Row(
                 modifier = Modifier
@@ -450,7 +447,7 @@ private fun MainContent(
                             .fillMaxWidth()
                             .weight(1f)
                             .align(Alignment.CenterVertically)
-                            .background(colorResource(cropBuilder.bottomBuilder.cropBottomBackgroundColor)),
+                            .background(colorResource(cropBuilder.bottomPanelBuilder.cropBottomBackgroundColor)),
                         contentAlignment = Alignment.Center
                     ) {
                         if (it == 1) {
@@ -467,16 +464,16 @@ private fun MainContent(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(
-                                    ImageVector.vectorResource(id = cropBuilder.bottomBuilder.cropCancelButtonBuilder.icon),
+                                    ImageVector.vectorResource(id = cropBuilder.bottomPanelBuilder.cancelButtonBuilder.icon),
                                     contentDescription = stringResource(id = R.string.label_skip),
                                 )
 
                                 Text(
                                     modifier = Modifier.padding(paddingValues = PaddingValues(8.dp)),
-                                    text = cropBuilder.bottomBuilder.cropCancelButtonBuilder.buttonText,
-                                    fontSize = cropBuilder.bottomBuilder.cropCancelButtonBuilder.textSize.sp,
-                                    color = colorResource(cropBuilder.bottomBuilder.cropCancelButtonBuilder.textColor),
-                                    fontFamily = FontFamily(Font(cropBuilder.bottomBuilder.cropCancelButtonBuilder.textFont))
+                                    text = cropBuilder.bottomPanelBuilder.cancelButtonBuilder.buttonText,
+                                    fontSize = cropBuilder.bottomPanelBuilder.cancelButtonBuilder.textSize.sp,
+                                    color = colorResource(cropBuilder.bottomPanelBuilder.cancelButtonBuilder.textColor),
+                                    fontFamily = FontFamily(Font(cropBuilder.bottomPanelBuilder.cancelButtonBuilder.textFont))
                                 )
                             }
                         } else {
@@ -500,15 +497,15 @@ private fun MainContent(
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Icon(
-                                    ImageVector.vectorResource(id = cropBuilder.bottomBuilder.cropDoneButtonBuilder.icon),
+                                    ImageVector.vectorResource(id = cropBuilder.bottomPanelBuilder.doneButtonBuilder.icon),
                                     contentDescription = stringResource(id = R.string.label_done),
                                 )
                                 Text(
                                     modifier = Modifier.padding(paddingValues = PaddingValues(8.dp)),
-                                    text = cropBuilder.bottomBuilder.cropDoneButtonBuilder.buttonText,
-                                    fontSize = cropBuilder.bottomBuilder.cropDoneButtonBuilder.textSize.sp,
-                                    color = colorResource(cropBuilder.bottomBuilder.cropDoneButtonBuilder.textColor),
-                                    fontFamily = FontFamily(Font(cropBuilder.bottomBuilder.cropDoneButtonBuilder.textFont))
+                                    text = cropBuilder.bottomPanelBuilder.doneButtonBuilder.buttonText,
+                                    fontSize = cropBuilder.bottomPanelBuilder.doneButtonBuilder.textSize.sp,
+                                    color = colorResource(cropBuilder.bottomPanelBuilder.doneButtonBuilder.textColor),
+                                    fontFamily = FontFamily(Font(cropBuilder.bottomPanelBuilder.doneButtonBuilder.textFont))
                                 )
                             }
                         }

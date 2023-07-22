@@ -3,32 +3,22 @@ package com.hashone.crop
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
-import androidx.core.view.drawToBitmap
 import com.bumptech.glide.Glide
 import com.hashone.commons.base.BetterActivityResult
 import com.hashone.commons.extensions.getColorCode
-import com.hashone.commons.extensions.navigationUI
 import com.hashone.commons.extensions.serializable
 import com.hashone.commons.extensions.setStatusBarColor
 import com.hashone.crop.databinding.ActivityMainBinding
 import com.hashone.cropper.CropActivity
 import com.hashone.cropper.builder.Crop
 import com.hashone.cropper.model.CropDataSaved
-import com.hashone.cropper.state.CropState
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
 
 
 class MainActivity : AppCompatActivity() {
@@ -63,63 +53,65 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun clickEvent() {
-        val cropIntent = Crop.build(
-            originalImageFilePath = originalImageFilePath,
-            cropDataSaved = myCropDataSaved,
-            cropState = null,
-            croppedImageBitmap = null
-        ) {
-
-            //TODO: Screen
-            screenBuilder = Crop.ScreenBuilder(
-                windowBackgroundColor = com.hashone.cropper.R.color.window_bg_color,
-                statusBarColor = com.hashone.cropper.R.color.white,
-                navigationBarColor = com.hashone.cropper.R.color.white,
-                cropOuterBorderColor = com.hashone.cropper.R.color.un_select_color
-            )
-
-            //TODO: Toolbar
-            toolBarBuilder = Crop.ToolBarBuilder(
-                toolBarColor = com.hashone.cropper.R.color.white,
-                backPressIcon = com.hashone.cropper.R.drawable.ic_back,
-                backPressIconDescription = "",
-                toolBarTitle = "Crop",
-                toolBarTitleColor = com.hashone.cropper.R.color.black,
-                toolBarTitleFont = com.hashone.cropper.R.font.roboto_medium,
-                toolBarTitleSize = 16F,
-            )
-
-
-            //TODO: AspectRatio
-            aspectRatioBuilder = Crop.AspectRatioBuilder(
-                aspectRatioBackgroundColor = com.hashone.cropper.R.color.white,
-                aspectRatioSelectedColor = com.hashone.cropper.R.color.black,
-                aspectRatioUnSelectedColor = com.hashone.cropper.R.color.un_select_color,
-                aspectRatioTitleFont = com.hashone.cropper.R.font.roboto_medium,
-            )
-
-
-            //TODO: Bottom Icon & Text
-            bottomBuilder = Crop.BottomBuilder(
-                cropBottomBackgroundColor = com.hashone.cropper.R.color.white,
-                dividerColor = com.hashone.cropper.R.color.white,
-                cropDoneButtonBuilder = Crop.ButtonBuilder(
-                    textColor = com.hashone.cropper.R.color.black,
-                    icon = com.hashone.cropper.R.drawable.ic_check_croppy_selected,
-                    buttonText = "Crop",
-                    textFont = com.hashone.cropper.R.font.roboto_medium,
-                    textSize = 16F,
-                ),
-                cropCancelButtonBuilder = Crop.ButtonBuilder(
-                    textColor = com.hashone.cropper.R.color.black,
-                    icon = com.hashone.cropper.R.drawable.ic_cancel,
-                    buttonText = "Skip",
-                    textFont = com.hashone.cropper.R.font.roboto_medium,
-                    textSize = 16F,
-                ),
-            )
-        }
         mBinding.txtCropImage.setOnClickListener {
+            val cropIntent = Crop.build(
+                originalImageFilePath = originalImageFilePath,
+                cropDataSaved = myCropDataSaved,
+                cropState = null,
+                croppedImageBitmap = null
+            ) {
+
+                //TODO: Screen
+                screenBuilder = Crop.ScreenBuilder(
+                    windowBackgroundColor = com.hashone.cropper.R.color.window_bg_color,
+                    statusBarColor = com.hashone.cropper.R.color.white,
+                    navigationBarColor = com.hashone.cropper.R.color.white,
+                    cropOuterBorderColor = com.hashone.cropper.R.color.un_select_color,
+                    borderWidth = 1f,
+                    borderSpacing = 2f,
+                )
+
+                //TODO: Toolbar
+                toolBarBuilder = Crop.ToolBarBuilder(
+                    toolBarColor = com.hashone.cropper.R.color.white,
+                    backIcon = com.hashone.cropper.R.drawable.ic_back,
+                    title = "Crop",
+                    titleColor = com.hashone.cropper.R.color.black,
+                    titleFont = com.hashone.cropper.R.font.roboto_medium,
+                    titleSize = 16F,
+                )
+
+
+                //TODO: AspectRatio
+                aspectRatioBuilder = Crop.AspectRatioBuilder(
+                    backgroundColor = com.hashone.cropper.R.color.white,
+                    selectedColor = com.hashone.cropper.R.color.black,
+                    unSelectedColor = com.hashone.cropper.R.color.un_select_color,
+                    titleFont = com.hashone.cropper.R.font.roboto_medium,
+                )
+
+
+                //TODO: Bottom Icon & Text
+                bottomPanelBuilder = Crop.BottomPanelBuilder(
+                    cropBottomBackgroundColor = com.hashone.cropper.R.color.white,
+                    dividerColor = com.hashone.cropper.R.color.white,
+                    doneButtonBuilder = Crop.ButtonBuilder(
+                        textColor = com.hashone.cropper.R.color.black,
+                        icon = com.hashone.cropper.R.drawable.ic_check_croppy_selected,
+                        buttonText = "Crop",
+                        textFont = com.hashone.cropper.R.font.roboto_medium,
+                        textSize = 16F,
+                    ),
+                    cancelButtonBuilder = Crop.ButtonBuilder(
+                        textColor = com.hashone.cropper.R.color.black,
+                        icon = com.hashone.cropper.R.drawable.ic_cancel,
+                        buttonText = "Skip",
+                        textFont = com.hashone.cropper.R.font.roboto_medium,
+                        textSize = 16F,
+                    ),
+                )
+            }
+
             mActivityLauncher.launch(
                 Crop.open(activity = this, cropIntent),
                 onActivityResult = object : BetterActivityResult.OnActivityResult<ActivityResult> {

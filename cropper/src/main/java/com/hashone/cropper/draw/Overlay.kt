@@ -1,5 +1,6 @@
 package com.hashone.cropper.draw
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -22,6 +23,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
+import com.hashone.commons.utils.dpToPx
 import com.hashone.cropper.builder.Crop
 import com.hashone.cropper.model.CropImageMask
 import com.hashone.cropper.model.CropOutline
@@ -64,7 +67,8 @@ internal fun DrawingOverlay(
         is CropShape -> {
 
             val outline = remember(rect, cropOutline) {
-                cropOutline.shape.createOutline(rect.size, layoutDirection, density)
+                val localRect = Rect(rect.left +  dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f), rect.top +  dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f), rect.right, rect.bottom)
+                cropOutline.shape.createOutline(localRect.size, layoutDirection, density)
             }
 
             DrawingOverlayImpl(
@@ -264,13 +268,14 @@ private fun DrawScope.drawOverlay(
     drawWithLayer {
 
         // Destination
-        drawRect(transparentColor)
+//        drawRect(transparentColor)
+        drawRect(color = transparentColor)
 //       drawRect(Color(cropBuilder.cropOuterBorderColor))
 
-       // Source
-       translate(left = rect.left, top = rect.top) {
-           drawBlock()
-       }
+        // Source
+        translate(left = rect.left + dpToPx(cropBuilder.screenBuilder.borderSpacing), top = rect.top + dpToPx(cropBuilder.screenBuilder.borderSpacing)) {
+            drawBlock()
+        }
 
         if (drawGrid) {
             if (onDrawGrid != null) {
@@ -288,7 +293,7 @@ private fun DrawScope.drawOverlay(
     if (drawOverlay) {
         drawRect(
             topLeft = Offset(rect.topLeft.x + strokeWidth / 2, rect.topLeft.y + strokeWidth / 2),
-            size = Size(rect.size.width - strokeWidth , rect.size.height - strokeWidth ),
+            size = Size(rect.size.width - strokeWidth, rect.size.height - strokeWidth),
             color = overlayColor,
             style = Stroke(width = strokeWidth)
         )

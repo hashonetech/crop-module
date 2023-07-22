@@ -1,5 +1,6 @@
 package com.hashone.cropper.state
 
+import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.input.pointer.PointerInputChange

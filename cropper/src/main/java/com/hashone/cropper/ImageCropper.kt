@@ -35,6 +35,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.hashone.commons.utils.dpToPx
 import com.hashone.cropper.builder.Crop
 import com.hashone.cropper.crop
 import com.hashone.cropper.crop.CropAgent
@@ -202,6 +203,7 @@ fun ImageCropper(
 
         // Crops image when user invokes crop operation
         Crop(
+            cropBuilder,
             crop,
             cropState,
             scaledImageBitmap,
@@ -410,13 +412,14 @@ private fun ImageCropperImpl(
 
 @Composable
 private fun Crop(
+    cropBuilder: Crop.Builder,
     crop: Boolean,
     cropState: CropState,
     scaledImageBitmap: ImageBitmap,
     cropRect: Rect,
     cropOutline: CropOutline,
     onCropStart: () -> Unit,
-    onCropSuccess: (ImageBitmap?, CropState?)  -> Unit,
+    onCropSuccess: (ImageBitmap?, CropState?) -> Unit,
     requiredSize: IntSize?,
 ) {
 
@@ -429,9 +432,16 @@ private fun Crop(
     LaunchedEffect(crop) {
         if (crop) {
             flow {
+                val localRect = Rect(
+                    cropRect.left + dpToPx(cropBuilder.screenBuilder.borderSpacing / 2f),
+                    cropRect.top + dpToPx(cropBuilder.screenBuilder.borderSpacing / 2f),
+                    cropRect.right,
+                    cropRect.bottom
+                )
+
                 val croppedImageBitmap = cropAgent.crop(
                     scaledImageBitmap,
-                    cropRect,
+                    localRect,
                     cropOutline,
                     layoutDirection,
                     density
@@ -441,7 +451,7 @@ private fun Crop(
                         cropAgent.resize(
                             croppedImageBitmap,
                             (croppedImageBitmap.width * cropState.zoom).toInt(),
-                            (croppedImageBitmap.height * cropState.zoom).toInt() ,
+                            (croppedImageBitmap.height * cropState.zoom).toInt(),
                         )
 //                        cropAgent.resize(
 //                            croppedImageBitmap,
@@ -459,7 +469,7 @@ private fun Crop(
 //                    delay(400)
                 }
                 .onEach {
-                    onCropSuccess(it,cropState)
+                    onCropSuccess(it, cropState)
                 }
                 .launchIn(this)
         }

@@ -3,16 +3,13 @@ package com.hashone.cropper.builder
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
-import androidx.compose.ui.res.stringResource
-import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.net.MediaType
 import com.hashone.cropper.CropActivity
 import com.hashone.cropper.R
 import com.hashone.cropper.model.CropDataSaved
 import com.hashone.cropper.state.CropState
 import java.io.Serializable
 
-open class Crop constructor(val builder: Builder) : Serializable {
+open class Crop(val builder: Builder) : Serializable {
 
     companion object {
         inline fun build(
@@ -51,9 +48,8 @@ open class Crop constructor(val builder: Builder) : Serializable {
         //TODO: AspectRatio
         var aspectRatioBuilder = AspectRatioBuilder()
 
-
         //TODO: Bottom Icon & Text
-        var bottomBuilder = BottomBuilder()
+        var bottomPanelBuilder = BottomPanelBuilder()
 
         fun build() = Crop(this)
     }
@@ -67,37 +63,38 @@ open class Crop constructor(val builder: Builder) : Serializable {
         var windowBackgroundColor: Int = R.color.window_bg_color,
         var statusBarColor: Int = R.color.extra_extra_light_gray_color,
         var navigationBarColor: Int = R.color.white,
-        var cropOuterBorderColor: Int = R.color.un_select_color
+        var cropOuterBorderColor: Int = R.color.un_select_color,
+        var borderWidth: Float = 1F,
+        var borderSpacing: Float = 2F
     ) : Serializable
 
     class ToolBarBuilder(
         var toolBarColor: Int = R.color.white,
-        var backPressIcon: Int = R.drawable.ic_back,
-        var backPressIconDescription: String = "",
-        var toolBarTitle: String = "Crop",
-        var toolBarTitleColor: Int = R.color.black,
-        var toolBarTitleFont: Int = R.font.outfit_regular,
-        var toolBarTitleSize: Float = 16F,
+        var backIcon: Int = R.drawable.ic_back,
+        var title: String = "Crop",
+        var titleColor: Int = R.color.black,
+        var titleFont: Int = R.font.outfit_regular,
+        var titleSize: Float = 16F,
     ) : Serializable
 
     class AspectRatioBuilder(
-        var aspectRatioBackgroundColor: Int = R.color.white,
-        var aspectRatioSelectedColor: Int = R.color.black,
-        var aspectRatioUnSelectedColor: Int = R.color.un_select_color,
-        var aspectRatioTitleFont: Int = R.font.roboto_medium,
+        var backgroundColor: Int = R.color.white,
+        var selectedColor: Int = R.color.black,
+        var unSelectedColor: Int = R.color.un_select_color,
+        var titleFont: Int = R.font.roboto_medium,
     ) : Serializable
 
-    class BottomBuilder(
+    class BottomPanelBuilder(
         var cropBottomBackgroundColor: Int = R.color.white,
         var dividerColor: Int = R.color.extra_extra_light_gray_color,
-        var cropDoneButtonBuilder: ButtonBuilder = ButtonBuilder(buttonText = "Crop"),
-        var cropCancelButtonBuilder: ButtonBuilder = ButtonBuilder(buttonText = "Skip"),
+        var doneButtonBuilder: ButtonBuilder = ButtonBuilder(buttonText = "Crop"),
+        var cancelButtonBuilder: ButtonBuilder = ButtonBuilder(buttonText = "Skip"),
     ) : Serializable
 
     class ButtonBuilder(
         var textColor: Int = R.color.black,
         var icon: Int = R.drawable.ic_check_croppy_selected,
-        var buttonText: String = "Crop",
+        var buttonText: String,
         var textFont: Int = R.font.roboto_medium,
         var textSize: Float = 16F,
     ) : Serializable
