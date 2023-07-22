@@ -14,9 +14,9 @@ Media Gallery module, used to select Photo, Video, Capture Photo or Video from C
 	        implementation 'com.github.hashonetech:crop-module:Tag'
 	}
 
-In AndroidManifest.xml
+## AndroidManifest.xml
 
-     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Notification Permission -->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -39,56 +39,70 @@ In AndroidManifest.xml
 		</provider>
 	 </application>
 	 
- Implementation
+ ## Implementation
 
   
   	private var myCropDataSaved: CropDataSaved? = null
 	
   	if (checkPermissions()) {
             mActivityLauncher.launch(
-                Crop.open(activity = this, Crop.build(
-                    originalImageFilePath = originalImageFilePath,
-                    cropDataSaved = myCropDataSaved,
-                ) {
-                    cropState = null
-                    croppedImageBitmap = null
-                    //TODO: Screen
-                    windowBackgroundColor = com.hashone.cropper.R.color.extra_extra_light_gray_color
-                    statusBarColor = com.hashone.cropper.R.color.extra_extra_light_gray_color
-                    navigationBarColor = com.hashone.cropper.R.color.white
+            Crop.build(
+                originalImageFilePath = originalImageFilePath,
+                cropDataSaved = myCropDataSaved,
+                cropState = null,
+                croppedImageBitmap = null
+            ) {
 
-                    //TODO: Toolbar
-                    toolBarColor = com.hashone.cropper.R.color.white
-                    backPressIcon = com.hashone.cropper.R.drawable.ic_back
-                    backPressIconDescription = ""
-                    toolBarTitle = "Crop"
-                    toolBarTitleColor = com.hashone.cropper.R.color.black
-                    toolBarTitleFont = com.hashone.cropper.R.font.outfit_regular
-                    toolBarTitleSize = 16F
+                //TODO: Screen
+                screenBuilder = Crop.ScreenBuilder(
+                    windowBackgroundColor = com.hashone.cropper.R.color.window_bg_color,
+                    statusBarColor = com.hashone.cropper.R.color.white,
+                    navigationBarColor = com.hashone.cropper.R.color.white,
+                    cropOuterBorderColor = com.hashone.cropper.R.color.un_select_color,
+                    borderWidth = 1f,
+                    borderSpacing = 2f,
+                )
 
-                    //TODO: AspectRatio
-                    aspectRatioBackgroundColor = com.hashone.cropper.R.color.white
-                    aspectRatioSelectedColor = com.hashone.cropper.R.color.black
-                    aspectRatioUnSelectedColor = com.hashone.cropper.R.color.dark_gray_color_2
-                    aspectRatioTitleFont = com.hashone.cropper.R.font.roboto_medium
+                //TODO: Toolbar
+                toolBarBuilder = Crop.ToolBarBuilder(
+                    toolBarColor = com.hashone.cropper.R.color.white,
+                    backIcon = com.hashone.cropper.R.drawable.ic_back,
+                    title = "Crop",
+                    titleColor = com.hashone.cropper.R.color.black,
+                    titleFont = com.hashone.cropper.R.font.roboto_medium,
+                    titleSize = 16F,
+                )
 
-                    //TODO: Bottom Icon & Text
-                    cropDoneTextColor = com.hashone.cropper.R.color.black
-                    cropDoneIcon = com.hashone.cropper.R.drawable.ic_check_croppy_selected
-                    cropDoneText = "Crop"
-                    cropDoneTextFont = com.hashone.cropper.R.font.roboto_medium
-                    cropDoneTextSize = 16F
 
-                    cropCancelTextColor = com.hashone.cropper.R.color.black
-                    cropCancelIcon = com.hashone.cropper.R.drawable.ic_cancel
-                    cropCancelText = "Skip"
-                    cropCancelTextFont = com.hashone.cropper.R.font.roboto_medium
-                    cropCancelTextSize = 16F
+                //TODO: AspectRatio
+                aspectRatioBuilder = Crop.AspectRatioBuilder(
+                    backgroundColor = com.hashone.cropper.R.color.white,
+                    selectedColor = com.hashone.cropper.R.color.black,
+                    unSelectedColor = com.hashone.cropper.R.color.un_select_color,
+                    titleFont = com.hashone.cropper.R.font.roboto_medium,
+                )
 
-                    cropBottomBackgroundColor = com.hashone.cropper.R.color.white
-                    dividerColor = com.hashone.cropper.R.color.extra_extra_light_gray_color
 
-                }),
+                //TODO: Bottom Icon & Text
+                bottomPanelBuilder = Crop.BottomPanelBuilder(
+                    cropBottomBackgroundColor = com.hashone.cropper.R.color.white,
+                    dividerColor = com.hashone.cropper.R.color.white,
+                    doneButtonBuilder = Crop.ButtonBuilder(
+                        textColor = com.hashone.cropper.R.color.black,
+                        icon = com.hashone.cropper.R.drawable.ic_check_croppy_selected,
+                        buttonText = "Crop",
+                        textFont = com.hashone.cropper.R.font.roboto_medium,
+                        textSize = 16F,
+                    ),
+                    cancelButtonBuilder = Crop.ButtonBuilder(
+                        textColor = com.hashone.cropper.R.color.black,
+                        icon = com.hashone.cropper.R.drawable.ic_cancel,
+                        buttonText = "Skip",
+                        textFont = com.hashone.cropper.R.font.roboto_medium,
+                        textSize = 16F,
+                    ),
+                )
+            }),
                 onActivityResult = object : BetterActivityResult.OnActivityResult<ActivityResult> {
                     override fun onActivityResult(activityResult: ActivityResult) {
                         if (activityResult.resultCode == Activity.RESULT_OK) {
@@ -105,3 +119,10 @@ In AndroidManifest.xml
                 }
             )
         }
+## Screenshot
+![Screenshot_20230722-121650](https://github.com/hashonetech/crop-module/assets/104345897/b995db31-40e7-4b5d-b379-4559639e7f90)
+![Screenshot_20230722-121703](https://github.com/hashonetech/crop-module/assets/104345897/104e01ee-30a8-45c7-a102-b47b82933d6e)
+![Screenshot_20230722-121715](https://github.com/hashonetech/crop-module/assets/104345897/3db2c226-4440-423a-a900-1eb836b71043)
+
+
+
