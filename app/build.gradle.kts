@@ -13,7 +13,7 @@ android {
         minSdk = 26
         targetSdk = 33
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -54,27 +54,21 @@ android {
 
 dependencies {
 
-    implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.activity.compose)
-    implementation(platform(libs.compose.bom))
-    implementation(libs.ui)
-    implementation(libs.ui.graphics)
-    implementation(libs.ui.tooling.preview)
-    implementation(libs.material3)
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.constraintlayout)
-    implementation(project(mapOf("path" to ":cropper")))
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.ui.test.junit4)
-    debugImplementation(libs.ui.tooling)
-    debugImplementation(libs.ui.test.manifest)
+    api(libs.core.ktx)
+    api(libs.lifecycle.runtime.ktx)
+    api(libs.activity.compose)
+    api(platform(libs.compose.bom))
+    api(libs.ui)
+    api(libs.ui.graphics)
+    api(libs.ui.tooling.preview)
+    api(libs.material3)
+    api(libs.appcompat)
+    api(libs.material)
+    api(libs.constraintlayout)
+    api(project(mapOf("path" to ":cropper")))
+
     /*Glide*/
-    implementation (libs.glide)
+    api (libs.glide)
     api (libs.commons)
 
 }

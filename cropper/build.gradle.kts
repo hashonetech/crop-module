@@ -61,37 +61,29 @@ android {
 
 dependencies {
 
-    implementation(libs.core.ktx)
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.firebase.crashlytics.buildtools)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.activity.compose)
-    implementation(platform(libs.compose.bom))
-    implementation(libs.ui.graphics)
-    implementation(libs.ui.tooling.preview)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    api(libs.core.ktx)
+    api(libs.appcompat)
+    api(libs.material)
+//    implementation(libs.firebase.crashlytics.buildtools)
+    api(libs.lifecycle.runtime.ktx)
+    api(libs.activity.compose)
+    api(platform(libs.compose.bom))
+    api(libs.ui.graphics)
+    api(libs.ui.tooling.preview)
 
-    implementation (libs.compose.extended.gestures)
+    api (libs.compose.extended.gestures)
 
     // Jetpack Compose
-    implementation (libs.androidx.ui)
-    implementation (libs.androidx.runtime)
+    api (libs.androidx.ui)
+    api (libs.androidx.runtime)
 
     // Material Design 3 for Compose
-    implementation (libs.androidx.material3)
+    api (libs.androidx.material3)
 
     // Material design icons
-    implementation (libs.androidx.material.icons.extended)
-
-    androidTestImplementation (libs.androidx.ui.test.junit4)
-    androidTestImplementation(platform(libs.compose.bom))
-    debugImplementation (libs.androidx.ui.tooling)
-    debugImplementation(libs.ui.test.manifest)
-    implementation (libs.glide)
-    implementation (libs.accompanist.systemuicontroller)
+    api (libs.androidx.material.icons.extended)
+    api (libs.glide)
+    api (libs.accompanist.systemuicontroller)
     api (libs.commons)
 
 }

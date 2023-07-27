@@ -63,7 +63,6 @@ class CropActivity : ComponentActivity() {
                 ) {
                     Column {
                         ImageCropDemo(builder)
-
                     }
                 }
             }
