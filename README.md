@@ -16,11 +16,11 @@ Media Gallery module, used to select Photo, Video, Capture Photo or Video from C
 ## 📸 Screenshot
 
 <div style="display:flex;">
-<img alt="App image" src="https://github.com/hashonetech/crop-module/assets/104345897/b624fb4b-c970-4513-a077-a76b56134669" width="30%">
+<img alt="App image" src="https://github.com/hashonetech/crop-module/assets/104345897/393aa5ad-a7e9-44c2-9b90-655d741e8adb" width="30%">
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-<img alt="App image" src="https://github.com/hashonetech/crop-module/assets/104345897/3135fbee-d6e7-4b98-a243-3ff54576970a" width="30%">
+<img alt="App image" src="https://github.com/hashonetech/crop-module/assets/104345897/cded91f4-c456-413c-ba4b-ca287c9fb17c" width="30%">
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-<img alt="App image" src="https://github.com/hashonetech/crop-module/assets/104345897/385f29e7-75cd-4864-ae51-71c132bbde71" width="30%">
+<img alt="App image" src="https://github.com/hashonetech/crop-module/assets/104345897/4caa9e7b-c86c-47b4-bcb3-26d764e7906b" width="30%">
 </div>
 
 ## AndroidManifest.xml
