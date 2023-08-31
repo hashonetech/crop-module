@@ -156,6 +156,7 @@ internal fun AnimatedAspectRatioSelection(
                                 itemColor = colorResource(id = if (currentIndex == index) cropBuilder.aspectRatioBuilder.selectedColor else cropBuilder.aspectRatioBuilder.unSelectedColor),
                                 cropAspectRatio = item,
                                 font = FontFamily(Font(cropBuilder.aspectRatioBuilder.titleFont)),
+                                titleSize = cropBuilder.aspectRatioBuilder.titleSize,
                             )
                         },
                         measurePolicy = { measures, constraints ->

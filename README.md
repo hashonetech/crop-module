@@ -1,5 +1,5 @@
 # crop-module
-Media Gallery module, used to select Photo, Video, Capture Photo or Video from Camera.
+Simple image cropping library for Android, used to crop selected image with Powerful Zoom and different ratio.
 
 [![](https://jitpack.io/v/hashonetech/crop-module.svg)](https://jitpack.io/#hashonetech/crop-module)
 
@@ -26,7 +26,6 @@ Media Gallery module, used to select Photo, Video, Capture Photo or Video from C
 ## AndroidManifest.xml
 
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Notification Permission -->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />

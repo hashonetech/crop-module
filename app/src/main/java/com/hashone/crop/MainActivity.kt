@@ -88,6 +88,7 @@ class MainActivity : AppCompatActivity() {
                     selectedColor = com.hashone.cropper.R.color.black,
                     unSelectedColor = com.hashone.cropper.R.color.un_select_color,
                     titleFont = com.hashone.cropper.R.font.roboto_medium,
+                    titleSize = 12F
                 )
 
 
@@ -110,6 +111,8 @@ class MainActivity : AppCompatActivity() {
                         textSize = 16F,
                     ),
                 )
+
+
             }
 
             mActivityLauncher.launch(

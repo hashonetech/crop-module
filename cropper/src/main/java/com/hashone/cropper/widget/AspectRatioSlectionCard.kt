@@ -28,7 +28,8 @@ fun AspectRatioSelectionCard(
     bgColor: Color,
     itemColor: Color,
     cropAspectRatio: CropAspectRatio,
-    font: FontFamily
+    font: FontFamily,
+    titleSize:Float
 ) {
     Box(
         modifier = modifier
@@ -49,7 +50,7 @@ fun AspectRatioSelectionCard(
                 )
             }
             if (cropAspectRatio.title.isNotEmpty()) {
-                Text(text = cropAspectRatio.title, color = itemColor, fontSize = 12.sp, fontFamily = font)
+                Text(text = cropAspectRatio.title, color = itemColor, fontSize = titleSize.sp, fontFamily = font)
             }
         }
     }

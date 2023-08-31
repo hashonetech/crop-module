@@ -1,7 +1,7 @@
 [versions]
-accompanist-systemuicontroller = "0.31.5-beta"
+accompanist-systemuicontroller = "0.30.1"
 agp = "8.1.0"
-commons = "v1.0.18"
+commons = "v1.0.23"
 compose-extended-gestures = "3.0.0"
 glide = "4.15.1"
 kotlin = "1.8.10"
