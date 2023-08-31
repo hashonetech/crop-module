@@ -3,6 +3,7 @@ Simple image cropping library for Android, used to crop selected image with Powe
 
 [![](https://jitpack.io/v/hashonetech/crop-module.svg)](https://jitpack.io/#hashonetech/crop-module)
 
+```gradle
 	allprojects {
 		repositories {
 			...
@@ -13,6 +14,8 @@ Simple image cropping library for Android, used to crop selected image with Powe
 	dependencies {
 	        implementation 'com.github.hashonetech:crop-module:Tag'
 	}
+```
+
 ## 📸 Screenshot
 
 <div style="display:flex;">
@@ -25,6 +28,7 @@ Simple image cropping library for Android, used to crop selected image with Powe
 
 ## AndroidManifest.xml
 
+```xml
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -46,10 +50,11 @@ Simple image cropping library for Android, used to crop selected image with Powe
 		    ...>
 		</provider>
 	 </application>
+```
 	 
  ## Implementation
 
-  
+   ```kotlin
   	private var myCropDataSaved: CropDataSaved? = null
 	
   	if (checkPermissions()) {
@@ -81,6 +86,11 @@ Simple image cropping library for Android, used to crop selected image with Powe
                     titleSize = 16F,
                 )
 
+                //TODO: Image Size 
+                sizeBuilder = Crop.SizeBuilder(
+                    localFileSize = 1080,
+                    maxFileSize = 4096,
+                )
 
                 //TODO: AspectRatio
                 aspectRatioBuilder = Crop.AspectRatioBuilder(
@@ -88,6 +98,8 @@ Simple image cropping library for Android, used to crop selected image with Powe
                     selectedColor = com.hashone.cropper.R.color.black,
                     unSelectedColor = com.hashone.cropper.R.color.un_select_color,
                     titleFont = com.hashone.cropper.R.font.roboto_medium,
+		 	//TODO: New, title text size
+                    titleSize = 12F
                 )
 
 
@@ -127,6 +139,6 @@ Simple image cropping library for Android, used to crop selected image with Powe
                 }
             )
         }
-
+```
 
 
