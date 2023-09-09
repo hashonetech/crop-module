@@ -30,7 +30,7 @@ object CropDefaults {
     fun properties(
         cropType: CropType = CropType.Static,
         handleSize: Float,
-        maxZoom: Float = 10f,
+        maxZoom: Float = 20f,
         contentScale: ContentScale = ContentScale.Fit,
         cropOutlineProperty: CropOutlineProperty,
         aspectRatio: AspectRatio = aspectRatios[0].aspectRatio,

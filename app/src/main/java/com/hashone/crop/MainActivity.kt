@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.IntRange
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.hashone.commons.base.BetterActivityResult
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setDummyData() {
         originalImageFilePath = getFileFromAssets().absolutePath
+        Log.d("TestData","setDummyData originalImageFilePath:${originalImageFilePath}")
         Glide.with(this).load(originalImageFilePath).into(mBinding.originalImage)
     }
 
@@ -81,6 +83,11 @@ class MainActivity : AppCompatActivity() {
                     titleSize = 16F,
                 )
 
+                //TODO: Image Size
+                sizeBuilder = Crop.SizeBuilder(
+                    localFileSize = 1080,
+                    maxFileSize = 4096,
+                )
 
                 //TODO: AspectRatio
                 aspectRatioBuilder = Crop.AspectRatioBuilder(
@@ -196,11 +203,13 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-    private fun getFileFromAssets(): File = File(cacheDir, "hashone_phone_wallpaper.png")
+//    private fun getFileFromAssets(): File = File(cacheDir, "hashone_phone_wallpaper.png")
+    private fun getFileFromAssets(): File = File(cacheDir, "large_img.png")
         .also {
             if (!it.exists()) {
                 it.outputStream().use { cache ->
-                    assets.open("hashone_phone_wallpaper.png").use { inputStream ->
+//                    assets.open("hashone_phone_wallpaper.png").use { inputStream ->
+                    assets.open("large_img.png").use { inputStream ->
                         inputStream.copyTo(cache)
                     }
                 }

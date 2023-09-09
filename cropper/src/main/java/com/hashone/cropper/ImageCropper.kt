@@ -83,6 +83,8 @@ fun ImageCropper(
     onCropSuccess: (ImageBitmap?, CropState?) -> Unit,
 ) {
 
+    var isUpdate by remember { mutableStateOf(false) }
+
     ImageWithConstraints(
         modifier = modifier.clipToBounds(),
         contentScale = cropProperties.contentScale,
@@ -194,12 +196,11 @@ fun ImageCropper(
             targetValue = if (isHandleTouched) pressedStateColor else cropStyle.backgroundColor,
             label = ""
         )
-        onHashUpdate(isInsideTouched || aspectRationChange)
-//        Crop(
-//            crop,
-//            cropState,
-//            onCropSuccess
-//        )
+
+        if (!isUpdate) {
+            isUpdate = isInsideTouched || aspectRationChange
+            onHashUpdate(isInsideTouched || aspectRationChange || cropProperties.zoom!=cropState.zoom)
+        }
 
         // Crops image when user invokes crop operation
         Crop(
