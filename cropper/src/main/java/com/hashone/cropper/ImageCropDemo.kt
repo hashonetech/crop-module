@@ -107,6 +107,7 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
                 createCropOutlineContainer(OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!))
             )
 
+        //TODO: For Shape Crop
     /*CropOutlineProperty(
         OutlineType.valueOf(Constant.cropDataSaved?.cropOutlineType!!),
         if (Constant.cropDataSaved?.cropOutlineTitle!! == "Oval") {
@@ -481,7 +482,7 @@ private fun MainContent(
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .clickable {
-                                        if (hashChange) {
+                                        if (hashChange || cropBuilder.forceCrop) {
                                             if (Utils.checkClickTime1()) {
                                                 crop = true
                                                 onCropTapped(true)

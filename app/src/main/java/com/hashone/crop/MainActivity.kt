@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.IntRange
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.hashone.commons.base.BetterActivityResult
@@ -50,7 +49,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setDummyData() {
         originalImageFilePath = getFileFromAssets().absolutePath
-        Log.d("TestData","setDummyData originalImageFilePath:${originalImageFilePath}")
         Glide.with(this).load(originalImageFilePath).into(mBinding.originalImage)
     }
 
@@ -60,7 +58,8 @@ class MainActivity : AppCompatActivity() {
                 originalImageFilePath = originalImageFilePath,
                 cropDataSaved = myCropDataSaved,
                 cropState = null,
-                croppedImageBitmap = null
+                croppedImageBitmap = null,
+                forceCrop = true
             ) {
 
                 //TODO: Screen
@@ -118,8 +117,6 @@ class MainActivity : AppCompatActivity() {
                         textSize = 16F,
                     ),
                 )
-
-
             }
 
             mActivityLauncher.launch(
@@ -203,7 +200,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-//    private fun getFileFromAssets(): File = File(cacheDir, "hashone_phone_wallpaper.png")
+    //    private fun getFileFromAssets(): File = File(cacheDir, "hashone_phone_wallpaper.png")
     private fun getFileFromAssets(): File = File(cacheDir, "large_img.png")
         .also {
             if (!it.exists()) {

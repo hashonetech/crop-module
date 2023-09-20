@@ -22,12 +22,14 @@ open class Crop(val builder: Builder) : Serializable {
             cropDataSaved: CropDataSaved? = null,
             cropState: CropState? = null,
             croppedImageBitmap: Bitmap? = null,
+            forceCrop: Boolean = false,
             block: Builder.() -> Unit
         ) = Builder(
             originalImageFilePath,
             cropDataSaved,
             cropState,
-            croppedImageBitmap
+            croppedImageBitmap,
+            forceCrop
         ).apply(block).build()
 
         fun open(activity: Activity, crop: Crop): Intent =
@@ -39,6 +41,7 @@ open class Crop(val builder: Builder) : Serializable {
         var cropDataSaved: CropDataSaved? = null,
         var cropState: CropState? = null,
         var croppedImageBitmap: Bitmap? = null,
+        var forceCrop: Boolean = false
     ) : Serializable {
 
         //TODO: Image Bitmap Size
