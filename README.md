@@ -12,7 +12,7 @@ Simple image cropping library for Android, used to crop selected image with Powe
 	}
   
 	dependencies {
-	        implementation 'com.github.hashonetech:crop-module:v1.0.3'
+	        implementation 'com.github.hashonetech:crop-module:v1.0.5'
 	}
 ```
 
@@ -63,7 +63,9 @@ Simple image cropping library for Android, used to crop selected image with Powe
                 originalImageFilePath = originalImageFilePath,
                 cropDataSaved = myCropDataSaved,
                 cropState = null,
-                croppedImageBitmap = null
+                croppedImageBitmap = null,
+		//TODO: Crop forcefully for same selected Aspect Ratio
+		forceCrop = true/false
             ) {
 
                 //TODO: Screen
