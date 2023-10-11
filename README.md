@@ -12,7 +12,7 @@ Simple image cropping library for Android, used to crop selected image with Powe
 	}
   
 	dependencies {
-	        implementation 'com.github.hashonetech:crop-module:v1.0.7'
+	        implementation 'com.github.hashonetech:crop-module:v1.0.8'
 	}
 ```
 
@@ -101,7 +101,10 @@ Simple image cropping library for Android, used to crop selected image with Powe
                     unSelectedColor = com.hashone.cropper.R.color.un_select_color,
                     titleFont = com.hashone.cropper.R.font.roboto_medium,
 		 	//TODO: New, title text size
-                    titleSize = 12F
+                    titleSize = 12F,
+			originalTitle = "Original",
+                    squareTitle = "Square",
+                    circleTitle = "Circle",
                 )
 
 
