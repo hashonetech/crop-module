@@ -109,6 +109,9 @@ open class Crop(val builder: Builder) : Serializable {
         var titleFont: Int = R.font.roboto_medium,
         @FloatRange
         var titleSize: Float = 12F,
+        var originalTitle: String = "Original",
+        var squareTitle: String = "Square",
+        var circleTitle: String = "Circle",
     ) : Serializable
 
     class BottomPanelBuilder(

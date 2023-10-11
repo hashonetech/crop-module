@@ -13,7 +13,7 @@ data class CropAspectRatio(
     val isShape: Boolean = false,
     val outlineType: OutlineType = OutlineType.Rect,
     val cropOutline: CropOutline = RectCropShape(0, "Rect"),
-    val title: String,
+    var title: String,
     val aspectRatio: AspectRatio = AspectRatio.Original,
     val icons: List<Int> = listOf(),
     val img: Int

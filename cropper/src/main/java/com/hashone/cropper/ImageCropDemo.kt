@@ -1,9 +1,9 @@
 package com.hashone.cropper
 
+//import androidx.compose.material3.TopAppBar
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,7 +24,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-//import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -55,6 +54,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.hashone.commons.utils.EXTENSION_PNG
 import com.hashone.cropper.builder.Crop
+import com.hashone.cropper.model.AspectRatio
+import com.hashone.cropper.model.CropAspectRatio
+import com.hashone.cropper.model.CropDataSaved
 import com.hashone.cropper.model.OutlineType
 import com.hashone.cropper.model.RectCropShape
 import com.hashone.cropper.model.aspectRatios
@@ -64,11 +66,8 @@ import com.hashone.cropper.settings.CropFrameFactory
 import com.hashone.cropper.settings.CropOutlineProperty
 import com.hashone.cropper.settings.CropProperties
 import com.hashone.cropper.settings.CropStyle
-import com.hashone.cropper.theme.CircularIndeterminateProgressBar
-import com.hashone.cropper.model.AspectRatio
-import com.hashone.cropper.model.CropAspectRatio
-import com.hashone.cropper.model.CropDataSaved
 import com.hashone.cropper.state.CropState
+import com.hashone.cropper.theme.CircularIndeterminateProgressBar
 import com.hashone.cropper.util.FileUtils
 import com.hashone.cropper.util.Utils
 import com.hashone.cropper.util.copy
@@ -102,26 +101,11 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
     )
 
     val cropOutlineProperty = if (cropBuilder.cropDataSaved != null)
-            CropOutlineProperty(
-                OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
-                createCropOutlineContainer(OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!))
-            )
-
-        //TODO: For Shape Crop
-    /*CropOutlineProperty(
-        OutlineType.valueOf(Constant.cropDataSaved?.cropOutlineType!!),
-        if (Constant.cropDataSaved?.cropOutlineTitle!! == "Oval") {
-            OvalCropShape(
-                Constant.cropDataSaved?.cropOutlineId!!,
-                Constant.cropDataSaved?.cropOutlineTitle!!
-            )
-        } else {
-            RectCropShape(
-                Constant.cropDataSaved?.cropOutlineId!!,
-                Constant.cropDataSaved?.cropOutlineTitle!!
-            )
-        }
-    )*/ else defaultCropOuterProp
+        CropOutlineProperty(
+            OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
+            createCropOutlineContainer(OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!))
+        )
+    else defaultCropOuterProp
     var cropProperties by remember {
         mutableStateOf(
             CropDefaults.properties(
@@ -167,7 +151,11 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = colorResource (cropBuilder.toolBarBuilder.toolBarColor))
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = colorResource(
+                        cropBuilder.toolBarBuilder.toolBarColor
+                    )
+                )
             )
         },
     ) {
@@ -373,7 +361,7 @@ private fun MainContent(
                         croppedImage?.let {
                             cropBuilder.croppedImageBitmap = croppedImage!!.asAndroidBitmap()
                             val newCropSavedData = getCropStateData(cropState)
-                            activity?.let {myActivity ->
+                            activity?.let { myActivity ->
 
                                 val finalBitmap = Bitmap.createScaledBitmap(
                                     croppedImage!!.asAndroidBitmap(),
@@ -517,11 +505,9 @@ private fun MainContent(
     }
 }
 
-fun getCropStateData(cropState: CropState?):CropDataSaved? {
-    if (cropState != null ) {
+fun getCropStateData(cropState: CropState?): CropDataSaved? {
+    if (cropState != null) {
         val cropDataSaved = CropDataSaved()
-//        cropDataSaved.originalImg = stickerView.originalImg
-//        cropDataSaved.cropImg = stickerView.img
         cropDataSaved.aspectRatio = cropState.aspectRatio.value
 
         aspectRatios.forEach {
@@ -590,7 +576,6 @@ internal fun AspectRatioSelection(
         val aspectRatios = aspectRatios
         val aspectRatioModel = aspectRatios.first {
             it.id == aspectRatio.id
-//            it.title == aspectRatio.title
         }
         aspectRatios.indexOf(aspectRatioModel)
     }

@@ -1,9 +1,5 @@
 package com.hashone.cropper.model
 
-import com.hashone.cropper.model.AspectRatio
-import com.hashone.cropper.model.CropAspectRatio
-import com.hashone.cropper.model.OutlineType
-import com.hashone.cropper.model.OvalCropShape
 import com.hashone.cropper.R
 
 /**

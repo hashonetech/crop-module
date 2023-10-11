@@ -100,6 +100,11 @@ internal fun AnimatedAspectRatioSelection(
                 ,
             state = listState,
         ) {
+
+           aspectRatios[0].title = cropBuilder.aspectRatioBuilder.originalTitle
+           aspectRatios[1].title = cropBuilder.aspectRatioBuilder.squareTitle
+           aspectRatios[2].title = cropBuilder.aspectRatioBuilder.circleTitle
+
             itemsIndexed(aspectRatios) { index: Int, item: CropAspectRatio ->
                 CompositionLocalProvider(LocalRippleTheme provides CustomRippleTheme()) {
                     Layout(

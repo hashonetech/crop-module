@@ -133,19 +133,6 @@ fun ImageCropper(
         val cropAspectRatio = cropProperties.cropAspectRatio
         val cropOutline = cropProperties.cropOutlineProperty.cropOutline
 
-        // these keys are for resetting cropper when image width/height, contentScale or
-        // overlay aspect ratio changes
-//        val resetKeys =
-//            getResetKeys(
-//                scaledImageBitmap,
-//                imageWidthPx,
-//                imageHeightPx,
-//                contentScale,
-//                cropType,
-//                fixedAspectRatio,
-//                cropAspectRatio,
-//                zoom,
-//            )
         val resetKeys = if (aspectRationChange) getResetKeys(
             scaledImageBitmap,
             imageWidthPx,
@@ -336,23 +323,6 @@ private fun ImageCropper(
                 onDrawGrid = onDrawGrid,
             )
         }
-
-        // TODO Remove this text when cropper is complete. This is for debugging
-//            val rectCrop = cropState.cropRect
-//            val drawAreaRect = cropState.drawAreaRect
-//            val pan = cropState.pan
-//            val zoom = cropState.zoom
-//            Text(
-//                modifier = Modifier.align(Alignment.TopStart),
-//                color = Color.White,
-//                fontSize = 10.sp,
-//                text = "imageWidthInPx: $imageWidthPx, imageHeightInPx: $imageHeightPx\n" +
-//                        "bitmapWidth: $bitmapWidth, bitmapHeight: $bitmapHeight\n" +
-//                        "zoom: $zoom, pan: $pan\n" +
-//                        "drawAreaRect: $drawAreaRect, size: ${drawAreaRect.size}\n" +
-//                        "overlayRect: ${cropState.overlayRect}, size: ${cropState.overlayRect.size}\n" +
-//                        "cropRect: $rectCrop, size: ${rectCrop.size}"
-//            )
     }
 }
 
@@ -454,11 +424,6 @@ private fun Crop(
                             (croppedImageBitmap.width * cropState.zoom).toInt(),
                             (croppedImageBitmap.height * cropState.zoom).toInt(),
                         )
-//                        cropAgent.resize(
-//                            croppedImageBitmap,
-//                            requiredSize.width,
-//                            requiredSize.height,
-//                        )
                     )
                 } else {
                     emit(croppedImageBitmap)
@@ -467,7 +432,6 @@ private fun Crop(
                 .flowOn(Dispatchers.Default)
                 .onStart {
                     onCropStart()
-//                    delay(400)
                 }
                 .onEach {
                     onCropSuccess(it, cropState)

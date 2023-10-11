@@ -94,7 +94,10 @@ class MainActivity : AppCompatActivity() {
                     selectedColor = com.hashone.cropper.R.color.black,
                     unSelectedColor = com.hashone.cropper.R.color.un_select_color,
                     titleFont = com.hashone.cropper.R.font.roboto_medium,
-                    titleSize = 12F
+                    titleSize = 12F,
+                    originalTitle = "Original",
+                    squareTitle = "Square",
+                    circleTitle = "Circle",
                 )
 
 
