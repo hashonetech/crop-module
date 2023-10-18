@@ -1,6 +1,9 @@
 package com.hashone.cropper.settings
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.graphics.ImageBitmap
+import com.hashone.cropper.R
 import com.hashone.cropper.model.CropFrame
 import com.hashone.cropper.model.CropOutline
 import com.hashone.cropper.model.CropOutlineContainer
@@ -8,6 +11,9 @@ import com.hashone.cropper.model.CustomOutlineContainer
 import com.hashone.cropper.model.CustomPathOutline
 import com.hashone.cropper.model.CutCornerCropShape
 import com.hashone.cropper.model.CutCornerRectOutlineContainer
+import com.hashone.cropper.model.ImageMaskOutline
+import com.hashone.cropper.model.ImageMaskOutline2
+import com.hashone.cropper.model.ImageMaskOutlineContainer
 import com.hashone.cropper.model.OutlineType
 import com.hashone.cropper.model.OvalCropShape
 import com.hashone.cropper.model.OvalOutlineContainer
@@ -20,10 +26,10 @@ import com.hashone.cropper.model.RoundedCornerCropShape
 import com.hashone.cropper.model.RoundedRectOutlineContainer
 import com.hashone.cropper.util.createPolygonShape
 
-class CropFrameFactory() {
+class CropFrameFactory(private val defaultImages: List<ImageBitmap>) {
 
     private val cropFrames = mutableStateListOf<CropFrame>()
-
+    var defaultImages2: List<ImageBitmap> = defaultImages
     fun getCropFrames(): List<CropFrame> {
         if (cropFrames.isEmpty()) {
             val temp = mutableListOf<CropFrame>()
@@ -46,6 +52,7 @@ class CropFrameFactory() {
                 CropFrame(
                     outlineType = outlineType,
                     editable = false,
+                    cropOutline = createCropOutline(outlineType),
                     cropOutlineContainer = createCropOutlineContainer(outlineType)
                 )
             }
@@ -54,6 +61,7 @@ class CropFrameFactory() {
                 CropFrame(
                     outlineType = outlineType,
                     editable = true,
+                    cropOutline = createCropOutline(outlineType),
                     cropOutlineContainer = createCropOutlineContainer(outlineType)
                 )
             }
@@ -62,6 +70,7 @@ class CropFrameFactory() {
                 CropFrame(
                     outlineType = outlineType,
                     editable = true,
+                    cropOutline = createCropOutline(outlineType),
                     cropOutlineContainer = createCropOutlineContainer(outlineType)
                 )
             }
@@ -70,6 +79,7 @@ class CropFrameFactory() {
                 CropFrame(
                     outlineType = outlineType,
                     editable = true,
+                    cropOutline = createCropOutline(outlineType),
                     cropOutlineContainer = createCropOutlineContainer(outlineType)
                 )
             }
@@ -78,6 +88,37 @@ class CropFrameFactory() {
                 CropFrame(
                     outlineType = outlineType,
                     editable = true,
+                    cropOutline = createCropOutline(outlineType),
+                    cropOutlineContainer = createCropOutlineContainer(outlineType)
+                )
+            }
+
+
+            OutlineType.Pentagon -> {
+                CropFrame(
+                    outlineType = outlineType,
+                    editable = true,
+                    cropOutline = createCropOutline(outlineType),
+                    cropOutlineContainer = createCropOutlineContainer(outlineType)
+                )
+            }
+
+
+            OutlineType.Heptagon -> {
+                CropFrame(
+                    outlineType = outlineType,
+                    editable = true,
+                    cropOutline = createCropOutline(outlineType),
+                    cropOutlineContainer = createCropOutlineContainer(outlineType)
+                )
+            }
+
+
+            OutlineType.Octagon -> {
+                CropFrame(
+                    outlineType = outlineType,
+                    editable = true,
+                    cropOutline = createCropOutline(outlineType),
                     cropOutlineContainer = createCropOutlineContainer(outlineType)
                 )
             }
@@ -87,7 +128,18 @@ class CropFrameFactory() {
                 CropFrame(
                     outlineType = outlineType,
                     editable = true,
+                    cropOutline = createCropOutline(outlineType),
                     cropOutlineContainer = createCropOutlineContainer(outlineType)
+                )
+            }
+
+
+            OutlineType.Star -> {
+                CropFrame(
+                    outlineType = outlineType,
+                    editable = true,
+                    cropOutline = createCropOutline(outlineType),
+                    cropOutlineContainer = createCropOutlineContainer(outlineType),
                 )
             }
 
@@ -95,9 +147,37 @@ class CropFrameFactory() {
                 CropFrame(
                     outlineType = outlineType,
                     editable = true,
+                    cropOutline = createCropOutline(outlineType),
                     cropOutlineContainer = createCropOutlineContainer(outlineType)
                 )
             }
+            else -> {
+                CropFrame(
+                    outlineType = outlineType,
+                    editable = false,
+                    cropOutline = createCropOutline(outlineType),
+                    cropOutlineContainer = createCropOutlineContainer(outlineType),
+                )
+            }
+        }
+    }
+
+    fun createCropOutline(
+        outlineType: OutlineType
+    ): CropOutline {
+        return when (outlineType) {
+            OutlineType.Rect -> RectCropShape(id = 0, title = "Rect")
+            OutlineType.RoundedRect -> RoundedCornerCropShape(id = 1, title = "Rounded")
+            OutlineType.CutCorner -> CutCornerCropShape(id = 2, title = "CutCorner")
+            OutlineType.Oval -> OvalCropShape(id = 3, title = "Oval")
+            OutlineType.Polygon -> PolygonCropShape(id = 4, title = "Polygon")
+            OutlineType.Pentagon -> PolygonCropShape(id = 5, title = "Pentagon", polygonProperties = PolygonProperties(sides = 5, 0f), shape = createPolygonShape(5, 0f))
+            OutlineType.Heptagon -> PolygonCropShape(id = 6, title = "Heptagon", polygonProperties = PolygonProperties(sides = 7, 0f), shape = createPolygonShape(7, 0f))
+            OutlineType.Octagon -> PolygonCropShape(id = 7, title = "Octagon", polygonProperties = PolygonProperties(sides = 8, 0f), shape = createPolygonShape(8, 0f))
+            OutlineType.Custom -> CustomPathOutline(id = 8, title = "Heart", path = Paths.Favorite)
+            OutlineType.Star -> CustomPathOutline(id = 9, title = "Star", path = Paths.Star)
+            OutlineType.ImageMask -> ImageMaskOutline(id = 10, title = "Custom", image = defaultImages2[0])
+//            OutlineType.ImageMask -> ImageMaskOutline2(id = 10, title = "Custom", imageInt = R.drawable.shape_stick)
         }
     }
 
@@ -168,7 +248,6 @@ class CropFrameFactory() {
             }
 
 //            OutlineType.ImageMask -> {
-
 //                val outlines = defaultImages.mapIndexed { index, image ->
 //                    ImageMaskOutline(id = index, title = "ImageMask", image = image)
 //                }

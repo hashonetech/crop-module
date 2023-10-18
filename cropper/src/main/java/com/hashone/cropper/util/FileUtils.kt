@@ -945,7 +945,7 @@ object FileUtils {
 
     }
 
-    fun getPreviewFileFromPath(path: String): File? {
+    fun getPreviewFileFromPath(path: String): File {
         val folder = File(path)
         if (folder.exists()) {
             val fileList = folder.listFiles()?.find { file: File? -> file?.nameWithoutExtension!!.lowercase().startsWith("preview") }

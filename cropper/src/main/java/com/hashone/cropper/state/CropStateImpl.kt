@@ -1,5 +1,6 @@
 package com.hashone.cropper.state
 
+import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.VectorConverter
@@ -477,7 +478,6 @@ abstract class CropState internal constructor(
 
         val croppedBitmapWidth = bitmapWidth * widthRatio
         val croppedBitmapHeight = bitmapHeight * heightRatio
-
         return Rect(
             offset = Offset(croppedBitmapLeft, croppedBitmapTop),
             size = Size(croppedBitmapWidth, croppedBitmapHeight)

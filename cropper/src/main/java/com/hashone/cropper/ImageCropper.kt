@@ -1,5 +1,7 @@
 package com.hashone.cropper
 
+import android.app.Activity
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColorAsState
@@ -10,7 +12,6 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,15 +30,14 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
 import com.hashone.commons.utils.dpToPx
 import com.hashone.cropper.builder.Crop
-import com.hashone.cropper.crop
 import com.hashone.cropper.crop.CropAgent
 import com.hashone.cropper.draw.DrawingOverlay
 import com.hashone.cropper.draw.ImageDrawCanvas
@@ -52,7 +52,6 @@ import com.hashone.cropper.settings.CropType
 import com.hashone.cropper.state.CropState
 import com.hashone.cropper.state.DynamicCropState
 import com.hashone.cropper.state.rememberCropState
-import com.hashone.cropper.theme.DefaultBackgroundColor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -62,6 +61,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun ImageCropper(
@@ -73,6 +73,7 @@ fun ImageCropper(
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
     crop: Boolean = false,
     aspectRationChange: Boolean = false,
+    shapeChange: Boolean = false,
     cropBuilder: Crop.Builder,
     mCropData: CropData? = null,
     resetCrop: Boolean = false,
@@ -185,11 +186,12 @@ fun ImageCropper(
         )
 
         if (!isUpdate) {
-            isUpdate = isInsideTouched || aspectRationChange
-            onHashUpdate(isInsideTouched || aspectRationChange || cropProperties.zoom!=cropState.zoom)
+            isUpdate = isInsideTouched || aspectRationChange || shapeChange
+            onHashUpdate(isInsideTouched || aspectRationChange || shapeChange || cropProperties.zoom!=cropState.zoom)
         }
 
         // Crops image when user invokes crop operation
+
         Crop(
             cropBuilder,
             crop,
@@ -396,47 +398,52 @@ private fun Crop(
 
     val density = LocalDensity.current
     val layoutDirection = LocalLayoutDirection.current
+    val activity = (LocalContext.current as? Activity)
 
     // Crop Agent is responsible for cropping image
     val cropAgent = remember { CropAgent() }
 
     LaunchedEffect(crop) {
         if (crop) {
-            flow {
-                val localRect = Rect(
-                    cropRect.left + dpToPx(cropBuilder.screenBuilder.borderSpacing / 2f),
-                    cropRect.top + dpToPx(cropBuilder.screenBuilder.borderSpacing / 2f),
-                    cropRect.right,
-                    cropRect.bottom
-                )
-
-                val croppedImageBitmap = cropAgent.crop(
-                    scaledImageBitmap,
-                    localRect,
-                    cropOutline,
-                    layoutDirection,
-                    density
-                )
-                if (requiredSize != null) {
-                    emit(
-                        cropAgent.resize(
-                            croppedImageBitmap,
-                            (croppedImageBitmap.width * cropState.zoom).toInt(),
-                            (croppedImageBitmap.height * cropState.zoom).toInt(),
-                        )
+            withContext(Dispatchers.IO) {
+                //This dispatcher is optimized to perform disk or network I/O outside of the main thread. Examples include using the Room component, reading from or writing to files, and running any network operations.
+                flow {
+                    val localRect = Rect(
+                        cropRect.left + dpToPx(cropBuilder.screenBuilder.borderSpacing / 2f),
+                        cropRect.top + dpToPx(cropBuilder.screenBuilder.borderSpacing / 2f),
+                        cropRect.right,
+                        cropRect.bottom
                     )
-                } else {
-                    emit(croppedImageBitmap)
+                    val croppedImageBitmap = cropAgent.crop(
+                        scaledImageBitmap,
+                        localRect,
+                        cropOutline,
+                        layoutDirection,
+                        density,
+                        activity
+                    )
+                    if (requiredSize != null) {
+                        emit(
+                            cropAgent.resize(
+                                croppedImageBitmap,
+                                (croppedImageBitmap.width * cropState.zoom).toInt(),
+                                (croppedImageBitmap.height * cropState.zoom).toInt(),
+                            )
+                        )
+                    } else {
+                        emit(croppedImageBitmap)
+                    }
                 }
+                    .flowOn(Dispatchers.Default)
+                    .onStart {
+                        onCropStart()
+                    }
+                    .onEach {
+                        onCropSuccess(it, cropState)
+                    }
+                    .launchIn(this)
             }
-                .flowOn(Dispatchers.Default)
-                .onStart {
-                    onCropStart()
-                }
-                .onEach {
-                    onCropSuccess(it, cropState)
-                }
-                .launchIn(this)
+
         }
     }
 }

@@ -1,13 +1,16 @@
 package com.hashone.cropper
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -20,11 +23,13 @@ import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -45,10 +50,12 @@ import com.hashone.cropper.model.createCropOutlineContainer
 import com.hashone.cropper.settings.CropOutlineProperty
 import com.hashone.cropper.util.Utils
 import com.hashone.cropper.widget.AspectRatioSelectionCard
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
 
-private class CustomRippleTheme : RippleTheme {
+class CustomRippleTheme : RippleTheme {
     @Composable
     override fun defaultColor(): Color = Color.Unspecified
 
@@ -64,7 +71,6 @@ private class CustomRippleTheme : RippleTheme {
 @Composable
 internal fun AnimatedAspectRatioSelection(
     cropBuilder: Crop.Builder,
-    cropFrameFactory: CropFrameFactory,
     cropOutlineProperty: CropOutlineProperty,
     initialSelectedIndex: Int = 0,
     activity: Activity,
@@ -80,16 +86,19 @@ internal fun AnimatedAspectRatioSelection(
     val coroutineScope = rememberCoroutineScope()
 
 
-    if (resetCrop) {
-        currentIndex = 0
-        conCropOutlinePropertyChange(
-            CropOutlineProperty(
-                OutlineType.Rect,
-                RectCropShape(0, "Rect")
-            ), aspectRatios[0]
-        )
-//        listState.animateScrollToItem(initialSelectedIndex)
-        onCropReset()
+    LaunchedEffect(Unit) {
+        snapshotFlow {
+            if (resetCrop) {
+                currentIndex = 0
+                conCropOutlinePropertyChange(
+                    CropOutlineProperty(
+                        OutlineType.Rect,
+                        RectCropShape(0, "Rect")
+                    ), aspectRatios[0]
+                )
+                onCropReset()
+            }
+        }
     }
 
     BoxWithConstraints {
@@ -97,13 +106,10 @@ internal fun AnimatedAspectRatioSelection(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(colorResource(id = cropBuilder.aspectRatioBuilder.backgroundColor))
-                ,
+            ,
             state = listState,
         ) {
 
-           aspectRatios[0].title = cropBuilder.aspectRatioBuilder.originalTitle
-           aspectRatios[1].title = cropBuilder.aspectRatioBuilder.squareTitle
-           aspectRatios[2].title = cropBuilder.aspectRatioBuilder.circleTitle
 
             itemsIndexed(aspectRatios) { index: Int, item: CropAspectRatio ->
                 CompositionLocalProvider(LocalRippleTheme provides CustomRippleTheme()) {
@@ -114,16 +120,14 @@ internal fun AnimatedAspectRatioSelection(
                             val viewRatio = if (aspectRatios.size <= 6) {
                                 (Utils.getScreenWidth(activity) / aspectRatios.size.toFloat()) / currentHeight
                             } else {
-                                (Utils.getScreenWidth(activity) / 5.8F) / currentHeight
+                                (Utils.getScreenWidth(activity) / 5.4F) / currentHeight
                             }
                             // Here's the content of each list item.
                             AspectRatioSelectionCard(
                                 modifier = Modifier
-                                    .graphicsLayer {
-                                        scaleX = 1f
-                                        scaleY = 1f
-                                    }
-                                    .width(Utils.pxToDp((currentHeight * viewRatio * 1.015).roundToInt()).dp)
+                                    .width(Utils.pxToDp((currentHeight * viewRatio).roundToInt()).dp)
+//                                    .defaultMinSize(minWidth = Utils.pxToDp((currentHeight * viewRatio).roundToInt()).dp)
+//                                    .height(56.dp)
                                     .clip(CircleShape)
                                     .clickable(
                                         indication = rememberRipple(),
@@ -136,10 +140,14 @@ internal fun AnimatedAspectRatioSelection(
                                             if (currentIndex != index) {
                                                 currentIndex = index
                                                 conCropOutlinePropertyChange(
+//                                                    aspectRatios[index].cropOutlineProperty,
                                                     CropOutlineProperty(
                                                         aspectRatios[index].outlineType,
-                                                        createCropOutlineContainer(aspectRatios[index].outlineType)
-                                                    ), aspectRatios[index]
+//                                                        if (aspectRatios[index].outlineType != OutlineType.ImageMask) createCropOutlineContainer(aspectRatios[index].outlineType) else aspectRatios[index].cropOutline
+                                                        aspectRatios[index].cropOutline
+//                                                        createCropOutlineContainer(aspectRatios[index].outlineType)
+                                                    ),
+                                                    aspectRatios[index]
                                                 )
                                                 coroutineScope.launch {
                                                     val itemInfo =
@@ -169,7 +177,7 @@ internal fun AnimatedAspectRatioSelection(
                             val placeable = measures.first().measure(constraints)
                             layout(placeable.width, placeable.height) {
                                 // Placing the Box in the right X position
-                                placeable.place(dpToPx(10f).toInt(), 0)
+                                placeable.place(dpToPx(0f).toInt(), 0)
                             }
                         }
                     )

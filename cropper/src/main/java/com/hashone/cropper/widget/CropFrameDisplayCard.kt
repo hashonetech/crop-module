@@ -1,11 +1,15 @@
 package com.hashone.cropper.widget
 
+import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.outlined.AcUnit
+import androidx.compose.material.icons.outlined.CloudQueue
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material3.Icon
@@ -23,10 +27,13 @@ import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.hashone.cropper.model.CropAspectRatio
+import com.hashone.cropper.model.CropImageMask
 import com.hashone.cropper.model.CropOutline
 import com.hashone.cropper.model.CropPath
 import com.hashone.cropper.model.CropShape
@@ -41,16 +48,18 @@ fun CropFrameDisplayCard(
     outlineColor: Color,
     editButtonBackgroundColor: Color = MaterialTheme.colorScheme.tertiary,
     editButtonContentColor: Color = MaterialTheme.colorScheme.onTertiary,
-    fontSize: TextUnit = 12.sp,
+    fontSize: TextUnit = 10.sp,
     title: String,
     cropOutline: CropOutline,
+    bgColor: Color,
+    itemColor: Color,
+    font: FontFamily,
     onClick: () -> Unit
 ) {
 
     Box(
         modifier = modifier
-            .background(contentColor)
-            .padding(4.dp),
+            .background(bgColor),
         contentAlignment = Alignment.Center
     ) {
 
@@ -62,14 +71,13 @@ fun CropFrameDisplayCard(
                 },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             CropFrameDisplay(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(4.dp)
+                    .padding(16.dp)
                     .aspectRatio(1f),
                 cropOutline = cropOutline,
-                color = outlineColor
+                color = itemColor
             ) {
 
                 if (editable) {
@@ -113,10 +121,11 @@ fun CropFrameDisplayCard(
             if (title.isNotEmpty()) {
                 Text(
                     text = title,
-                    color = outlineColor,
+                    color = itemColor,
                     fontSize = fontSize,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    fontFamily = font
                 )
             }
         }
@@ -124,7 +133,7 @@ fun CropFrameDisplayCard(
 }
 
 @Composable
-private fun CropFrameDisplay(
+fun CropFrameDisplay(
     modifier: Modifier,
     cropOutline: CropOutline,
     color: Color,
@@ -161,7 +170,7 @@ private fun CropFrameDisplay(
                             drawOutline(
                                 outline = outline,
                                 color = color,
-                                style = Stroke(4.dp.toPx())
+                                style = Stroke(2.dp.toPx())
                             )
                         }
                         drawContent()
@@ -178,8 +187,8 @@ private fun CropFrameDisplay(
                 contentAlignment = Alignment.TopEnd
             ) {
                 Icon(
-                    modifier = Modifier.matchParentSize(),
-                    imageVector = Icons.Outlined.FavoriteBorder,
+//                    modifier = Modifier.matchParentSize(),
+                    imageVector = if (cropOutline.title == "Heart") Icons.Outlined.FavoriteBorder else Icons.Outlined.AcUnit,
                     tint = color,
                     contentDescription = "Crop with Path"
                 )
@@ -187,6 +196,16 @@ private fun CropFrameDisplay(
                 content()
             }
         }
+         is CropImageMask -> {
+             Box(
+                 modifier = modifier,
+                 contentAlignment = Alignment.TopEnd
+             ) {
+                 Image(bitmap = cropOutline.image, contentDescription = "")
+
+                 content()
+             }
+         }
         else -> {
             Box(
                 modifier = modifier,

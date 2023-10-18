@@ -1,6 +1,7 @@
 package com.hashone.cropper.model
 
 import androidx.compose.runtime.Immutable
+import com.hashone.cropper.R
 import java.io.Serializable
 
 /**
@@ -12,7 +13,8 @@ data class CropAspectRatio(
     val id: Int,
     val isShape: Boolean = false,
     val outlineType: OutlineType = OutlineType.Rect,
-    val cropOutline: CropOutline = RectCropShape(0, "Rect"),
+    val cropOutline: CropOutline = ImageMaskOutline2(id = 10, title = "Custom", imageInt = R.drawable.ic_circle_shape),
+//    val cropOutline: CropOutline = RectCropShape(id = 0, title = "Rect"),
     var title: String,
     val aspectRatio: AspectRatio = AspectRatio.Original,
     val icons: List<Int> = listOf(),

@@ -1,9 +1,9 @@
 package com.hashone.cropper
 
-//import androidx.compose.material3.TopAppBar
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,6 +31,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -42,6 +43,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
@@ -52,11 +54,13 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.scale
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.hashone.commons.utils.EXTENSION_PNG
 import com.hashone.cropper.builder.Crop
 import com.hashone.cropper.model.AspectRatio
 import com.hashone.cropper.model.CropAspectRatio
 import com.hashone.cropper.model.CropDataSaved
+import com.hashone.cropper.model.CropOutline
 import com.hashone.cropper.model.OutlineType
 import com.hashone.cropper.model.RectCropShape
 import com.hashone.cropper.model.aspectRatios
@@ -72,6 +76,7 @@ import com.hashone.cropper.util.FileUtils
 import com.hashone.cropper.util.Utils
 import com.hashone.cropper.util.copy
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -90,22 +95,68 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
     val handleSize: Float = LocalDensity.current.run { 15.dp.toPx() }
     var resetCrop by remember { mutableStateOf(false) }
     var aspectRatioChange by remember { mutableStateOf(false) }
+    var onShapeChange by remember { mutableStateOf(false) }
     var loadImage by remember { mutableStateOf(true) }
     var crop by remember { mutableStateOf(false) }
-    val cropFrameFactory = remember {
-        CropFrameFactory()
-    }
+
     val defaultCropOuterProp = CropOutlineProperty(
         OutlineType.Rect,
         RectCropShape(0, "Rect")
     )
 
-    val cropOutlineProperty = if (cropBuilder.cropDataSaved != null)
-        CropOutlineProperty(
-            OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
-            createCropOutlineContainer(OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!))
+/*
+    val defaultImage1 = ImageBitmap.imageResource(id = R.drawable.squircle)
+    val defaultImage2 = ImageBitmap.imageResource(id = R.drawable.cloud)
+    val defaultImage3 = ImageBitmap.imageResource(id = R.drawable.sun)
+    val defaultImage4 = ImageBitmap.imageResource(id = R.drawable.blob)
+    val defaultImage5 = ImageBitmap.imageResource(id = R.drawable.blob_2)
+//    val defaultImage6 = ImageBitmap.imageResource(id = R.drawable.blob_3)
+    var defaultImage6 by remember {
+        mutableStateOf(defaultImage5.asAndroidBitmap())
+    }
+
+    val cropFrameFactory = remember {
+        CropFrameFactory(
+            listOf(
+                defaultImage6!!.asImageBitmap(),
+                defaultImage5,
+                defaultImage4,
+                defaultImage3,
+                defaultImage2,
+                defaultImage1,
+            )
         )
-    else defaultCropOuterProp
+    }*/
+
+    val cropOutlineProperty = if (cropBuilder.cropDataSaved != null) {
+        val aspectRatio = aspectRatios.firstOrNull { it.id == cropBuilder.cropDataSaved?.cropAspectRatioId }
+        if (aspectRatio != null){
+            CropOutlineProperty(
+                OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
+                aspectRatio.cropOutline
+            )
+        } else {
+            CropOutlineProperty(
+                OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
+                createCropOutlineContainer(OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!))
+            )
+        }
+
+        /*CropOutlineProperty(
+            OutlineType.valueOf(Constant.cropDataSaved?.cropOutlineType!!),
+            if (Constant.cropDataSaved?.cropOutlineTitle!! == "Oval") {
+                OvalCropShape(
+                    Constant.cropDataSaved?.cropOutlineId!!,
+                    Constant.cropDataSaved?.cropOutlineTitle!!
+                )
+            } else {
+                RectCropShape(
+                    Constant.cropDataSaved?.cropOutlineId!!,
+                    Constant.cropDataSaved?.cropOutlineTitle!!
+                )
+            }
+        )*/
+    } else defaultCropOuterProp
     var cropProperties by remember {
         mutableStateOf(
             CropDefaults.properties(
@@ -119,7 +170,10 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
                     id = cropBuilder.cropDataSaved?.cropAspectRatioId!!,
                     title = cropBuilder.cropDataSaved?.cropAspectRatioTitle!!,
                     aspectRatio = AspectRatio(cropBuilder.cropDataSaved?.aspectRatio!!),
-                    img = cropBuilder.cropDataSaved?.cropAspectRatioImg!!
+                    img = cropBuilder.cropDataSaved?.cropAspectRatioImg!!,
+                    outlineType = OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
+//                    cropOutline = createCropOutlineContainer(OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!)),
+                    cropOutline = (if (cropBuilder.cropDataSaved != null) cropOutlineProperty else defaultCropOuterProp).cropOutline
                 ) else null) ?: aspectRatios[0]) else aspectRatios[0],
                 zoom = if (cropBuilder.cropDataSaved != null) cropBuilder.cropDataSaved!!.zoom else 1F,
                 basePx = if (cropBuilder.cropDataSaved != null) cropBuilder.cropDataSaved!!.basePx else 0F,
@@ -162,16 +216,19 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
         MainContent(
             cropBuilder,
             Modifier.padding(it),
-            cropFrameFactory,
             cropProperties,
             cropStyle,
             resetCrop,
             aspectRatioChange,
+            onShapeChange,
             onAspectRatioChangeStart = {
                 aspectRatioChange = false
             },
             onAspectRatioChange = {
                 aspectRatioChange = true
+            },
+            onShapeChange = {
+                onShapeChange = true
             },
             onCropReset = {
                 resetCrop = false
@@ -186,7 +243,7 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
             cropProperties = it
         }
 
-        CircularIndeterminateProgressBar(isDisplayed = resetCrop || loadImage)
+        CircularIndeterminateProgressBar(resetCrop || loadImage)
     }
 }
 
@@ -194,13 +251,14 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
 private fun MainContent(
     cropBuilder: Crop.Builder,
     modifier: Modifier,
-    cropFrameFactory: CropFrameFactory,
     cropProperties: CropProperties,
     cropStyle: CropStyle,
     resetCrop: Boolean = false,
     aspectRationChange: Boolean = false,
+    shapeChange: Boolean = false,
     onAspectRatioChangeStart: () -> Unit,
     onAspectRatioChange: () -> Unit,
+    onShapeChange: () -> Unit,
     onLoadImage: () -> Unit,
     onCropReset: () -> Unit,
     onCropTapped: (Boolean) -> Unit,
@@ -213,6 +271,14 @@ private fun MainContent(
     var hashChange by remember { mutableStateOf(false) }
     var mOriginalBitmap: Bitmap? = null
 
+    var mCropState by remember { mutableStateOf<CropState?>(null) }
+    var crop by remember { mutableStateOf(false) }
+    var isCropping by remember { mutableStateOf(false) }
+
+
+
+//    CircularIndeterminateProgressBar(isDisplayed = !isBitmapReady || isCropping || isLoading)
+
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
             val localBitmap = if (mOriginalBitmap != null) {
@@ -224,38 +290,37 @@ private fun MainContent(
                     .apply(RequestOptions().override(cropBuilder.sizeBuilder.localFileSize))
                     .submit().get()
 
-                val maxSize = max(bitmap.width, bitmap.height)
-                if (maxSize > cropBuilder.sizeBuilder.maxFileSize) {
-                    if (bitmap.height > bitmap.width) {
-                        bitmap.scale(
-                            (cropBuilder.sizeBuilder.localFileSize * bitmap.width) / bitmap.height,
-                            cropBuilder.sizeBuilder.localFileSize,
-                            true
-                        )
-                    } else {
-                        bitmap.scale(
-                            cropBuilder.sizeBuilder.localFileSize,
-                            (cropBuilder.sizeBuilder.localFileSize * bitmap.height) / bitmap.width,
-                            true
-                        )
-                    }
-                } else {
-                    bitmap
-                }
+                 val maxSize = max(bitmap.width, bitmap.height)
+                 if (maxSize > cropBuilder.sizeBuilder.maxFileSize) {
+                     if (bitmap.height > bitmap.width) {
+                         bitmap.scale(
+                             (cropBuilder.sizeBuilder.localFileSize * bitmap.width) / bitmap.height,
+                             cropBuilder.sizeBuilder.localFileSize,
+                             true
+                         )
+                     } else {
+                         bitmap.scale(
+                             cropBuilder.sizeBuilder.localFileSize,
+                             (cropBuilder.sizeBuilder.localFileSize * bitmap.height) / bitmap.width,
+                             true
+                         )
+                     }
+                 } else {
+                     bitmap
+                 }
+                bitmap
             }
+
             imageBitmap = localBitmap!!.asImageBitmap()
+//            mOriginalBitmap = imageBitmap!!.asAndroidBitmap()
             mOriginalBitmap = imageBitmap!!.asAndroidBitmap()
+            delay(700)
             isBitmapReady = true
+//            delay(500)
+//            isLoading = false
         }
         onLoadImage()
     }
-
-
-    var mCropState by remember { mutableStateOf<CropState?>(null) }
-    var crop by remember { mutableStateOf(false) }
-    var isCropping by remember { mutableStateOf(false) }
-
-    CircularIndeterminateProgressBar(isDisplayed = !isBitmapReady || isCropping)
 
     val cropData by remember {
         mutableStateOf(
@@ -300,25 +365,45 @@ private fun MainContent(
                         id = cropBuilder.cropDataSaved?.cropAspectRatioId!!,
                         title = cropBuilder.cropDataSaved?.cropAspectRatioTitle!!,
                         aspectRatio = AspectRatio(cropBuilder.cropDataSaved?.aspectRatio!!),
-                        img = cropBuilder.cropDataSaved?.cropAspectRatioImg!!
+                        img = cropBuilder.cropDataSaved?.cropAspectRatioImg!!,
+                        outlineType = OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
+                        cropOutline = createCropOutlineContainer(OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!)),
+//                        cropOutlineProperty = CropOutlineProperty(
+//                            OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
+//                            RectCropShape(
+//                                cropBuilder.cropDataSaved?.cropOutlineId!!,
+//                                cropBuilder.cropDataSaved?.cropOutlineTitle!!
+//                            )
+//                        )
                     ),
                     cropOutlineProperty = CropOutlineProperty(
                         OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
-                        RectCropShape(
-                            cropBuilder.cropDataSaved?.cropOutlineId!!,
-                            cropBuilder.cropDataSaved?.cropOutlineTitle!!
-                        )
-                    ),
+                        createCropOutlineContainer(OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!))
+                    )
+//                    cropOutlineProperty = CropOutlineProperty(
+//                        OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
+//                        RectCropShape(
+//                            cropBuilder.cropDataSaved?.cropOutlineId!!,
+//                            cropBuilder.cropDataSaved?.cropOutlineTitle!!
+//                        )
+//                    ),
                 )
             } else null
         )
     }
+
 
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(colorResource(id = cropBuilder.screenBuilder.windowBackgroundColor))
     ) {
+        LaunchedEffect(Unit) {
+            snapshotFlow {
+
+            }
+        }
+
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
@@ -339,6 +424,7 @@ private fun MainContent(
                         cropProperties = cropProperties,
                         crop = crop,
                         aspectRationChange = aspectRationChange,
+                        shapeChange = shapeChange,
                         mCropData = cropData,
                         resetCrop = resetCrop,
                         cropBuilder = cropBuilder,
@@ -355,11 +441,12 @@ private fun MainContent(
                         croppedImage = imageBitmap
                         mCropState = cropState
                         crop = false
-                        isCropping = false
-                        onCropTapped(false)
                         cropBuilder.cropState = cropState
                         croppedImage?.let {
                             cropBuilder.croppedImageBitmap = croppedImage!!.asAndroidBitmap()
+                            cropState?.cropAspectRatio = cropProperties.cropAspectRatio
+                            cropState?.aspectRatio = cropProperties.aspectRatio
+                            cropState?.cropOutlineProperty = cropProperties.cropOutlineProperty
                             val newCropSavedData = getCropStateData(cropState)
                             activity?.let { myActivity ->
 
@@ -385,39 +472,47 @@ private fun MainContent(
                                 myActivity.finish()
                             }
                         }
+
+                        isCropping = false
+                        onCropTapped(false)
                     }
+//                    delay(500)
                 }
             }
 
-            AspectRatioSelection(
-                cropBuilder = cropBuilder,
-                cropFrameFactory = cropFrameFactory,
-                cropProperties = cropProperties,
-                aspectRationChange = aspectRationChange,
-                aspectRatio = cropProperties.cropAspectRatio,
-                activity = activity!!,
-                resetCrop = resetCrop,
-                onAspectRatioChangeStart = {
-                    onAspectRatioChangeStart()
-                },
-                onAspectRatioChange = {
+            if (aspectRatios.size > 1) {
 
-                },
-                onCropPropertiesChange = {
-                    onCropPropertiesChange(
-                        cropProperties.copy(
-                            cropOutlineProperty = it.cropOutlineProperty,
-                            cropAspectRatio = it.cropAspectRatio,
-                            aspectRatio = it.cropAspectRatio.aspectRatio,
-                            fixedAspectRatio = (it.aspectRatio != AspectRatio.Original)
+                AspectRatioSelection(
+                    cropBuilder = cropBuilder,
+                    cropProperties = cropProperties,
+                    aspectRationChange = aspectRationChange,
+                    aspectRatio = cropProperties.cropAspectRatio,
+                    activity = activity!!,
+                    resetCrop = resetCrop,
+                    onAspectRatioChangeStart = {
+                        onAspectRatioChangeStart()
+                    },
+                    onAspectRatioChange = {
+
+                    },
+                    onCropPropertiesChange = {
+                        onCropPropertiesChange(
+                            cropProperties.copy(
+                                cropOutlineProperty = it.cropOutlineProperty,
+                                cropAspectRatio = it.cropAspectRatio,
+                                aspectRatio = it.cropAspectRatio.aspectRatio,
+                                fixedAspectRatio = (it.aspectRatio != AspectRatio.Original)
+                            )
                         )
-                    )
-                    onAspectRatioChange()
-                },
-                onCropReset = {
-                    onCropReset()
-                }
-            )
+                        onAspectRatioChange()
+                    },
+                    onCropReset = {
+                        onCropReset()
+                    }
+                )
+//                isLoading = false
+            }
+//            }
             Spacer(
                 modifier = Modifier
                     .height(2.dp)
@@ -445,8 +540,8 @@ private fun MainContent(
                                     .fillMaxSize()
                                     .clickable {
                                         activity.let {
-                                            it.setResult(Activity.RESULT_OK, Intent())
-                                            it.finish()
+                                            it?.setResult(Activity.RESULT_OK, Intent())
+                                            it?.finish()
                                         }
                                     },
                                 horizontalArrangement = Arrangement.Center,
@@ -472,13 +567,14 @@ private fun MainContent(
                                     .clickable {
                                         if (hashChange || cropBuilder.forceCrop) {
                                             if (Utils.checkClickTime1()) {
+                                                isCropping = true
                                                 crop = true
                                                 onCropTapped(true)
                                             }
                                         } else {
                                             activity.let {
-                                                it.setResult(Activity.RESULT_OK, Intent())
-                                                it.finish()
+                                                it?.setResult(Activity.RESULT_OK, Intent())
+                                                it?.finish()
                                             }
                                         }
                                     },
@@ -503,6 +599,9 @@ private fun MainContent(
             }
         }
     }
+
+    CircularIndeterminateProgressBar(isDisplayed = isCropping)
+
 }
 
 fun getCropStateData(cropState: CropState?): CropDataSaved? {
@@ -511,16 +610,20 @@ fun getCropStateData(cropState: CropState?): CropDataSaved? {
         cropDataSaved.aspectRatio = cropState.aspectRatio.value
 
         aspectRatios.forEach {
-            if (it.aspectRatio.value == cropState.aspectRatio.value) {
+            if (it.title == cropState.cropAspectRatio.title) {
                 cropDataSaved.cropAspectRatioId = it.id
                 cropDataSaved.cropAspectRatioTitle = it.title
                 cropDataSaved.cropAspectRatioImg = it.img
-                cropDataSaved.cropOutlineType = it.outlineType.name
-                cropDataSaved.cropOutlineId = it.cropOutline.id
-                cropDataSaved.cropOutlineTitle = it.cropOutline.title
+//                cropDataSaved.cropOutlineType = it.outlineType.name
+//                cropDataSaved.cropOutlineId = it.cropOutline.id
+//                cropDataSaved.cropOutlineTitle = it.cropOutline.title
             }
 
         }
+
+        cropDataSaved.cropOutlineType = cropState.cropOutlineProperty.outlineType.name
+        cropDataSaved.cropOutlineId = cropState.cropOutlineProperty.cropOutline.id
+        cropDataSaved.cropOutlineTitle = cropState.cropOutlineProperty.cropOutline.title
 
         cropDataSaved.zoom = cropState.zoom
         cropDataSaved.basePx = cropState.animatablePanX.value
@@ -560,7 +663,6 @@ fun getCropStateData(cropState: CropState?): CropDataSaved? {
 @Composable
 internal fun AspectRatioSelection(
     cropBuilder: Crop.Builder,
-    cropFrameFactory: CropFrameFactory,
     cropProperties: CropProperties,
     aspectRationChange: Boolean = false,
     aspectRatio: CropAspectRatio,
@@ -573,18 +675,12 @@ internal fun AspectRatioSelection(
 ) {
 
     val initialSelectedIndex = remember {
-        val aspectRatios = aspectRatios
-        val aspectRatioModel = aspectRatios.first {
-            it.id == aspectRatio.id
-        }
-        aspectRatios.indexOf(aspectRatioModel)
+        aspectRatios.indexOf(aspectRatios.first { it.id == aspectRatio.id })
     }
 
     val cropOutlineProperty = cropProperties.cropOutlineProperty
-
     AnimatedAspectRatioSelection(
         cropBuilder = cropBuilder,
-        cropFrameFactory = cropFrameFactory,
         cropOutlineProperty = cropOutlineProperty,
         initialSelectedIndex = initialSelectedIndex,
         activity = activity,

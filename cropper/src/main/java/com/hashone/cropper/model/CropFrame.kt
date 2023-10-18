@@ -1,7 +1,12 @@
 package com.hashone.cropper.model
 
+import android.util.Log
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.imageResource
+import com.hashone.cropper.R
 import com.hashone.cropper.settings.Paths
+import com.hashone.cropper.util.createPolygonShape
 
 /**
  * Model for drawing title with shape for crop selection menu.
@@ -10,8 +15,10 @@ import com.hashone.cropper.settings.Paths
 data class CropFrame(
     val outlineType: OutlineType,
     val editable: Boolean = false,
+    val cropOutline: CropOutline,
     val cropOutlineContainer: CropOutlineContainer<out CropOutline>
 ) {
+
     var selectedIndex: Int
         get() = cropOutlineContainer.selectedIndex
         set(value) {
@@ -36,62 +43,18 @@ fun createCropOutlineContainer(
     outlineType: OutlineType
 ): CropOutline {
     return when (outlineType) {
-        OutlineType.Rect -> (RectCropShape(id = 0, title = "Rect"))
-
-        OutlineType.RoundedRect -> (RoundedCornerCropShape(id = 1, title = "Rounded"))
-
-        OutlineType.CutCorner -> (CutCornerCropShape(id = 2, title = "CutCorner"))
-
-        OutlineType.Oval -> (OvalCropShape(id = 3, title = "Oval"))
-
-        OutlineType.Polygon -> PolygonCropShape(
-            id = 0,
-            title = "Polygon"
-        )
-//        {
-//            PolygonOutlineContainer(
-//                outlines = listOf(
-//                    PolygonCropShape(
-//                        id = 0,
-//                        title = "Polygon"
-//                    ),
-//                    PolygonCropShape(
-//                        id = 1,
-//                        title = "Pentagon",
-//                        polygonProperties = PolygonProperties(sides = 5, 0f),
-//                        shape = createPolygonShape(5, 0f)
-//                    ),
-//                    PolygonCropShape(
-//                        id = 2,
-//                        title = "Heptagon",
-//                        polygonProperties = PolygonProperties(sides = 7, 0f),
-//                        shape = createPolygonShape(7, 0f)
-//                    ),
-//                    PolygonCropShape(
-//                        id = 3,
-//                        title = "Octagon",
-//                        polygonProperties = PolygonProperties(sides = 8, 0f),
-//                        shape = createPolygonShape(8, 0f)
-//                    )
-//                )
-//            )
-//        }
-
-        OutlineType.Custom -> CustomPathOutline(id = 0, title = "Custom", path = Paths.Favorite)
-
-
-//            OutlineType.ImageMask -> {
-
-//                val outlines = defaultImages.mapIndexed { index, image ->
-//                    ImageMaskOutline(id = index, title = "ImageMask", image = image)
-//                }
-//                ImageMaskOutlineContainer(
-//                    outlines = outlines
-//                )
-//            }
-//        else -> RoundedCornerCropShape(id = 1, title = "Rounded")
-        else -> (RectCropShape(id = 0, title = "Rect"))
-
+        OutlineType.Rect -> RectCropShape(id = 0, title = "Rect")
+        OutlineType.RoundedRect -> RoundedCornerCropShape(id = 1, title = "Rounded")
+        OutlineType.CutCorner -> CutCornerCropShape(id = 2, title = "CutCorner")
+        OutlineType.Oval -> OvalCropShape(id = 3, title = "Oval")
+        OutlineType.Polygon -> PolygonCropShape(id = 4, title = "Polygon")
+        OutlineType.Pentagon -> PolygonCropShape(id = 5, title = "Pentagon", polygonProperties = PolygonProperties(sides = 5, 0f), shape = createPolygonShape(5, 0f))
+        OutlineType.Heptagon -> PolygonCropShape(id = 6, title = "Heptagon", polygonProperties = PolygonProperties(sides = 7, 0f), shape = createPolygonShape(7, 0f))
+        OutlineType.Octagon -> PolygonCropShape(id = 7, title = "Octagon", polygonProperties = PolygonProperties(sides = 8, 0f), shape = createPolygonShape(8, 0f))
+        OutlineType.Custom -> CustomPathOutline(id = 8, title = "Custom", path = Paths.Favorite)
+        OutlineType.Star -> CustomPathOutline(id = 9, title = "Star", path = Paths.Star)
+        OutlineType.ImageMask -> ImageMaskOutline2(id = 11, title = "ImageMask", imageInt = R.drawable.ic_circle_shape)
+        else -> RectCropShape(id = 0, title = "Rect")
     }
 }
 
@@ -157,5 +120,5 @@ fun getOutlineContainer(
 
 
 enum class OutlineType {
-    Rect, RoundedRect, CutCorner, Oval, Polygon, Custom, ImageMask
+    Rect, RoundedRect, CutCorner, Oval, Polygon, Pentagon, Heptagon, Octagon, Custom, Star, ImageMask
 }

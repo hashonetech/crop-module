@@ -40,6 +40,9 @@ interface CropPath : CropOutline {
 interface CropImageMask : CropOutline {
     val image: ImageBitmap
 }
+interface CropImageMask2 : CropOutline {
+    val imageInt: Int
+}
 
 /**
  * Wrapper class that implements [CropOutline] and is a shape
@@ -68,7 +71,7 @@ data class RoundedCornerCropShape(
         bottomEndPercent = cornerRadius.bottomEndPercent,
         bottomStartPercent = cornerRadius.bottomStartPercent
     )
-) : CropShape
+) : CropShape, Serializable
 
 /**
  * Wrapper class that implements [CropOutline] and is a shape
@@ -85,7 +88,7 @@ data class CutCornerCropShape(
         bottomEndPercent = cornerRadius.bottomEndPercent,
         bottomStartPercent = cornerRadius.bottomStartPercent
     )
-) : CropShape
+) : CropShape, Serializable
 
 /**
  * Wrapper class that implements [CropOutline] and is a shape
@@ -133,3 +136,10 @@ data class ImageMaskOutline(
     override val title: String,
     override val image: ImageBitmap,
 ) : CropImageMask, Serializable
+
+@Immutable
+data class ImageMaskOutline2(
+    override val id: Int,
+    override val title: String,
+    override val imageInt: Int = -1,
+) : CropImageMask2, Serializable

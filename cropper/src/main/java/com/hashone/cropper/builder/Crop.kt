@@ -10,6 +10,7 @@ import androidx.annotation.FontRes
 import androidx.annotation.IntRange
 import com.hashone.cropper.CropActivity
 import com.hashone.cropper.R
+import com.hashone.cropper.model.CropAspectRatio
 import com.hashone.cropper.model.CropDataSaved
 import com.hashone.cropper.state.CropState
 import java.io.Serializable
@@ -22,6 +23,7 @@ open class Crop(val builder: Builder) : Serializable {
             cropDataSaved: CropDataSaved? = null,
             cropState: CropState? = null,
             croppedImageBitmap: Bitmap? = null,
+            useDefaults: Boolean = true,
             forceCrop: Boolean = false,
             block: Builder.() -> Unit
         ) = Builder(
@@ -29,7 +31,8 @@ open class Crop(val builder: Builder) : Serializable {
             cropDataSaved,
             cropState,
             croppedImageBitmap,
-            forceCrop
+            useDefaults,
+            forceCrop,
         ).apply(block).build()
 
         fun open(activity: Activity, crop: Crop): Intent =
@@ -41,8 +44,12 @@ open class Crop(val builder: Builder) : Serializable {
         var cropDataSaved: CropDataSaved? = null,
         var cropState: CropState? = null,
         var croppedImageBitmap: Bitmap? = null,
+        var useDefaults: Boolean = true,
         var forceCrop: Boolean = false
     ) : Serializable {
+
+        //TODO: Image Bitmap Size
+        var mAspectRatio : ArrayList<CropAspectRatio> = ArrayList()
 
         //TODO: Image Bitmap Size
         var sizeBuilder = SizeBuilder()

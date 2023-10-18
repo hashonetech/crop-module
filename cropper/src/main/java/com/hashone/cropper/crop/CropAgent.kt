@@ -1,6 +1,8 @@
 package com.hashone.cropper.crop
 
+import android.app.Activity
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.BlendMode
@@ -16,7 +18,12 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toComposeRect
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
+import com.hashone.cropper.R
 import com.hashone.cropper.model.CropImageMask
+import com.hashone.cropper.model.CropImageMask2
 import com.hashone.cropper.model.CropOutline
 import com.hashone.cropper.model.CropPath
 import com.hashone.cropper.model.CropShape
@@ -40,6 +47,7 @@ class CropAgent {
         cropOutline: CropOutline,
         layoutDirection: LayoutDirection,
         density: Density,
+        activity: Activity?,
     ): ImageBitmap {
 
         // TODO pass mutable bitmap
@@ -54,7 +62,7 @@ class CropAgent {
             .copy(Bitmap.Config.ARGB_8888, true)!!
             .asImageBitmap()
 
-        drawCroppedImage(cropOutline, cropRect, layoutDirection, density, imageToCrop)
+        drawCroppedImage(cropOutline, cropRect, layoutDirection, density, imageToCrop,activity)
 
         return imageToCrop
     }
@@ -65,6 +73,7 @@ class CropAgent {
         layoutDirection: LayoutDirection,
         density: Density,
         imageToCrop: ImageBitmap,
+        activity: Activity?,
     ) {
 
         when (cropOutline) {
@@ -128,6 +137,32 @@ class CropAgent {
 
                 val imageMask = Bitmap.createScaledBitmap(
                     cropOutline.image.asAndroidBitmap(),
+                    cropRect.width.toInt(),
+                    cropRect.height.toInt(),
+                    true
+                ).asImageBitmap()
+
+                Canvas(image = imageToCrop).run {
+                    saveLayer(nativeCanvas.clipBounds.toComposeRect(), imagePaint)
+
+                    // Destination
+                    drawImage(imageMask, topLeftOffset = Offset.Zero, paint)
+
+                    // Source
+                    drawImage(image = imageToCrop, topLeftOffset = Offset.Zero, imagePaint)
+
+                    restore()
+                }
+            }
+
+            is CropImageMask2 ->{
+
+                val imageMask = Bitmap.createScaledBitmap(
+                    Glide.with(activity!!)
+                        .asBitmap()
+                        .load(cropOutline.imageInt)
+                        .apply(RequestOptions().override(Target.SIZE_ORIGINAL))
+                        .submit().get(),
                     cropRect.width.toInt(),
                     cropRect.height.toInt(),
                     true

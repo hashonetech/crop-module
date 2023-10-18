@@ -18,6 +18,7 @@ import com.hashone.cropper.state.CropState
 import com.hashone.cropper.theme.DefaultBackgroundColor
 import com.hashone.cropper.theme.DefaultHandleColor
 import com.hashone.cropper.theme.DefaultOverlayColor
+import java.io.Serializable
 
 /**
  * Contains the default values used by [ImageCropper]
@@ -141,7 +142,7 @@ data class CropStyle internal constructor(
 data class CropOutlineProperty(
     val outlineType: OutlineType,
     val cropOutline: CropOutline
-)
+):Serializable
 
 /**
  * Light, Dark or system controlled theme
