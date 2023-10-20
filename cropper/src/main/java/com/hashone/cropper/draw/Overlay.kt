@@ -1,6 +1,7 @@
 package com.hashone.cropper.draw
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,6 +44,7 @@ import com.hashone.cropper.util.drawWithLayer
 import com.hashone.cropper.util.scaleAndTranslatePath
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.math.roundToInt
 
 /**
  * Draw overlay composed of 9 rectangles. When [drawHandles]
@@ -90,17 +92,21 @@ internal fun DrawingOverlay(
         }
     }
 
+    val newRect = Rect(
+        rect.left + dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f),
+        rect.top + dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f),
+        rect.right - dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f),
+        rect.bottom - dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f)
+    )
     when (cropOutline) {
         is CropShape -> {
 
             val outline = remember(rect, cropOutline) {
                 val localRect = Rect(
-//                    rect.left + dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f),
-                    rect.left,
-//                    rect.top + dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f),
-                    rect.top,
-                    rect.right,
-                    rect.bottom
+                    rect.left + dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f),
+                    rect.top + dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f),
+                    rect.right - dpToPx(cropBuilder.screenBuilder.borderSpacing * 4f),
+                    rect.bottom - dpToPx(cropBuilder.screenBuilder.borderSpacing * 4f)
                 )
                 cropOutline.shape.createOutline(localRect.size, layoutDirection, density)
             }
@@ -108,7 +114,7 @@ internal fun DrawingOverlay(
             DrawingOverlayImpl(
                 modifier = modifier,
                 drawOverlay = drawOverlay,
-                rect = rect,
+                rect = newRect,
                 drawGrid = drawGrid,
                 transparentColor = transparentColor,
                 overlayColor = overlayColor,
@@ -133,7 +139,7 @@ internal fun DrawingOverlay(
                 DrawingOverlayImpl(
                     modifier = modifier,
                     drawOverlay = drawOverlay,
-                    rect = rect,
+                    rect = newRect,
                     drawGrid = drawGrid,
                     transparentColor = transparentColor,
                     overlayColor = overlayColor,
@@ -177,7 +183,7 @@ internal fun DrawingOverlay(
                 DrawingOverlayImpl(
                     modifier = modifier,
                     drawOverlay = drawOverlay,
-                    rect = rect,
+                    rect = newRect,
                     drawGrid = drawGrid,
                     transparentColor = transparentColor,
                     overlayColor = overlayColor,
@@ -303,7 +309,8 @@ private fun DrawingOverlayImpl(
             cropBuilder,
             onDrawGrid,
         ) {
-            drawCropImage(rect, image)
+
+            drawCropImage(rect, image, cropBuilder)
         }
     }
 }
@@ -326,13 +333,13 @@ private fun DrawScope.drawOverlay(
     drawWithLayer {
 
         // Destination
-//        drawRect(transparentColor)
-        drawRect(color = transparentColor)
+        drawRect(transparentColor)
 //       drawRect(Color(cropBuilder.cropOuterBorderColor))
-
         // Source
-//        translate(left = rect.left + dpToPx(cropBuilder.screenBuilder.borderSpacing), top = rect.top + dpToPx(cropBuilder.screenBuilder.borderSpacing)) {
-        translate(left = rect.left , top = rect.top) {
+        translate(
+            left = rect.left + dpToPx(cropBuilder.screenBuilder.borderSpacing),
+            top = rect.top + dpToPx(cropBuilder.screenBuilder.borderSpacing)
+        ) {
             drawBlock()
         }
 
@@ -381,11 +388,15 @@ private fun DrawScope.drawOverlay(
 private fun DrawScope.drawCropImage(
     rect: Rect,
     imageBitmap: ImageBitmap,
+    cropBuilder: Crop.Builder,
     blendMode: BlendMode = BlendMode.DstOut
 ) {
     drawImage(
         image = imageBitmap,
-        dstSize = IntSize(rect.size.width.toInt(), rect.size.height.toInt()),
+        dstSize = IntSize(
+            rect.size.width.toInt() - dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f).roundToInt(),
+            rect.size.height.toInt() - dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f).roundToInt()
+        ),
         blendMode = blendMode
     )
 }

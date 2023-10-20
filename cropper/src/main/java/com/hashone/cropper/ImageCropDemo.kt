@@ -3,7 +3,6 @@ package com.hashone.cropper
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,7 +42,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
@@ -54,19 +52,16 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.scale
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.hashone.commons.utils.EXTENSION_PNG
 import com.hashone.cropper.builder.Crop
 import com.hashone.cropper.model.AspectRatio
 import com.hashone.cropper.model.CropAspectRatio
 import com.hashone.cropper.model.CropDataSaved
-import com.hashone.cropper.model.CropOutline
 import com.hashone.cropper.model.OutlineType
 import com.hashone.cropper.model.RectCropShape
 import com.hashone.cropper.model.aspectRatios
 import com.hashone.cropper.model.createCropOutlineContainer
 import com.hashone.cropper.settings.CropDefaults
-import com.hashone.cropper.settings.CropFrameFactory
 import com.hashone.cropper.settings.CropOutlineProperty
 import com.hashone.cropper.settings.CropProperties
 import com.hashone.cropper.settings.CropStyle
@@ -411,8 +406,8 @@ private fun MainContent(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(30.dp, 22.dp)
-                    .weight(1F),
+                    .weight(1F)
+                    .padding(30.dp, 22.dp),
                 verticalArrangement = Arrangement.Center,
             ) {
                 if (isBitmapReady) {

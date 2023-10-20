@@ -1,7 +1,6 @@
 package com.hashone.cropper
 
 import android.app.Activity
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColorAsState
@@ -409,10 +408,10 @@ private fun Crop(
                 //This dispatcher is optimized to perform disk or network I/O outside of the main thread. Examples include using the Room component, reading from or writing to files, and running any network operations.
                 flow {
                     val localRect = Rect(
-                        cropRect.left + dpToPx(cropBuilder.screenBuilder.borderSpacing / 2f),
-                        cropRect.top + dpToPx(cropBuilder.screenBuilder.borderSpacing / 2f),
-                        cropRect.right,
-                        cropRect.bottom
+                        cropRect.left + dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f),
+                        cropRect.top + dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f),
+                        cropRect.right - dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f),
+                        cropRect.bottom - dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f)
                     )
                     val croppedImageBitmap = cropAgent.crop(
                         scaledImageBitmap,
