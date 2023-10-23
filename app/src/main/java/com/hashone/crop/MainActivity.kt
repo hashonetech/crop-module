@@ -69,26 +69,26 @@ class MainActivity : AppCompatActivity() {
 
 
                 //TODO: Crop Ratios
-                mAspectRatio = arrayListOf()
-//                arrayListOf(
-//                    OriginalRatioData(
-//                        id = 1,
-//                        title = getString(com.hashone.cropper.R.string.label_original),
-//                        img = com.hashone.cropper.R.drawable.ic_orginal_crop,
-//                    ),
-//                    RatioData(
-//                        id = 2,
-//                        title = getString(com.hashone.cropper.R.string.label_square),
-//                        img = com.hashone.cropper.R.drawable.ic_square_crop,
-//                        ratioValue = (1F / 1F),
-//                    ),
-//                    ShapeData(
-//                        id = 3,
-//                        title = getString(com.hashone.cropper.R.string.label_circle),
-//                        img = com.hashone.cropper.R.drawable.ic_circle_crop,
-//                        shapeImg = com.hashone.cropper.R.drawable.ic_circle_shape
-//                    )
-//                )
+//                mAspectRatio = arrayListOf()
+                mAspectRatio = arrayListOf(
+                    OriginalRatioData(
+                        id = 1,
+                        title = getString(com.hashone.cropper.R.string.label_original),
+                        img = com.hashone.cropper.R.drawable.ic_orginal_crop,
+                    ),
+                    RatioData(
+                        id = 2,
+                        title = getString(com.hashone.cropper.R.string.label_square),
+                        img = com.hashone.cropper.R.drawable.ic_square_crop,
+                        ratioValue = (1F / 1F),
+                    ),
+                    ShapeData(
+                        id = 3,
+                        title = getString(com.hashone.cropper.R.string.label_circle),
+                        img = com.hashone.cropper.R.drawable.ic_circle_crop,
+                        shapeImg = com.hashone.cropper.R.drawable.ic_circle_shape
+                    )
+                )
 
 
                 //TODO: Screen

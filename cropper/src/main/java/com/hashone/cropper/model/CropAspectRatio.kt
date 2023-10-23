@@ -31,9 +31,13 @@ data class RatioData(
     override val title: String,
     override val img: Int,
     override val ratioValue: Float,
+    override val cropOutline: CropOutline = ImageMaskOutline2(
+        id = id,
+        title = title,
+        imageInt = -1
+    )
 ) : BaseAspectRatioData, Serializable {
     override val aspectRatio: AspectRatio = AspectRatio(ratioValue)
-    override val cropOutline: CropOutline = RectCropShape(id = 0, title = "Rect")
     override val outlineType: OutlineType = OutlineType.Rect
     override val isShape: Boolean = false
 }
@@ -44,9 +48,13 @@ data class OriginalRatioData(
     override val title: String,
     override val img: Int,
     override val ratioValue: Float = -1F,
+    override val cropOutline: CropOutline = ImageMaskOutline2(
+        id = id,
+        title = title,
+        imageInt = -1
+    )
 ) : BaseAspectRatioData, Serializable {
     override val aspectRatio: AspectRatio = AspectRatio.Original
-    override val cropOutline: CropOutline = RectCropShape(id = 0, title = "Rect")
     override val outlineType: OutlineType = OutlineType.Rect
     override val isShape: Boolean = false
 }

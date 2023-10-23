@@ -2,7 +2,6 @@ package com.hashone.cropper.crop
 
 import android.app.Activity
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.BlendMode

@@ -17,10 +17,15 @@ import com.hashone.commons.extensions.navigationUI
 import com.hashone.commons.extensions.serializable
 import com.hashone.commons.extensions.setStatusBarColor
 import com.hashone.cropper.builder.Crop
+import com.hashone.cropper.model.CropAspectRatio
 import com.hashone.cropper.model.OriginalRatioData
+import com.hashone.cropper.model.OutlineType
 import com.hashone.cropper.model.RatioData
+import com.hashone.cropper.model.RectCropShape
 import com.hashone.cropper.model.ShapeData
 import com.hashone.cropper.model.aspectRatios
+import com.hashone.cropper.model.createCropOutlineContainer
+import com.hashone.cropper.model.getRatioData
 import com.hashone.cropper.theme.ComposeCropperTheme
 
 class CropActivity : ComponentActivity() {
@@ -194,14 +199,43 @@ class CropActivity : ComponentActivity() {
             )
         } else {
             aspectRatios = ArrayList()
-            aspectRatios.add(
+/*            aspectRatios.add(
                 OriginalRatioData(
                     id = 1,
                     title = getString(R.string.label_original),
                     img = R.drawable.ic_orginal_crop,
                 )
             )
-            aspectRatios.addAll(builder.mAspectRatio)
+            aspectRatios.addAll(builder.mAspectRatio)*/
+
+            builder.mAspectRatio.forEachIndexed { index, cropAspectRatioData ->
+
+
+                aspectRatios.add(
+                    when(cropAspectRatioData.outlineType) {
+                        OutlineType.ImageMask -> {
+                            val aspectRatioData = cropAspectRatioData as ShapeData
+                            ShapeData(
+                                id = aspectRatioData.id,
+                                title = cropAspectRatioData.title,
+                                img = cropAspectRatioData.img,
+                                shapeImg = cropAspectRatioData.shapeImg,
+                                ratioValue = cropAspectRatioData.ratioValue
+                            )
+                        }
+                        else -> {
+                            RatioData(
+                                id = cropAspectRatioData.id,
+                                title = cropAspectRatioData.title,
+                                img = cropAspectRatioData.img,
+                                ratioValue = cropAspectRatioData.ratioValue,
+                                cropOutline = RectCropShape(id = 0, title = "Rect")
+                            )
+                        }
+                    }
+                )
+            }
+
         }
 
     }

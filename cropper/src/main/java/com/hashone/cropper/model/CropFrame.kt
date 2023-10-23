@@ -1,9 +1,6 @@
 package com.hashone.cropper.model
 
-import android.util.Log
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.res.imageResource
 import com.hashone.cropper.R
 import com.hashone.cropper.settings.Paths
 import com.hashone.cropper.util.createPolygonShape

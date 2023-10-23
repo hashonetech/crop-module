@@ -1,9 +1,7 @@
 package com.hashone.cropper.settings
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.graphics.ImageBitmap
-import com.hashone.cropper.R
 import com.hashone.cropper.model.CropFrame
 import com.hashone.cropper.model.CropOutline
 import com.hashone.cropper.model.CropOutlineContainer

@@ -1,7 +1,6 @@
 package com.hashone.cropper.draw
 
 import android.app.Activity
-import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
