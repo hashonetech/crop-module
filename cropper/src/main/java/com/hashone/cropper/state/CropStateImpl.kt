@@ -1,6 +1,5 @@
 package com.hashone.cropper.state
 
-import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.VectorConverter
@@ -15,7 +14,7 @@ import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.unit.IntSize
 import com.hashone.cropper.TouchRegion
 import com.hashone.cropper.model.AspectRatio
-import com.hashone.cropper.model.CropAspectRatio
+import com.hashone.cropper.model.BaseAspectRatioData
 import com.hashone.cropper.model.CropData
 import com.hashone.cropper.settings.CropOutlineProperty
 import com.hashone.cropper.settings.CropProperties
@@ -56,7 +55,7 @@ abstract class CropState internal constructor(
     maxZoom: Float,
     internal var fling: Boolean = false,
     var aspectRatio: AspectRatio,
-    var cropAspectRatio: CropAspectRatio,
+    var cropAspectRatio: BaseAspectRatioData,
     var cropOutlineProperty: CropOutlineProperty,
     internal var overlayRatio: Float,
     zoomable: Boolean = true,

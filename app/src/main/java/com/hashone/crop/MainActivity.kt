@@ -4,16 +4,12 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.hashone.commons.base.BetterActivityResult
 import com.hashone.commons.extensions.getColorCode
 import com.hashone.commons.extensions.serializable
@@ -21,11 +17,10 @@ import com.hashone.commons.extensions.setStatusBarColor
 import com.hashone.crop.databinding.ActivityMainBinding
 import com.hashone.cropper.CropActivity
 import com.hashone.cropper.builder.Crop
-import com.hashone.cropper.model.AspectRatio
-import com.hashone.cropper.model.CropAspectRatio
 import com.hashone.cropper.model.CropDataSaved
-import com.hashone.cropper.model.ImageMaskOutline2
-import com.hashone.cropper.model.OutlineType
+import com.hashone.cropper.model.OriginalRatioData
+import com.hashone.cropper.model.RatioData
+import com.hashone.cropper.model.ShapeData
 import java.io.File
 
 
@@ -62,399 +57,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun clickEvent() {
-        /*
-        val aspectRatios = arrayListOf(
-            CropAspectRatio(
-                id = 1,
-                title = "Original",
-                aspectRatio = AspectRatio.Original,
-                img = com.hashone.cropper.R.drawable.ic_orginal_crop,
-
-                ),
-            CropAspectRatio(
-                id = 2,
-                title = "Square",
-                aspectRatio = AspectRatio(1 / 1f),
-                img = com.hashone.cropper.R.drawable.ic_square_crop,
-
-                ),
-            CropAspectRatio(
-                id = 4,
-                title = "2:3",
-                aspectRatio = AspectRatio(2 / 3f),
-                img = com.hashone.cropper.R.drawable.ic_2_3_crop,
-
-                ),
-            CropAspectRatio(
-                id = 5,
-                title = "3:4",
-                aspectRatio = AspectRatio(3 / 4f),
-                img = com.hashone.cropper.R.drawable.ic_3_4_crop,
-
-                ),
-            CropAspectRatio(
-                id = 6,
-                title = "4:5",
-                aspectRatio = AspectRatio(4 / 5f),
-                img = com.hashone.cropper.R.drawable.ic_4_5_crop,
-
-                ),
-            CropAspectRatio(
-                id = 7,
-                title = "9:16",
-                aspectRatio = AspectRatio(9 / 16f),
-                img = com.hashone.cropper.R.drawable.ic_9_16_crop,
-
-                ),
-            CropAspectRatio(
-                id = 8,
-                title = "3:2",
-                aspectRatio = AspectRatio(3 / 2f),
-                img = com.hashone.cropper.R.drawable.ic_3_2_crop,
-
-                ),
-            CropAspectRatio(
-                id = 9,
-                title = "4:3",
-                aspectRatio = AspectRatio(4 / 3f),
-                img = com.hashone.cropper.R.drawable.ic_4_3_crop,
-
-                ),
-            CropAspectRatio(
-                id = 10,
-                title = "5:4",
-                aspectRatio = AspectRatio(5f / 4f),
-                img = com.hashone.cropper.R.drawable.ic_5_4_crop,
-
-                ),
-            CropAspectRatio(
-                id = 11,
-                title = "16:9",
-                aspectRatio = AspectRatio(16 / 9f),
-                img = com.hashone.cropper.R.drawable.ic_16_9_crop,
-
-                ),
-            CropAspectRatio(
-                id = 19,
-                title = "Rounded",
-                isShape = true,
-                outlineType = OutlineType.RoundedRect,
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_square_crop,
-            ),
-            CropAspectRatio(
-                id = 20,
-                title = "CutCorner",
-                isShape = true,
-                outlineType = OutlineType.CutCorner,
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_square_crop,
-            ),
-            CropAspectRatio(
-                id = 21,
-                title = "Oval",
-                isShape = true,
-                outlineType = OutlineType.Oval,
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_square_crop,
-            ),
-            CropAspectRatio(
-                id = 22,
-                title = "Polygon",
-                isShape = true,
-                outlineType = OutlineType.Polygon,
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_square_crop,
-            ),
-            CropAspectRatio(
-                id = 23,
-                title = "Pentagon",
-                isShape = true,
-                outlineType = OutlineType.Pentagon,
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_square_crop,
-            ),
-            CropAspectRatio(
-                id = 24,
-                title = "Heptagon",
-                isShape = true,
-                outlineType = OutlineType.Heptagon,
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_square_crop,
-            ),
-            CropAspectRatio(
-                id = 25,
-                title = "Octagon",
-                isShape = true,
-                outlineType = OutlineType.Octagon,
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_square_crop,
-            ),
-            CropAspectRatio(
-                id = 26,
-                title = "Heart",
-                isShape = true,
-                outlineType = OutlineType.Custom,
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_square_crop,
-            ),
-            CropAspectRatio(
-                id = 27,
-                title = "Star",
-                isShape = true,
-                outlineType = OutlineType.Star,
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_square_crop,
-            ),
-
-            CropAspectRatio(
-                id = 28,
-                title = "sun",
-                isShape = true,
-                outlineType = OutlineType.ImageMask,
-                cropOutline = ImageMaskOutline2(
-                    id = 1,
-                    title = "ImageMask",
-                    imageInt = com.hashone.cropper.R.drawable.sun
-                ),
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.sun,
-            ),
-
-            CropAspectRatio(
-                id = 29,
-                title = "cloud",
-                isShape = true,
-                outlineType = OutlineType.ImageMask,
-                cropOutline = ImageMaskOutline2(
-                    id = 2,
-                    title = "ImageMask",
-                    imageInt = com.hashone.cropper.R.drawable.cloud
-                ),
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.cloud,
-            ),
-
-            CropAspectRatio(
-                id = 30,
-                title = "stick",
-                isShape = true,
-                outlineType = OutlineType.ImageMask,
-                cropOutline = ImageMaskOutline2(
-                    id = 3,
-                    title = "ImageMask",
-                    imageInt = com.hashone.cropper.R.drawable.shape_stick
-                ),
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.shape_stick,
-            ),
-
-            )
-        */
-
-        val aspectRatios = arrayListOf(
-            CropAspectRatio(
-                id = 1,
-                title = "Original",
-                aspectRatio = AspectRatio.Original,
-                img = com.hashone.cropper.R.drawable.ic_orginal_crop,
-            ),
-
-            CropAspectRatio(
-                id = 2,
-                title = "Square",
-                aspectRatio = AspectRatio(1 / 1f),
-                img = com.hashone.cropper.R.drawable.ic_square_crop
-            ),
-            /*CropAspectRatio(
-                id = 3,
-                isShape = true,
-                outlineType = OutlineType.Oval,
-                cropOutline = OvalCropShape(id = 3, title = "Oval"),
-                title = "Circle",
-                aspectRatio = AspectRatio(1 / 1.000001f),
-                img = R.drawable.ic_circle_crop
-            ),*/
-            CropAspectRatio(
-                id = 4,
-                title = "2:3",
-                aspectRatio = AspectRatio(2 / 3f),
-                img = com.hashone.cropper.R.drawable.ic_2_3_crop
-            ),
-            CropAspectRatio(
-                id = 5,
-                title = "3:4",
-                aspectRatio = AspectRatio(3 / 4f),
-                img = com.hashone.cropper.R.drawable.ic_3_4_crop
-            ),
-            CropAspectRatio(
-                id = 6,
-                title = "4:5",
-                aspectRatio = AspectRatio(4 / 5f),
-                img = com.hashone.cropper.R.drawable.ic_4_5_crop
-            ),
-            CropAspectRatio(
-                id = 7,
-                title = "9:16",
-                aspectRatio = AspectRatio(9 / 16f),
-                img = com.hashone.cropper.R.drawable.ic_9_16_crop
-            ),
-            CropAspectRatio(
-                id = 8,
-                title = "3:2",
-                aspectRatio = AspectRatio(3 / 2f),
-                img = com.hashone.cropper.R.drawable.ic_3_2_crop
-            ),
-            CropAspectRatio(
-                id = 9,
-                title = "4:3",
-                aspectRatio = AspectRatio(4 / 3f),
-                img = com.hashone.cropper.R.drawable.ic_4_3_crop
-            ),
-            CropAspectRatio(
-                id = 10,
-                title = "5:4",
-                aspectRatio = AspectRatio(5f / 4f),
-                img = com.hashone.cropper.R.drawable.ic_5_4_crop
-            ),
-            CropAspectRatio(
-                id = 11,
-                title = "16:9",
-                aspectRatio = AspectRatio(16 / 9f),
-                img = com.hashone.cropper.R.drawable.ic_16_9_crop
-            ),
-            CropAspectRatio(
-                id = 12,
-                title = "Radius",
-                isShape = true,
-                outlineType = OutlineType.ImageMask,
-                cropOutline = ImageMaskOutline2(
-                    id = 1,
-                    title = "Radius",
-                    imageInt = com.hashone.cropper.R.drawable.ic_radius_shape
-                ),
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_square_crop,
-            ),
-            CropAspectRatio(
-                id = 13,
-                title = "Circle",
-                isShape = true,
-                outlineType = OutlineType.ImageMask,
-                cropOutline = ImageMaskOutline2(
-                    id = 2,
-                    title = "Circle",
-                    imageInt = com.hashone.cropper.R.drawable.ic_circle_shape
-                ),
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_circle_crop,
-            ),
-            CropAspectRatio(
-                id = 14,
-                title = "Triangle",
-                isShape = true,
-                outlineType = OutlineType.ImageMask,
-                cropOutline = ImageMaskOutline2(
-                    id = 3,
-                    title = "Triangle",
-                    imageInt = com.hashone.cropper.R.drawable.ic_triangle_shape
-                ),
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_triangle_crop,
-            ),
-            CropAspectRatio(
-                id = 15,
-                title = "Star",
-                isShape = true,
-                outlineType = OutlineType.ImageMask,
-                cropOutline = ImageMaskOutline2(
-                    id = 4,
-                    title = "Star",
-                    imageInt = com.hashone.cropper.R.drawable.ic_star_shape
-                ),
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_star_crop,
-            ),
-            CropAspectRatio(
-                id = 16,
-                title = "Heart",
-                isShape = true,
-                outlineType = OutlineType.ImageMask,
-                cropOutline = ImageMaskOutline2(
-                    id = 5,
-                    title = "Heart",
-                    imageInt = com.hashone.cropper.R.drawable.ic_heart_shape
-                ),
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_heart_crop,
-            ),
-            CropAspectRatio(
-                id = 17,
-                title = "Insquare",
-                isShape = true,
-                outlineType = OutlineType.ImageMask,
-                cropOutline = ImageMaskOutline2(
-                    id = 6,
-                    title = "Insquare",
-                    imageInt = com.hashone.cropper.R.drawable.ic_insquare_shape
-                ),
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_insquare_crop,
-            ),
-            CropAspectRatio(
-                id = 18,
-                title = "Inarc",
-                isShape = true,
-                outlineType = OutlineType.ImageMask,
-                cropOutline = ImageMaskOutline2(
-                    id = 7,
-                    title = "Inarc",
-                    imageInt = com.hashone.cropper.R.drawable.ic_inarc_shape
-                ),
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_inarc_crop,
-            ),
-            CropAspectRatio(
-                id = 19,
-                title = "Heptagon",
-                isShape = true,
-                outlineType = OutlineType.ImageMask,
-                cropOutline = ImageMaskOutline2(
-                    id = 8,
-                    title = "Heptagon",
-                    imageInt = com.hashone.cropper.R.drawable.ic_heptagon_shape
-                ),
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_heptagon_crop,
-            ),
-            CropAspectRatio(
-                id = 20,
-                title = "Pentagon",
-                isShape = true,
-                outlineType = OutlineType.ImageMask,
-                cropOutline = ImageMaskOutline2(
-                    id = 9,
-                    title = "Pentagon",
-                    imageInt = com.hashone.cropper.R.drawable.ic_pentagon_shape
-                ),
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_pentagon_crop,
-            ),
-            CropAspectRatio(
-                id = 21,
-                title = "Hexagon",
-                isShape = true,
-                outlineType = OutlineType.ImageMask,
-                cropOutline = ImageMaskOutline2(
-                    id = 10,
-                    title = "Hexagon",
-                    imageInt = com.hashone.cropper.R.drawable.ic_hexagon_shape
-                ),
-                aspectRatio = AspectRatio(1f / 1f),
-                img = com.hashone.cropper.R.drawable.ic_hexagon_crop,
-            ),
-
-            )
         mBinding.txtCropImage.setOnClickListener {
             val cropIntent = Crop.build(
                 originalImageFilePath = originalImageFilePath,
@@ -468,6 +70,25 @@ class MainActivity : AppCompatActivity() {
 
                 //TODO: Crop Ratios
                 mAspectRatio = arrayListOf()
+//                arrayListOf(
+//                    OriginalRatioData(
+//                        id = 1,
+//                        title = getString(com.hashone.cropper.R.string.label_original),
+//                        img = com.hashone.cropper.R.drawable.ic_orginal_crop,
+//                    ),
+//                    RatioData(
+//                        id = 2,
+//                        title = getString(com.hashone.cropper.R.string.label_square),
+//                        img = com.hashone.cropper.R.drawable.ic_square_crop,
+//                        ratioValue = (1F / 1F),
+//                    ),
+//                    ShapeData(
+//                        id = 3,
+//                        title = getString(com.hashone.cropper.R.string.label_circle),
+//                        img = com.hashone.cropper.R.drawable.ic_circle_crop,
+//                        shapeImg = com.hashone.cropper.R.drawable.ic_circle_shape
+//                    )
+//                )
 
 
                 //TODO: Screen
@@ -614,7 +235,7 @@ class MainActivity : AppCompatActivity() {
     //    private fun getFileFromAssets(): File = File(cacheDir, "hashone_phone_wallpaper.png")
 //    private fun getFileFromAssets(): File = File(cacheDir, "large_img.png")
     private fun getFileFromAssets(): File = File(cacheDir, "demo_1.jpg")
-    //    private fun getFileFromAssets(): File = File(cacheDir, "hashone_phone_wallpaper.png")
+        //    private fun getFileFromAssets(): File = File(cacheDir, "hashone_phone_wallpaper.png")
 //    private fun getFileFromAssets(): File = File(cacheDir, "large_img.png")
         .also {
             if (!it.exists()) {

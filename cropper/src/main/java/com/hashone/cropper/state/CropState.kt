@@ -3,7 +3,7 @@ package com.hashone.cropper.state
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.IntSize
-import com.hashone.cropper.model.CropAspectRatio
+import com.hashone.cropper.model.BaseAspectRatioData
 import com.hashone.cropper.settings.CropProperties
 import com.hashone.cropper.settings.CropType
 
@@ -41,7 +41,7 @@ fun rememberCropState(
     val fixedAspectRatio = cropProperties.fixedAspectRatio
     val minDimension = cropProperties.minDimension
     val cropOutlineProperty = cropProperties.cropOutlineProperty
-    val cropAspectRatio: CropAspectRatio = cropProperties.cropAspectRatio
+    val cropAspectRatio: BaseAspectRatioData = cropProperties.cropAspectRatio
 
     return remember(*keys) {
         when (cropType) {

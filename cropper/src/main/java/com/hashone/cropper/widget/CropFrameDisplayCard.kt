@@ -1,15 +1,18 @@
 package com.hashone.cropper.widget
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.AcUnit
-import androidx.compose.material.icons.outlined.CloudQueue
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material3.Icon
@@ -32,7 +35,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hashone.cropper.model.CropAspectRatio
 import com.hashone.cropper.model.CropImageMask
 import com.hashone.cropper.model.CropOutline
 import com.hashone.cropper.model.CropPath
@@ -181,6 +183,7 @@ fun CropFrameDisplay(
                 content()
             }
         }
+
         is CropPath -> {
             Box(
                 modifier = modifier,
@@ -196,16 +199,18 @@ fun CropFrameDisplay(
                 content()
             }
         }
-         is CropImageMask -> {
-             Box(
-                 modifier = modifier,
-                 contentAlignment = Alignment.TopEnd
-             ) {
-                 Image(bitmap = cropOutline.image, contentDescription = "")
 
-                 content()
-             }
-         }
+        is CropImageMask -> {
+            Box(
+                modifier = modifier,
+                contentAlignment = Alignment.TopEnd
+            ) {
+                Image(bitmap = cropOutline.image, contentDescription = "")
+
+                content()
+            }
+        }
+
         else -> {
             Box(
                 modifier = modifier,

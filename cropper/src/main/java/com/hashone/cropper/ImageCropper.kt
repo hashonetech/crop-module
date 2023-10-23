@@ -42,7 +42,7 @@ import com.hashone.cropper.draw.DrawingOverlay
 import com.hashone.cropper.draw.ImageDrawCanvas
 import com.hashone.cropper.image.ImageWithConstraints
 import com.hashone.cropper.image.getScaledImageBitmap
-import com.hashone.cropper.model.CropAspectRatio
+import com.hashone.cropper.model.BaseAspectRatioData
 import com.hashone.cropper.model.CropOutline
 import com.hashone.cropper.settings.CropDefaults
 import com.hashone.cropper.settings.CropProperties
@@ -455,7 +455,7 @@ private fun getResetKeys(
     contentScale: ContentScale,
     cropType: CropType,
     fixedAspectRatio: Boolean,
-    cropAspectRatio: CropAspectRatio,
+    cropAspectRatio: BaseAspectRatioData,
     zoom: Float
 ) = remember(
     scaledImageBitmap,

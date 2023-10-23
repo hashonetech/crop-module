@@ -8,7 +8,7 @@ import androidx.compose.ui.input.pointer.positionChangeIgnoreConsumed
 import androidx.compose.ui.unit.IntSize
 import com.hashone.cropper.TouchRegion
 import com.hashone.cropper.model.AspectRatio
-import com.hashone.cropper.model.CropAspectRatio
+import com.hashone.cropper.model.BaseAspectRatioData
 import com.hashone.cropper.settings.CropOutlineProperty
 import com.hashone.cropper.settings.CropProperties
 import kotlinx.coroutines.coroutineScope
@@ -40,7 +40,7 @@ class DynamicCropState internal constructor(
     containerSize: IntSize,
     drawAreaSize: IntSize,
     aspectRatio: AspectRatio,
-    cropAspectRatio: CropAspectRatio,
+    cropAspectRatio: BaseAspectRatioData,
     cropOutlineProperty: CropOutlineProperty,
     overlayRatio: Float,
     maxZoom: Float,
@@ -532,15 +532,19 @@ class DynamicCropState internal constructor(
         TouchRegion.TopLeft -> {
             rect.topLeft - touchPosition
         }
+
         TouchRegion.TopRight -> {
             rect.topRight - touchPosition
         }
+
         TouchRegion.BottomLeft -> {
             rect.bottomLeft - touchPosition
         }
+
         TouchRegion.BottomRight -> {
             rect.bottomRight - touchPosition
         }
+
         else -> {
             Offset.Zero
         }

@@ -10,7 +10,7 @@ import androidx.annotation.FontRes
 import androidx.annotation.IntRange
 import com.hashone.cropper.CropActivity
 import com.hashone.cropper.R
-import com.hashone.cropper.model.CropAspectRatio
+import com.hashone.cropper.model.BaseAspectRatioData
 import com.hashone.cropper.model.CropDataSaved
 import com.hashone.cropper.state.CropState
 import java.io.Serializable
@@ -49,7 +49,7 @@ open class Crop(val builder: Builder) : Serializable {
     ) : Serializable {
 
         //TODO: Image Bitmap Size
-        var mAspectRatio : ArrayList<CropAspectRatio> = ArrayList()
+        var mAspectRatio: ArrayList<BaseAspectRatioData> = ArrayList()
 
         //TODO: Image Bitmap Size
         var sizeBuilder = SizeBuilder()

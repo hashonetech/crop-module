@@ -118,6 +118,28 @@ fun getOutlineContainer(
     }
 }
 
+fun getRatioData(outlineType: OutlineType, cropDataSaved: CropDataSaved): BaseAspectRatioData {
+    return when (outlineType) {
+        OutlineType.ImageMask -> {
+            ShapeData(
+                id = cropDataSaved.cropAspectRatioId,
+                title = cropDataSaved.cropAspectRatioTitle,
+                img = cropDataSaved.cropAspectRatioImg,
+                shapeImg = cropDataSaved.cropAspectRatioImg,
+                ratioValue = cropDataSaved.aspectRatio
+            )
+        }
+
+        else -> {
+            RatioData(
+                id = cropDataSaved.cropAspectRatioId,
+                title = cropDataSaved.cropAspectRatioTitle,
+                img = cropDataSaved.cropAspectRatioImg,
+                ratioValue = cropDataSaved.aspectRatio
+            )
+        }
+    }
+}
 
 enum class OutlineType {
     Rect, RoundedRect, CutCorner, Oval, Polygon, Pentagon, Heptagon, Octagon, Custom, Star, ImageMask

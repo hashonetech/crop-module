@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.hashone.cropper.ImageCropper
 import com.hashone.cropper.crop
 import com.hashone.cropper.model.AspectRatio
-import com.hashone.cropper.model.CropAspectRatio
+import com.hashone.cropper.model.BaseAspectRatioData
 import com.hashone.cropper.model.CropOutline
 import com.hashone.cropper.model.OutlineType
 import com.hashone.cropper.model.aspectRatios
@@ -35,8 +35,8 @@ object CropDefaults {
         contentScale: ContentScale = ContentScale.Fit,
         cropOutlineProperty: CropOutlineProperty,
         aspectRatio: AspectRatio = aspectRatios[0].aspectRatio,
-        cropAspectRatio: CropAspectRatio = aspectRatios[0],
-        overlayRatio:Float = 1f,
+        cropAspectRatio: BaseAspectRatioData = aspectRatios[0],
+        overlayRatio: Float = 1f,
         pannable: Boolean = true,
         fling: Boolean = false,
         zoomable: Boolean = true,
@@ -44,9 +44,9 @@ object CropDefaults {
         fixedAspectRatio: Boolean = false,
         requiredSize: IntSize? = null,
         minDimension: IntSize? = null,
-        zoom:Float = 1f,
-        basePx:Float = 1f,
-        basePy:Float = 1f,
+        zoom: Float = 1f,
+        basePx: Float = 1f,
+        basePy: Float = 1f,
     ): CropProperties {
         return CropProperties(
             cropType = cropType,
@@ -105,7 +105,7 @@ data class CropProperties internal constructor(
     var contentScale: ContentScale,
     val cropOutlineProperty: CropOutlineProperty,
     val aspectRatio: AspectRatio,
-    val cropAspectRatio: CropAspectRatio,
+    val cropAspectRatio: BaseAspectRatioData,
     val overlayRatio: Float,
     val pannable: Boolean,
     val fling: Boolean,
@@ -118,7 +118,7 @@ data class CropProperties internal constructor(
     val minDimension: IntSize? = null,
     val basePx: Float,
     val basePy: Float,
-    )
+)
 
 /**
  * Data class for cropper styling only. None of the properties of this class is used
@@ -142,12 +142,12 @@ data class CropStyle internal constructor(
 data class CropOutlineProperty(
     val outlineType: OutlineType,
     val cropOutline: CropOutline
-):Serializable
+) : Serializable
 
 /**
  * Light, Dark or system controlled theme
  */
-enum class CropTheme{
+enum class CropTheme {
     Light,
     Dark,
     System

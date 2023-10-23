@@ -1,13 +1,12 @@
 package com.hashone.cropper.state
 
-import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.unit.IntSize
 import com.hashone.cropper.TouchRegion
 import com.hashone.cropper.model.AspectRatio
-import com.hashone.cropper.model.CropAspectRatio
+import com.hashone.cropper.model.BaseAspectRatioData
 import com.hashone.cropper.settings.CropOutlineProperty
 import com.hashone.cropper.settings.CropProperties
 import kotlinx.coroutines.coroutineScope
@@ -34,7 +33,7 @@ class StaticCropState internal constructor(
     containerSize: IntSize,
     drawAreaSize: IntSize,
     aspectRatio: AspectRatio,
-    cropAspectRatio: CropAspectRatio,
+    cropAspectRatio: BaseAspectRatioData,
     cropOutlineProperty: CropOutlineProperty,
     overlayRatio: Float,
     maxZoom: Float = 5f,
@@ -58,7 +57,7 @@ class StaticCropState internal constructor(
     cropOutlineProperty = cropOutlineProperty,
     cropAspectRatio = cropAspectRatio,
 
-) {
+    ) {
 
     override suspend fun onDown(change: PointerInputChange) = Unit
     override suspend fun onMove(changes: List<PointerInputChange>) = Unit

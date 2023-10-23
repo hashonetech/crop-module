@@ -55,12 +55,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.hashone.commons.utils.EXTENSION_PNG
 import com.hashone.cropper.builder.Crop
 import com.hashone.cropper.model.AspectRatio
-import com.hashone.cropper.model.CropAspectRatio
+import com.hashone.cropper.model.BaseAspectRatioData
 import com.hashone.cropper.model.CropDataSaved
 import com.hashone.cropper.model.OutlineType
 import com.hashone.cropper.model.RectCropShape
 import com.hashone.cropper.model.aspectRatios
 import com.hashone.cropper.model.createCropOutlineContainer
+import com.hashone.cropper.model.getRatioData
 import com.hashone.cropper.settings.CropDefaults
 import com.hashone.cropper.settings.CropOutlineProperty
 import com.hashone.cropper.settings.CropProperties
@@ -99,33 +100,34 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
         RectCropShape(0, "Rect")
     )
 
-/*
-    val defaultImage1 = ImageBitmap.imageResource(id = R.drawable.squircle)
-    val defaultImage2 = ImageBitmap.imageResource(id = R.drawable.cloud)
-    val defaultImage3 = ImageBitmap.imageResource(id = R.drawable.sun)
-    val defaultImage4 = ImageBitmap.imageResource(id = R.drawable.blob)
-    val defaultImage5 = ImageBitmap.imageResource(id = R.drawable.blob_2)
-//    val defaultImage6 = ImageBitmap.imageResource(id = R.drawable.blob_3)
-    var defaultImage6 by remember {
-        mutableStateOf(defaultImage5.asAndroidBitmap())
-    }
+    /*
+        val defaultImage1 = ImageBitmap.imageResource(id = R.drawable.squircle)
+        val defaultImage2 = ImageBitmap.imageResource(id = R.drawable.cloud)
+        val defaultImage3 = ImageBitmap.imageResource(id = R.drawable.sun)
+        val defaultImage4 = ImageBitmap.imageResource(id = R.drawable.blob)
+        val defaultImage5 = ImageBitmap.imageResource(id = R.drawable.blob_2)
+    //    val defaultImage6 = ImageBitmap.imageResource(id = R.drawable.blob_3)
+        var defaultImage6 by remember {
+            mutableStateOf(defaultImage5.asAndroidBitmap())
+        }
 
-    val cropFrameFactory = remember {
-        CropFrameFactory(
-            listOf(
-                defaultImage6!!.asImageBitmap(),
-                defaultImage5,
-                defaultImage4,
-                defaultImage3,
-                defaultImage2,
-                defaultImage1,
+        val cropFrameFactory = remember {
+            CropFrameFactory(
+                listOf(
+                    defaultImage6!!.asImageBitmap(),
+                    defaultImage5,
+                    defaultImage4,
+                    defaultImage3,
+                    defaultImage2,
+                    defaultImage1,
+                )
             )
-        )
-    }*/
+        }*/
 
     val cropOutlineProperty = if (cropBuilder.cropDataSaved != null) {
-        val aspectRatio = aspectRatios.firstOrNull { it.id == cropBuilder.cropDataSaved?.cropAspectRatioId }
-        if (aspectRatio != null){
+        val aspectRatio =
+            aspectRatios.firstOrNull { it.id == cropBuilder.cropDataSaved?.cropAspectRatioId }
+        if (aspectRatio != null) {
             CropOutlineProperty(
                 OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
                 aspectRatio.cropOutline
@@ -161,15 +163,14 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
                 aspectRatio = if (cropBuilder.cropDataSaved != null) (if (cropBuilder.cropDataSaved?.aspectRatio != null) AspectRatio(
                     cropBuilder.cropDataSaved?.aspectRatio!!
                 ) else aspectRatios[0].aspectRatio) else aspectRatios[0].aspectRatio,
-                cropAspectRatio = if (cropBuilder.cropDataSaved != null) ((if (cropBuilder.cropDataSaved != null) CropAspectRatio(
-                    id = cropBuilder.cropDataSaved?.cropAspectRatioId!!,
-                    title = cropBuilder.cropDataSaved?.cropAspectRatioTitle!!,
-                    aspectRatio = AspectRatio(cropBuilder.cropDataSaved?.aspectRatio!!),
-                    img = cropBuilder.cropDataSaved?.cropAspectRatioImg!!,
-                    outlineType = OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
-//                    cropOutline = createCropOutlineContainer(OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!)),
-                    cropOutline = (if (cropBuilder.cropDataSaved != null) cropOutlineProperty else defaultCropOuterProp).cropOutline
-                ) else null) ?: aspectRatios[0]) else aspectRatios[0],
+                cropAspectRatio = if (cropBuilder.cropDataSaved != null) {
+                    getRatioData(
+                        OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
+                        cropBuilder.cropDataSaved!!
+                    )
+                } else {
+                    aspectRatios[0]
+                },
                 zoom = if (cropBuilder.cropDataSaved != null) cropBuilder.cropDataSaved!!.zoom else 1F,
                 basePx = if (cropBuilder.cropDataSaved != null) cropBuilder.cropDataSaved!!.basePx else 0F,
                 basePy = if (cropBuilder.cropDataSaved != null) cropBuilder.cropDataSaved!!.basePy else 0F,
@@ -271,7 +272,6 @@ private fun MainContent(
     var isCropping by remember { mutableStateOf(false) }
 
 
-
 //    CircularIndeterminateProgressBar(isDisplayed = !isBitmapReady || isCropping || isLoading)
 
     LaunchedEffect(Unit) {
@@ -285,24 +285,24 @@ private fun MainContent(
                     .apply(RequestOptions().override(cropBuilder.sizeBuilder.localFileSize))
                     .submit().get()
 
-                 val maxSize = max(bitmap.width, bitmap.height)
-                 if (maxSize > cropBuilder.sizeBuilder.maxFileSize) {
-                     if (bitmap.height > bitmap.width) {
-                         bitmap.scale(
-                             (cropBuilder.sizeBuilder.localFileSize * bitmap.width) / bitmap.height,
-                             cropBuilder.sizeBuilder.localFileSize,
-                             true
-                         )
-                     } else {
-                         bitmap.scale(
-                             cropBuilder.sizeBuilder.localFileSize,
-                             (cropBuilder.sizeBuilder.localFileSize * bitmap.height) / bitmap.width,
-                             true
-                         )
-                     }
-                 } else {
-                     bitmap
-                 }
+                val maxSize = max(bitmap.width, bitmap.height)
+                if (maxSize > cropBuilder.sizeBuilder.maxFileSize) {
+                    if (bitmap.height > bitmap.width) {
+                        bitmap.scale(
+                            (cropBuilder.sizeBuilder.localFileSize * bitmap.width) / bitmap.height,
+                            cropBuilder.sizeBuilder.localFileSize,
+                            true
+                        )
+                    } else {
+                        bitmap.scale(
+                            cropBuilder.sizeBuilder.localFileSize,
+                            (cropBuilder.sizeBuilder.localFileSize * bitmap.height) / bitmap.width,
+                            true
+                        )
+                    }
+                } else {
+                    bitmap
+                }
                 bitmap
             }
 
@@ -356,32 +356,15 @@ private fun MainContent(
                         cropBuilder.cropDataSaved?.containerSizeHeight!!
                     ),
                     aspectRatio = AspectRatio(cropBuilder.cropDataSaved?.aspectRatio!!),
-                    cropAspectRatio = CropAspectRatio(
-                        id = cropBuilder.cropDataSaved?.cropAspectRatioId!!,
-                        title = cropBuilder.cropDataSaved?.cropAspectRatioTitle!!,
-                        aspectRatio = AspectRatio(cropBuilder.cropDataSaved?.aspectRatio!!),
-                        img = cropBuilder.cropDataSaved?.cropAspectRatioImg!!,
-                        outlineType = OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
-                        cropOutline = createCropOutlineContainer(OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!)),
-//                        cropOutlineProperty = CropOutlineProperty(
-//                            OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
-//                            RectCropShape(
-//                                cropBuilder.cropDataSaved?.cropOutlineId!!,
-//                                cropBuilder.cropDataSaved?.cropOutlineTitle!!
-//                            )
-//                        )
+                    cropAspectRatio =
+                    getRatioData(
+                        OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
+                        cropBuilder.cropDataSaved!!
                     ),
                     cropOutlineProperty = CropOutlineProperty(
                         OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
                         createCropOutlineContainer(OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!))
                     )
-//                    cropOutlineProperty = CropOutlineProperty(
-//                        OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!),
-//                        RectCropShape(
-//                            cropBuilder.cropDataSaved?.cropOutlineId!!,
-//                            cropBuilder.cropDataSaved?.cropOutlineTitle!!
-//                        )
-//                    ),
                 )
             } else null
         )
@@ -660,7 +643,7 @@ internal fun AspectRatioSelection(
     cropBuilder: Crop.Builder,
     cropProperties: CropProperties,
     aspectRationChange: Boolean = false,
-    aspectRatio: CropAspectRatio,
+    aspectRatio: BaseAspectRatioData,
     activity: Activity,
     resetCrop: Boolean = false,
     onCropPropertiesChange: (CropProperties) -> Unit,

@@ -1,16 +1,13 @@
 package com.hashone.cropper
 
 import android.app.Activity
-import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -33,7 +30,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.Font
@@ -41,18 +37,14 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.hashone.commons.utils.dpToPx
 import com.hashone.cropper.builder.Crop
-import com.hashone.cropper.settings.CropFrameFactory
-import com.hashone.cropper.model.CropAspectRatio
+import com.hashone.cropper.model.BaseAspectRatioData
 import com.hashone.cropper.model.OutlineType
 import com.hashone.cropper.model.RectCropShape
 import com.hashone.cropper.model.aspectRatios
-import com.hashone.cropper.model.createCropOutlineContainer
 import com.hashone.cropper.settings.CropOutlineProperty
 import com.hashone.cropper.util.Utils
 import com.hashone.cropper.widget.AspectRatioSelectionCard
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
 
 class CustomRippleTheme : RippleTheme {
@@ -77,7 +69,7 @@ internal fun AnimatedAspectRatioSelection(
     resetCrop: Boolean = false,
     onAspectRatioChangeStart: () -> Unit,
     onCropReset: () -> Unit,
-    conCropOutlinePropertyChange: (CropOutlineProperty, CropAspectRatio) -> Unit,
+    conCropOutlinePropertyChange: (CropOutlineProperty, BaseAspectRatioData) -> Unit,
 ) {
 
     var isAspectRatioChangeManually by remember { mutableStateOf(false) }
@@ -105,13 +97,11 @@ internal fun AnimatedAspectRatioSelection(
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(colorResource(id = cropBuilder.aspectRatioBuilder.backgroundColor))
-            ,
+                .background(colorResource(id = cropBuilder.aspectRatioBuilder.backgroundColor)),
             state = listState,
         ) {
 
-
-            itemsIndexed(aspectRatios) { index: Int, item: CropAspectRatio ->
+            itemsIndexed(aspectRatios) { index: Int, item: BaseAspectRatioData ->
                 CompositionLocalProvider(LocalRippleTheme provides CustomRippleTheme()) {
                     Layout(
                         content = {
@@ -186,7 +176,8 @@ internal fun AnimatedAspectRatioSelection(
 
             if (!isAspectRatioChangeManually)
                 coroutineScope.launch {
-                    val itemInfo = listState.layoutInfo.visibleItemsInfo.firstOrNull { it.index == currentIndex }
+                    val itemInfo =
+                        listState.layoutInfo.visibleItemsInfo.firstOrNull { it.index == currentIndex }
                     if (itemInfo != null) {
                         val center = listState.layoutInfo.viewportEndOffset / 2
                         val childCenter = itemInfo.offset + itemInfo.size / 2
