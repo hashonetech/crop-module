@@ -17,15 +17,13 @@ import com.hashone.commons.extensions.navigationUI
 import com.hashone.commons.extensions.serializable
 import com.hashone.commons.extensions.setStatusBarColor
 import com.hashone.cropper.builder.Crop
-import com.hashone.cropper.model.CropAspectRatio
+import com.hashone.cropper.model.AspectRatio
 import com.hashone.cropper.model.OriginalRatioData
 import com.hashone.cropper.model.OutlineType
 import com.hashone.cropper.model.RatioData
 import com.hashone.cropper.model.RectCropShape
 import com.hashone.cropper.model.ShapeData
 import com.hashone.cropper.model.aspectRatios
-import com.hashone.cropper.model.createCropOutlineContainer
-import com.hashone.cropper.model.getRatioData
 import com.hashone.cropper.theme.ComposeCropperTheme
 
 class CropActivity : ComponentActivity() {
@@ -81,60 +79,70 @@ class CropActivity : ComponentActivity() {
                     id = 1,
                     title = getString(R.string.label_original),
                     img = R.drawable.ic_orginal_crop,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
                 ),
                 RatioData(
                     id = 2,
                     title = getString(R.string.label_square),
                     img = R.drawable.ic_square_crop,
-                    ratioValue = 1F / 1F
+                    ratioValue = 1F / 1F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
                 ),
                 RatioData(
                     id = 4,
                     title = "2:3",
                     img = R.drawable.ic_2_3_crop,
-                    ratioValue = 2F / 3F
+                    ratioValue = 2F / 3F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
                 ),
                 RatioData(
                     id = 5,
                     title = "3:4",
                     img = R.drawable.ic_3_4_crop,
-                    ratioValue = 3F / 4F
+                    ratioValue = 3F / 4F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
                 ),
                 RatioData(
                     id = 6,
                     title = "4:5",
                     img = R.drawable.ic_4_5_crop,
-                    ratioValue = 4F / 5F
+                    ratioValue = 4F / 5F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
                 ),
                 RatioData(
                     id = 7,
                     title = "9:16",
                     img = R.drawable.ic_9_16_crop,
-                    ratioValue = 9F / 16F
+                    ratioValue = 9F / 16F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
                 ),
                 RatioData(
                     id = 8,
                     title = "3:2",
                     img = R.drawable.ic_3_2_crop,
-                    ratioValue = 3F / 2F
+                    ratioValue = 3F / 2F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
                 ),
                 RatioData(
                     id = 9,
                     title = "4:3",
                     img = R.drawable.ic_4_3_crop,
-                    ratioValue = 4F / 3F
+                    ratioValue = 4F / 3F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
                 ),
                 RatioData(
                     id = 10,
                     title = "5:4",
                     img = R.drawable.ic_5_4_crop,
-                    ratioValue = 5F / 4F
+                    ratioValue = 5F / 4F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
                 ),
                 RatioData(
                     id = 11,
                     title = "16:9",
                     img = R.drawable.ic_16_9_crop,
-                    ratioValue = 16F / 9F
+                    ratioValue = 16F / 9F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
                 ),
                 ShapeData(
                     id = 12,
@@ -199,15 +207,6 @@ class CropActivity : ComponentActivity() {
             )
         } else {
             aspectRatios = ArrayList()
-/*            aspectRatios.add(
-                OriginalRatioData(
-                    id = 1,
-                    title = getString(R.string.label_original),
-                    img = R.drawable.ic_orginal_crop,
-                )
-            )
-            aspectRatios.addAll(builder.mAspectRatio)*/
-
             builder.mAspectRatio.forEachIndexed { index, cropAspectRatioData ->
 
 
@@ -235,7 +234,18 @@ class CropActivity : ComponentActivity() {
                     }
                 )
             }
+        }
 
+        if (builder.cropDataSaved != null) {
+            val circleAspectRatioData = aspectRatios.first { it.title == getString(R.string.label_circle) }
+            if (builder.cropDataSaved!!.cropAspectRatioId == 3 && builder.cropDataSaved!!.cropOutlineTitle == "Oval" && circleAspectRatioData!=null) {
+                builder.cropDataSaved!!.cropAspectRatioId = circleAspectRatioData.id
+                builder.cropDataSaved!!.aspectRatio = circleAspectRatioData.aspectRatio.value
+                builder.cropDataSaved!!.cropAspectRatioImg = circleAspectRatioData.img
+                builder.cropDataSaved!!.cropOutlineId = circleAspectRatioData.cropOutline.id
+                builder.cropDataSaved!!.cropOutlineTitle = circleAspectRatioData.cropOutline.title
+                builder.cropDataSaved!!.cropOutlineType = OutlineType.ImageMask.name
+            }
         }
 
     }

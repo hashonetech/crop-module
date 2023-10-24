@@ -6,10 +6,12 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.hashone.commons.base.BetterActivityResult
 import com.hashone.commons.extensions.getColorCode
 import com.hashone.commons.extensions.serializable
@@ -18,9 +20,6 @@ import com.hashone.crop.databinding.ActivityMainBinding
 import com.hashone.cropper.CropActivity
 import com.hashone.cropper.builder.Crop
 import com.hashone.cropper.model.CropDataSaved
-import com.hashone.cropper.model.OriginalRatioData
-import com.hashone.cropper.model.RatioData
-import com.hashone.cropper.model.ShapeData
 import java.io.File
 
 
@@ -67,29 +66,8 @@ class MainActivity : AppCompatActivity() {
                 forceCrop = true
             ) {
 
-
                 //TODO: Crop Ratios
-//                mAspectRatio = arrayListOf()
-                mAspectRatio = arrayListOf(
-                    OriginalRatioData(
-                        id = 1,
-                        title = getString(com.hashone.cropper.R.string.label_original),
-                        img = com.hashone.cropper.R.drawable.ic_orginal_crop,
-                    ),
-                    RatioData(
-                        id = 2,
-                        title = getString(com.hashone.cropper.R.string.label_square),
-                        img = com.hashone.cropper.R.drawable.ic_square_crop,
-                        ratioValue = (1F / 1F),
-                    ),
-                    ShapeData(
-                        id = 3,
-                        title = getString(com.hashone.cropper.R.string.label_circle),
-                        img = com.hashone.cropper.R.drawable.ic_circle_crop,
-                        shapeImg = com.hashone.cropper.R.drawable.ic_circle_shape
-                    )
-                )
-
+                mAspectRatio = arrayListOf()
 
                 //TODO: Screen
                 screenBuilder = Crop.ScreenBuilder(

@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.hashone"
-version = "1.0.9"
+version = "1.1.2"
 
 android {
     namespace = "com.hashone.cropper"
@@ -95,7 +95,7 @@ afterEvaluate {
             register<MavenPublication>("release") {
                 groupId = "com.hashone"
                 artifactId = "crop"
-                version = "1.0.9"
+                version = "1.1.2"
 
                 afterEvaluate {
                     from(components["release"])
