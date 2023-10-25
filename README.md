@@ -66,7 +66,12 @@ Simple image cropping library for Android, used to crop selected image with Powe
                 croppedImageBitmap = null,
 		//TODO: Crop forcefully for same selected Aspect Ratio
 		forceCrop = true/false
+		//TODO: Use Default Ratios and shapes list for crop
+		useDefaults = true/false
             ) {
+
+                //TODO: Only work when (useDefaults = false)
+                mAspectRatio = arrayListOf()
 
                 //TODO: Screen
                 screenBuilder = Crop.ScreenBuilder(
@@ -146,6 +151,149 @@ Simple image cropping library for Android, used to crop selected image with Powe
         }
 ```
 
+ ### AspectRatios list (Ratios and Shapes)
+
+   ```kotlin
+
+	aspectRatios = arrayListOf(
+
+                //TODO: Original Crop Ratio
+                OriginalRatioData(
+                    id = 1,
+                    title = getString(R.string.label_original),
+                    img = R.drawable.ic_orginal_crop,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
+                ),
+
+                //TODO: AspectRatios
+                RatioData(
+                    id = 2,
+                    title = getString(R.string.label_square),
+                    img = R.drawable.ic_square_crop,
+                    ratioValue = 1F / 1F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
+                ),
+                RatioData(
+                    id = 4,
+                    title = "2:3",
+                    img = R.drawable.ic_2_3_crop,
+                    ratioValue = 2F / 3F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
+                ),
+                RatioData(
+                    id = 5,
+                    title = "3:4",
+                    img = R.drawable.ic_3_4_crop,
+                    ratioValue = 3F / 4F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
+                ),
+                RatioData(
+                    id = 6,
+                    title = "4:5",
+                    img = R.drawable.ic_4_5_crop,
+                    ratioValue = 4F / 5F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
+                ),
+                RatioData(
+                    id = 7,
+                    title = "9:16",
+                    img = R.drawable.ic_9_16_crop,
+                    ratioValue = 9F / 16F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
+                ),
+                RatioData(
+                    id = 8,
+                    title = "3:2",
+                    img = R.drawable.ic_3_2_crop,
+                    ratioValue = 3F / 2F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
+                ),
+                RatioData(
+                    id = 9,
+                    title = "4:3",
+                    img = R.drawable.ic_4_3_crop,
+                    ratioValue = 4F / 3F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
+                ),
+                RatioData(
+                    id = 10,
+                    title = "5:4",
+                    img = R.drawable.ic_5_4_crop,
+                    ratioValue = 5F / 4F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
+                ),
+                RatioData(
+                    id = 11,
+                    title = "16:9",
+                    img = R.drawable.ic_16_9_crop,
+                    ratioValue = 16F / 9F,
+                    cropOutline = RectCropShape(id = 0, title = "Rect")
+                ),
+
+                //TODO: Shapes
+                ShapeData(
+                    id = 12,
+                    title = getString(R.string.label_radius),
+                    img = R.drawable.ic_square_crop,
+                    shapeImg = R.drawable.ic_radius_shape
+                ),
+                ShapeData(
+                    id = 13,
+                    title = getString(R.string.label_circle),
+                    img = R.drawable.ic_circle_crop,
+                    shapeImg = R.drawable.ic_circle_shape
+                ),
+                ShapeData(
+                    id = 14,
+                    title = getString(R.string.label_triangle),
+                    img = R.drawable.ic_triangle_crop,
+                    shapeImg = R.drawable.ic_triangle_shape
+                ),
+                ShapeData(
+                    id = 15,
+                    title = getString(R.string.label_star),
+                    img = R.drawable.ic_star_crop,
+                    shapeImg = R.drawable.ic_star_shape
+                ),
+                ShapeData(
+                    id = 16,
+                    title = getString(R.string.label_heart),
+                    img = R.drawable.ic_heart_crop,
+                    shapeImg = R.drawable.ic_heart_shape
+                ),
+                ShapeData(
+                    id = 17,
+                    title = getString(R.string.label_insquare),
+                    img = R.drawable.ic_insquare_crop,
+                    shapeImg = R.drawable.ic_insquare_shape
+                ),
+                ShapeData(
+                    id = 18,
+                    title = getString(R.string.label_inarc),
+                    img = R.drawable.ic_inarc_crop,
+                    shapeImg = R.drawable.ic_inarc_shape
+                ),
+                ShapeData(
+                    id = 19,
+                    title = getString(R.string.label_heptagon),
+                    img = R.drawable.ic_heptagon_crop,
+                    shapeImg = R.drawable.ic_heptagon_shape
+                ),
+                ShapeData(
+                    id = 20,
+                    title = getString(R.string.label_pentagon),
+                    img = R.drawable.ic_pentagon_crop,
+                    shapeImg = R.drawable.ic_pentagon_shape
+                ),
+                ShapeData(
+                    id = 21,
+                    title = getString(R.string.label_hexagon),
+                    img = R.drawable.ic_hexagon_crop,
+                    shapeImg = R.drawable.ic_hexagon_shape
+                ),
+            )
+
+   ```
 
 ### License
 
