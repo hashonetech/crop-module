@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Bijsnijden</string>
+    <string name="crop_label_skip">Overslaan</string>
+    <string name="crop_label_back">Rug</string>
+    <string name="crop_label_done">Klaar</string>
+    <string name="crop_label_original">Origineel</string>
+    <string name="crop_label_square">Vierkant</string>
+    <string name="crop_label_radius">Straal</string>
+    <string name="crop_label_circle">Cirkel</string>
+    <string name="crop_label_triangle">Driehoek</string>
+    <string name="crop_label_star">Ster</string>
+    <string name="crop_label_heart">Hart</string>
+    <string name="crop_label_insquare">Invierkant</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Zevenhoek</string>
+    <string name="crop_label_pentagon">Pentagon</string>
+    <string name="crop_label_hexagon">Zeshoek</string>
+</resources>

@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Raccolto</string>
+    <string name="crop_label_skip">Saltare</string>
+    <string name="crop_label_back">Indietro</string>
+    <string name="crop_label_done">Fatto</string>
+    <string name="crop_label_original">Originale</string>
+    <string name="crop_label_square">Piazza</string>
+    <string name="crop_label_radius">Raggio</string>
+    <string name="crop_label_circle">Cerchio</string>
+    <string name="crop_label_triangle">Triangolo</string>
+    <string name="crop_label_star">Stella</string>
+    <string name="crop_label_heart">Cuore</string>
+    <string name="crop_label_insquare">Inquadrato</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Ettagono</string>
+    <string name="crop_label_pentagon">Pentagono</string>
+    <string name="crop_label_hexagon">Esagono</string>
+</resources>

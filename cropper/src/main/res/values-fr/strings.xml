@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Recadrer</string>
+    <string name="crop_label_skip">Sauter</string>
+    <string name="crop_label_back">Dos</string>
+    <string name="crop_label_done">Fait</string>
+    <string name="crop_label_original">Original</string>
+    <string name="crop_label_square">Carré</string>
+    <string name="crop_label_radius">Rayon</string>
+    <string name="crop_label_circle">Cercle</string>
+    <string name="crop_label_triangle">Triangle</string>
+    <string name="crop_label_star">Étoile</string>
+    <string name="crop_label_heart">Cœur</string>
+    <string name="crop_label_insquare">Incarré</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Heptagone</string>
+    <string name="crop_label_pentagon">Pentagone</string>
+    <string name="crop_label_hexagon">Hexagone</string>
+</resources>

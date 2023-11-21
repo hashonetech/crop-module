@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Avling</string>
+    <string name="crop_label_skip">Hopp over</string>
+    <string name="crop_label_back">Tilbake</string>
+    <string name="crop_label_done">Ferdig</string>
+    <string name="crop_label_original">Opprinnelig</string>
+    <string name="crop_label_square">Torget</string>
+    <string name="crop_label_radius">Radius</string>
+    <string name="crop_label_circle">Sirkel</string>
+    <string name="crop_label_triangle">Triangel</string>
+    <string name="crop_label_star">Stjerne</string>
+    <string name="crop_label_heart">Hjerte</string>
+    <string name="crop_label_insquare">Firkantet</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Heptagon</string>
+    <string name="crop_label_pentagon">Pentagon</string>
+    <string name="crop_label_hexagon">Sekskant</string>
+</resources>

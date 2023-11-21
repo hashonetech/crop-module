@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">수확고</string>
+    <string name="crop_label_skip">건너뛰다</string>
+    <string name="crop_label_back">뒤쪽에</string>
+    <string name="crop_label_done">완료</string>
+    <string name="crop_label_original">원래의</string>
+    <string name="crop_label_square">정사각형</string>
+    <string name="crop_label_radius">반지름</string>
+    <string name="crop_label_circle">원</string>
+    <string name="crop_label_triangle">삼각형</string>
+    <string name="crop_label_star">별</string>
+    <string name="crop_label_heart">마음</string>
+    <string name="crop_label_insquare">인스퀘어</string>
+    <string name="crop_label_inarc">이나르크</string>
+    <string name="crop_label_heptagon">칠각형</string>
+    <string name="crop_label_pentagon">오각형</string>
+    <string name="crop_label_hexagon">육각형</string>
+</resources>

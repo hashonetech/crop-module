@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">ដំណាំ</string>
+    <string name="crop_label_skip">រំលង</string>
+    <string name="crop_label_back">ត្រឡប់មកវិញ</string>
+    <string name="crop_label_done">រួចរាល់</string>
+    <string name="crop_label_original">ដើម</string>
+    <string name="crop_label_square">ការ៉េ</string>
+    <string name="crop_label_radius">កាំ</string>
+    <string name="crop_label_circle">រង្វង់</string>
+    <string name="crop_label_triangle">ត្រីកោណ</string>
+    <string name="crop_label_star">តារា</string>
+    <string name="crop_label_heart">បេះដូង</string>
+    <string name="crop_label_insquare">Insquare</string>
+    <string name="crop_label_inarc">អ៊ីណាក់</string>
+    <string name="crop_label_heptagon">ហេបតាហ្គោន</string>
+    <string name="crop_label_pentagon">មន្ទីរបញ្ចកោណ</string>
+    <string name="crop_label_hexagon">ឆកោន</string>
+</resources>

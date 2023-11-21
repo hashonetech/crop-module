@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Cortar</string>
+    <string name="crop_label_skip">Pular</string>
+    <string name="crop_label_back">Voltar</string>
+    <string name="crop_label_done">Feito</string>
+    <string name="crop_label_original">Original</string>
+    <string name="crop_label_square">Quadrado</string>
+    <string name="crop_label_radius">Raio</string>
+    <string name="crop_label_circle">Círculo</string>
+    <string name="crop_label_triangle">Triângulo</string>
+    <string name="crop_label_star">Estrela</string>
+    <string name="crop_label_heart">Coração</string>
+    <string name="crop_label_insquare">Inquadrado</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Heptágono</string>
+    <string name="crop_label_pentagon">Pentágono</string>
+    <string name="crop_label_hexagon">Hexágono</string>
+</resources>

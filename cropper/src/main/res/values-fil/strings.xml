@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">I-crop</string>
+    <string name="crop_label_skip">Laktawan</string>
+    <string name="crop_label_back">Bumalik</string>
+    <string name="crop_label_done">Tapos na</string>
+    <string name="crop_label_original">Orihinal</string>
+    <string name="crop_label_square">Square</string>
+    <string name="crop_label_radius">Radius</string>
+    <string name="crop_label_circle">Bilog</string>
+    <string name="crop_label_triangle">Tatsulok</string>
+    <string name="crop_label_star">Bituin</string>
+    <string name="crop_label_heart">Puso</string>
+    <string name="crop_label_insquare">Insquare</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Heptagon</string>
+    <string name="crop_label_pentagon">Pentagon</string>
+    <string name="crop_label_hexagon">Heksagono</string>
+</resources>

@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Beskära</string>
+    <string name="crop_label_skip">Hoppa</string>
+    <string name="crop_label_back">Tillbaka</string>
+    <string name="crop_label_done">Gjort</string>
+    <string name="crop_label_original">Original</string>
+    <string name="crop_label_square">Fyrkant</string>
+    <string name="crop_label_radius">Radie</string>
+    <string name="crop_label_circle">Cirkel</string>
+    <string name="crop_label_triangle">Triangel</string>
+    <string name="crop_label_star">Stjärna</string>
+    <string name="crop_label_heart">Hjärta</string>
+    <string name="crop_label_insquare">Fyrkantigt</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Heptagon</string>
+    <string name="crop_label_pentagon">Pentagon</string>
+    <string name="crop_label_hexagon">Sexhörning</string>
+</resources>

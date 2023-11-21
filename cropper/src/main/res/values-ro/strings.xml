@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">A decupa</string>
+    <string name="crop_label_skip">Ocolire</string>
+    <string name="crop_label_back">Înapoi</string>
+    <string name="crop_label_done">Terminat</string>
+    <string name="crop_label_original">Original</string>
+    <string name="crop_label_square">Pătrat</string>
+    <string name="crop_label_radius">Rază</string>
+    <string name="crop_label_circle">Cerc</string>
+    <string name="crop_label_triangle">Triunghi</string>
+    <string name="crop_label_star">Stea</string>
+    <string name="crop_label_heart">inima</string>
+    <string name="crop_label_insquare">Insquare</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Heptagon</string>
+    <string name="crop_label_pentagon">Pentagon</string>
+    <string name="crop_label_hexagon">Hexagon</string>
+</resources>

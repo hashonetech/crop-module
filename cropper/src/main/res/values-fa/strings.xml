@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">برش</string>
+    <string name="crop_label_skip">پرش کنید</string>
+    <string name="crop_label_back">بازگشت</string>
+    <string name="crop_label_done">انجام شده</string>
+    <string name="crop_label_original">اصل</string>
+    <string name="crop_label_square">مربع</string>
+    <string name="crop_label_radius">شعاع</string>
+    <string name="crop_label_circle">دایره</string>
+    <string name="crop_label_triangle">مثلث</string>
+    <string name="crop_label_star">ستاره</string>
+    <string name="crop_label_heart">قلب</string>
+    <string name="crop_label_insquare">مربع</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">هفت ضلعی</string>
+    <string name="crop_label_pentagon">پنتاگون</string>
+    <string name="crop_label_hexagon">شش ضلعی</string>
+</resources>

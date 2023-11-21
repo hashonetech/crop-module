@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Tanaman</string>
+    <string name="crop_label_skip">Melewati</string>
+    <string name="crop_label_back">Kembali</string>
+    <string name="crop_label_done">Selesai</string>
+    <string name="crop_label_original">Asli</string>
+    <string name="crop_label_square">Persegi</string>
+    <string name="crop_label_radius">Radius</string>
+    <string name="crop_label_circle">Lingkaran</string>
+    <string name="crop_label_triangle">Segi tiga</string>
+    <string name="crop_label_star">Bintang</string>
+    <string name="crop_label_heart">Jantung</string>
+    <string name="crop_label_insquare">tidak persegi</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Segi tujuh</string>
+    <string name="crop_label_pentagon">Segi lima</string>
+    <string name="crop_label_hexagon">Segi enam</string>
+</resources>

@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Plodina</string>
+    <string name="crop_label_skip">Preskočiť</string>
+    <string name="crop_label_back">späť</string>
+    <string name="crop_label_done">hotový</string>
+    <string name="crop_label_original">Originál</string>
+    <string name="crop_label_square">Námestie</string>
+    <string name="crop_label_radius">Polomer</string>
+    <string name="crop_label_circle">Kruh</string>
+    <string name="crop_label_triangle">Trojuholník</string>
+    <string name="crop_label_star">Hviezda</string>
+    <string name="crop_label_heart">Srdce</string>
+    <string name="crop_label_insquare">Hranatý</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Sedemuholník</string>
+    <string name="crop_label_pentagon">Pentagon</string>
+    <string name="crop_label_hexagon">Šesťuholník</string>
+</resources>

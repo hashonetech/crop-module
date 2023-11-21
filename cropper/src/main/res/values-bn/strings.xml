@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">ফসল</string>
+    <string name="crop_label_skip">এড়িয়ে যান</string>
+    <string name="crop_label_back">পেছনে</string>
+    <string name="crop_label_done">সম্পন্ন</string>
+    <string name="crop_label_original">আসল</string>
+    <string name="crop_label_square">বর্গক্ষেত্র</string>
+    <string name="crop_label_radius">ব্যাসার্ধ</string>
+    <string name="crop_label_circle">বৃত্ত</string>
+    <string name="crop_label_triangle">ত্রিভুজ</string>
+    <string name="crop_label_star">তারা</string>
+    <string name="crop_label_heart">হৃদয়</string>
+    <string name="crop_label_insquare">ইনস্কয়ার</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">হেপ্টাগন</string>
+    <string name="crop_label_pentagon">পেন্টাগন</string>
+    <string name="crop_label_hexagon">ষড়ভুজ</string>
+</resources>

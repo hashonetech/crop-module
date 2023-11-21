@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">作物</string>
+    <string name="crop_label_skip">スキップ</string>
+    <string name="crop_label_back">戻る</string>
+    <string name="crop_label_done">終わり</string>
+    <string name="crop_label_original">オリジナル</string>
+    <string name="crop_label_square">四角</string>
+    <string name="crop_label_radius">半径</string>
+    <string name="crop_label_circle">丸</string>
+    <string name="crop_label_triangle">三角形</string>
+    <string name="crop_label_star">星</string>
+    <string name="crop_label_heart">心臓</string>
+    <string name="crop_label_insquare">正方形</string>
+    <string name="crop_label_inarc">イナーク</string>
+    <string name="crop_label_heptagon">ヘプタゴン</string>
+    <string name="crop_label_pentagon">五角形</string>
+    <string name="crop_label_hexagon">六角形</string>
+</resources>

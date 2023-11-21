@@ -17,7 +17,6 @@ import com.hashone.commons.extensions.navigationUI
 import com.hashone.commons.extensions.serializable
 import com.hashone.commons.extensions.setStatusBarColor
 import com.hashone.cropper.builder.Crop
-import com.hashone.cropper.model.AspectRatio
 import com.hashone.cropper.model.OriginalRatioData
 import com.hashone.cropper.model.OutlineType
 import com.hashone.cropper.model.RatioData
@@ -77,13 +76,13 @@ class CropActivity : ComponentActivity() {
             aspectRatios = arrayListOf(
                 OriginalRatioData(
                     id = 1,
-                    title = getString(R.string.label_original),
+                    title = getString(R.string.crop_label_original),
                     img = R.drawable.ic_orginal_crop,
                     cropOutline = RectCropShape(id = 0, title = "Rect")
                 ),
                 RatioData(
                     id = 2,
-                    title = getString(R.string.label_square),
+                    title = getString(R.string.crop_label_square),
                     img = R.drawable.ic_square_crop,
                     ratioValue = 1F / 1F,
                     cropOutline = RectCropShape(id = 0, title = "Rect")
@@ -146,61 +145,61 @@ class CropActivity : ComponentActivity() {
                 ),
                 ShapeData(
                     id = 12,
-                    title = getString(R.string.label_radius),
+                    title = getString(R.string.crop_label_radius),
                     img = R.drawable.ic_square_crop,
                     shapeImg = R.drawable.ic_radius_shape
                 ),
                 ShapeData(
                     id = 13,
-                    title = getString(R.string.label_circle),
+                    title = getString(R.string.crop_label_circle),
                     img = R.drawable.ic_circle_crop,
                     shapeImg = R.drawable.ic_circle_shape
                 ),
                 ShapeData(
                     id = 14,
-                    title = getString(R.string.label_triangle),
+                    title = getString(R.string.crop_label_triangle),
                     img = R.drawable.ic_triangle_crop,
                     shapeImg = R.drawable.ic_triangle_shape
                 ),
                 ShapeData(
                     id = 15,
-                    title = getString(R.string.label_star),
+                    title = getString(R.string.crop_label_star),
                     img = R.drawable.ic_star_crop,
                     shapeImg = R.drawable.ic_star_shape
                 ),
                 ShapeData(
                     id = 16,
-                    title = getString(R.string.label_heart),
+                    title = getString(R.string.crop_label_heart),
                     img = R.drawable.ic_heart_crop,
                     shapeImg = R.drawable.ic_heart_shape
                 ),
                 ShapeData(
                     id = 17,
-                    title = getString(R.string.label_insquare),
+                    title = getString(R.string.crop_label_insquare),
                     img = R.drawable.ic_insquare_crop,
                     shapeImg = R.drawable.ic_insquare_shape
                 ),
                 ShapeData(
                     id = 18,
-                    title = getString(R.string.label_inarc),
+                    title = getString(R.string.crop_label_inarc),
                     img = R.drawable.ic_inarc_crop,
                     shapeImg = R.drawable.ic_inarc_shape
                 ),
                 ShapeData(
                     id = 19,
-                    title = getString(R.string.label_heptagon),
+                    title = getString(R.string.crop_label_heptagon),
                     img = R.drawable.ic_heptagon_crop,
                     shapeImg = R.drawable.ic_heptagon_shape
                 ),
                 ShapeData(
                     id = 20,
-                    title = getString(R.string.label_pentagon),
+                    title = getString(R.string.crop_label_pentagon),
                     img = R.drawable.ic_pentagon_crop,
                     shapeImg = R.drawable.ic_pentagon_shape
                 ),
                 ShapeData(
                     id = 21,
-                    title = getString(R.string.label_hexagon),
+                    title = getString(R.string.crop_label_hexagon),
                     img = R.drawable.ic_hexagon_crop,
                     shapeImg = R.drawable.ic_hexagon_shape
                 ),
@@ -237,7 +236,7 @@ class CropActivity : ComponentActivity() {
         }
 
         if (builder.cropDataSaved != null) {
-            val circleAspectRatioData = aspectRatios.first { it.title == getString(R.string.label_circle) }
+            val circleAspectRatioData = aspectRatios.first { it.title == getString(R.string.crop_label_circle) }
             if (builder.cropDataSaved!!.cropAspectRatioId == 3 && builder.cropDataSaved!!.cropOutlineTitle == "Oval" && circleAspectRatioData!=null) {
                 builder.cropDataSaved!!.cropAspectRatioId = circleAspectRatioData.id
                 builder.cropDataSaved!!.aspectRatio = circleAspectRatioData.aspectRatio.value

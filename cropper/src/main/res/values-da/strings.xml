@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Afgrøde</string>
+    <string name="crop_label_skip">Springe</string>
+    <string name="crop_label_back">Tilbage</string>
+    <string name="crop_label_done">Færdig</string>
+    <string name="crop_label_original">Original</string>
+    <string name="crop_label_square">Firkant</string>
+    <string name="crop_label_radius">Radius</string>
+    <string name="crop_label_circle">Cirkel</string>
+    <string name="crop_label_triangle">Trekant</string>
+    <string name="crop_label_star">Stjerne</string>
+    <string name="crop_label_heart">Hjerte</string>
+    <string name="crop_label_insquare">Firkantet</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Heptagon</string>
+    <string name="crop_label_pentagon">Pentagon</string>
+    <string name="crop_label_hexagon">Sekskant</string>
+</resources>

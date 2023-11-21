@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Καλλιέργεια</string>
+    <string name="crop_label_skip">Παραλείπω</string>
+    <string name="crop_label_back">Πίσω</string>
+    <string name="crop_label_done">Εγινε</string>
+    <string name="crop_label_original">Πρωτότυπο</string>
+    <string name="crop_label_square">τετράγωνο</string>
+    <string name="crop_label_radius">Ακτίνα κύκλου</string>
+    <string name="crop_label_circle">Κύκλος</string>
+    <string name="crop_label_triangle">Τρίγωνο</string>
+    <string name="crop_label_star">Αστέρι</string>
+    <string name="crop_label_heart">Καρδιά</string>
+    <string name="crop_label_insquare">Τετράγωνο</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Επτάγωνο</string>
+    <string name="crop_label_pentagon">Πεντάγωνο</string>
+    <string name="crop_label_hexagon">Εξάγωνο</string>
+</resources>

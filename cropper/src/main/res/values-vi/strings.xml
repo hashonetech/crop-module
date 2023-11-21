@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Mùa vụ</string>
+    <string name="crop_label_skip">Nhảy</string>
+    <string name="crop_label_back">Mặt sau</string>
+    <string name="crop_label_done">Xong</string>
+    <string name="crop_label_original">Nguyên bản</string>
+    <string name="crop_label_square">Quảng trường</string>
+    <string name="crop_label_radius">Bán kính</string>
+    <string name="crop_label_circle">Vòng tròn</string>
+    <string name="crop_label_triangle">Tam giác</string>
+    <string name="crop_label_star">Ngôi sao</string>
+    <string name="crop_label_heart">Trái tim</string>
+    <string name="crop_label_insquare">Hình vuông</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Thất giác</string>
+    <string name="crop_label_pentagon">Hình năm góc</string>
+    <string name="crop_label_hexagon">Hình lục giác</string>
+</resources>

@@ -8,6 +8,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import androidx.annotation.FontRes
 import androidx.annotation.IntRange
+import androidx.compose.ui.res.stringResource
 import com.hashone.cropper.CropActivity
 import com.hashone.cropper.R
 import com.hashone.cropper.model.BaseAspectRatioData
@@ -96,7 +97,7 @@ open class Crop(val builder: Builder) : Serializable {
         var toolBarColor: Int = R.color.white,
         @DrawableRes
         var backIcon: Int = R.drawable.ic_back,
-        var title: String = "Crop",
+        var title: String = "",
         @ColorRes
         var titleColor: Int = R.color.black,
         @FontRes
@@ -116,9 +117,9 @@ open class Crop(val builder: Builder) : Serializable {
         var titleFont: Int = R.font.roboto_medium,
         @FloatRange
         var titleSize: Float = 12F,
-        var originalTitle: String = "Original",
-        var squareTitle: String = "Square",
-        var circleTitle: String = "Circle",
+        var originalTitle: String = "",
+        var squareTitle: String = "",
+        var circleTitle: String = "",
     ) : Serializable
 
     class BottomPanelBuilder(
@@ -126,8 +127,8 @@ open class Crop(val builder: Builder) : Serializable {
         var cropBottomBackgroundColor: Int = R.color.white,
         @ColorRes
         var dividerColor: Int = R.color.extra_extra_light_gray_color,
-        var doneButtonBuilder: ButtonBuilder = ButtonBuilder(buttonText = "Crop"),
-        var cancelButtonBuilder: ButtonBuilder = ButtonBuilder(buttonText = "Skip"),
+        var doneButtonBuilder: ButtonBuilder = ButtonBuilder(buttonText = ""),
+        var cancelButtonBuilder: ButtonBuilder = ButtonBuilder(buttonText = ""),
     ) : Serializable
 
     class ButtonBuilder(

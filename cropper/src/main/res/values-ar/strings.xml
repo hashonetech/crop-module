@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">اقتصاص</string>
+    <string name="crop_label_skip">يتخطى</string>
+    <string name="crop_label_back">خلف</string>
+    <string name="crop_label_done">منتهي</string>
+    <string name="crop_label_original">إبداعي</string>
+    <string name="crop_label_square">مربع</string>
+    <string name="crop_label_radius">نصف القطر</string>
+    <string name="crop_label_circle">دائرة</string>
+    <string name="crop_label_triangle">مثلث</string>
+    <string name="crop_label_star">نجمة</string>
+    <string name="crop_label_heart">قلب</string>
+    <string name="crop_label_insquare">Insquare</string>
+    <string name="crop_label_inarc">إنارك</string>
+    <string name="crop_label_heptagon">سباعي</string>
+    <string name="crop_label_pentagon">خماسي الاضلاع</string>
+    <string name="crop_label_hexagon">سداسي الزوايا</string>
+</resources>

@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Урожай</string>
+    <string name="crop_label_skip">Пропустити</string>
+    <string name="crop_label_back">Назад</string>
+    <string name="crop_label_done">Готово</string>
+    <string name="crop_label_original">Оригінал</string>
+    <string name="crop_label_square">Майдан</string>
+    <string name="crop_label_radius">Радіус</string>
+    <string name="crop_label_circle">Коло</string>
+    <string name="crop_label_triangle">Трикутник</string>
+    <string name="crop_label_star">зірка</string>
+    <string name="crop_label_heart">серце</string>
+    <string name="crop_label_insquare">У квадраті</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">семикутник</string>
+    <string name="crop_label_pentagon">П\'ятикутник</string>
+    <string name="crop_label_hexagon">Шестикутник</string>
+</resources>

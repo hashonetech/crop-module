@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                 toolBarBuilder = Crop.ToolBarBuilder(
                     toolBarColor = com.hashone.cropper.R.color.white,
                     backIcon = com.hashone.cropper.R.drawable.ic_back,
-                    title = "Crop",
+                    title = "",
                     titleColor = com.hashone.cropper.R.color.black,
                     titleFont = com.hashone.cropper.R.font.roboto_medium,
                     titleSize = 16F,
@@ -115,14 +115,14 @@ class MainActivity : AppCompatActivity() {
                     doneButtonBuilder = Crop.ButtonBuilder(
                         textColor = com.hashone.cropper.R.color.black,
                         icon = com.hashone.cropper.R.drawable.ic_check_croppy_selected,
-                        buttonText = "Crop",
+                        buttonText = "",
                         textFont = com.hashone.cropper.R.font.roboto_medium,
                         textSize = 16F,
                     ),
                     cancelButtonBuilder = Crop.ButtonBuilder(
                         textColor = com.hashone.cropper.R.color.black,
                         icon = com.hashone.cropper.R.drawable.ic_cancel,
-                        buttonText = "Skip",
+                        buttonText = "",
                         textFont = com.hashone.cropper.R.font.roboto_medium,
                         textSize = 16F,
                     ),

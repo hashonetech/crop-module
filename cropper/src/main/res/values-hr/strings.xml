@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Usjev</string>
+    <string name="crop_label_skip">Preskočiti</string>
+    <string name="crop_label_back">leđa</string>
+    <string name="crop_label_done">Gotovo</string>
+    <string name="crop_label_original">Izvornik</string>
+    <string name="crop_label_square">Kvadrat</string>
+    <string name="crop_label_radius">Radius</string>
+    <string name="crop_label_circle">Krug</string>
+    <string name="crop_label_triangle">Trokut</string>
+    <string name="crop_label_star">Zvijezda</string>
+    <string name="crop_label_heart">Srce</string>
+    <string name="crop_label_insquare">U kvadratu</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Sedmerokut</string>
+    <string name="crop_label_pentagon">Peterokut</string>
+    <string name="crop_label_hexagon">Šesterokut</string>
+</resources>

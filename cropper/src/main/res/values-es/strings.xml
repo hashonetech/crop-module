@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Cultivo</string>
+    <string name="crop_label_skip">Saltar</string>
+    <string name="crop_label_back">Atrás</string>
+    <string name="crop_label_done">Hecho</string>
+    <string name="crop_label_original">Original</string>
+    <string name="crop_label_square">Cuadrado</string>
+    <string name="crop_label_radius">Radio</string>
+    <string name="crop_label_circle">Círculo</string>
+    <string name="crop_label_triangle">Triángulo</string>
+    <string name="crop_label_star">Estrella</string>
+    <string name="crop_label_heart">Corazón</string>
+    <string name="crop_label_insquare">cuadrado</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Heptágono</string>
+    <string name="crop_label_pentagon">Pentágono</string>
+    <string name="crop_label_hexagon">Hexágono</string>
+</resources>

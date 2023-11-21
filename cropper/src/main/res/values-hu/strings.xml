@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Vág</string>
+    <string name="crop_label_skip">Kihagyás</string>
+    <string name="crop_label_back">Vissza</string>
+    <string name="crop_label_done">Kész</string>
+    <string name="crop_label_original">Eredeti</string>
+    <string name="crop_label_square">Négyzet</string>
+    <string name="crop_label_radius">Sugár</string>
+    <string name="crop_label_circle">Kör</string>
+    <string name="crop_label_triangle">Háromszög</string>
+    <string name="crop_label_star">Csillag</string>
+    <string name="crop_label_heart">Szív</string>
+    <string name="crop_label_insquare">Insquare</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Hétszög</string>
+    <string name="crop_label_pentagon">Pentagon</string>
+    <string name="crop_label_hexagon">Hatszög</string>
+</resources>

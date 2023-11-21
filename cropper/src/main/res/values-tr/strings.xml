@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Mahsul</string>
+    <string name="crop_label_skip">Atlamak</string>
+    <string name="crop_label_back">Geri</string>
+    <string name="crop_label_done">Tamamlamak</string>
+    <string name="crop_label_original">Orijinal</string>
+    <string name="crop_label_square">Kare</string>
+    <string name="crop_label_radius">Yarıçap</string>
+    <string name="crop_label_circle">Daire</string>
+    <string name="crop_label_triangle">Üçgen</string>
+    <string name="crop_label_star">Yıldız</string>
+    <string name="crop_label_heart">Kalp</string>
+    <string name="crop_label_insquare">kare</string>
+    <string name="crop_label_inarc">Inark</string>
+    <string name="crop_label_heptagon">Yedigen</string>
+    <string name="crop_label_pentagon">Pentagon</string>
+    <string name="crop_label_hexagon">Altıgen</string>
+</resources>

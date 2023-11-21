@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">ครอบตัด</string>
+    <string name="crop_label_skip">ข้าม</string>
+    <string name="crop_label_back">กลับ</string>
+    <string name="crop_label_done">เสร็จแล้ว</string>
+    <string name="crop_label_original">ต้นฉบับ</string>
+    <string name="crop_label_square">สี่เหลี่ยม</string>
+    <string name="crop_label_radius">รัศมี</string>
+    <string name="crop_label_circle">วงกลม</string>
+    <string name="crop_label_triangle">สามเหลี่ยม</string>
+    <string name="crop_label_star">ดาว</string>
+    <string name="crop_label_heart">หัวใจ</string>
+    <string name="crop_label_insquare">อินสแควร์</string>
+    <string name="crop_label_inarc">อินาร์ค</string>
+    <string name="crop_label_heptagon">เจ็ดเหลี่ยม</string>
+    <string name="crop_label_pentagon">เพนตากอน</string>
+    <string name="crop_label_hexagon">หกเหลี่ยม</string>
+</resources>

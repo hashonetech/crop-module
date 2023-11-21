@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Przyciąć</string>
+    <string name="crop_label_skip">Pominąć</string>
+    <string name="crop_label_back">Z powrotem</string>
+    <string name="crop_label_done">Zrobione</string>
+    <string name="crop_label_original">Oryginalny</string>
+    <string name="crop_label_square">Kwadrat</string>
+    <string name="crop_label_radius">Promień</string>
+    <string name="crop_label_circle">Koło</string>
+    <string name="crop_label_triangle">Trójkąt</string>
+    <string name="crop_label_star">Gwiazda</string>
+    <string name="crop_label_heart">Serce</string>
+    <string name="crop_label_insquare">Kwadrat</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Siedmiokąt</string>
+    <string name="crop_label_pentagon">Pięciokąt</string>
+    <string name="crop_label_hexagon">Sześciokąt</string>
+</resources>

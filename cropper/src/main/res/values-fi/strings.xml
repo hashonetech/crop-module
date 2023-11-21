@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">Rajaa</string>
+    <string name="crop_label_skip">Ohita</string>
+    <string name="crop_label_back">Takaisin</string>
+    <string name="crop_label_done">Tehty</string>
+    <string name="crop_label_original">Alkuperäinen</string>
+    <string name="crop_label_square">Neliö</string>
+    <string name="crop_label_radius">Säde</string>
+    <string name="crop_label_circle">Ympyrä</string>
+    <string name="crop_label_triangle">Kolmio</string>
+    <string name="crop_label_star">Tähti</string>
+    <string name="crop_label_heart">Sydän</string>
+    <string name="crop_label_insquare">Insquare</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Heptagon</string>
+    <string name="crop_label_pentagon">Pentagon</string>
+    <string name="crop_label_hexagon">Kuusikulmio</string>
+</resources>

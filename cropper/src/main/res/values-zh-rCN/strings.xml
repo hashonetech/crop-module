@@ -1,0 +1,18 @@
+<resources>
+    <string name="crop_label_crop">庄稼</string>
+    <string name="crop_label_skip">跳过</string>
+    <string name="crop_label_back">后退</string>
+    <string name="crop_label_done">完毕</string>
+    <string name="crop_label_original">原来的</string>
+    <string name="crop_label_square">正方形</string>
+    <string name="crop_label_radius">半径</string>
+    <string name="crop_label_circle">圆圈</string>
+    <string name="crop_label_triangle">三角形</string>
+    <string name="crop_label_star">星星</string>
+    <string name="crop_label_heart">心</string>
+    <string name="crop_label_insquare">因方</string>
+    <string name="crop_label_inarc">伊纳尔克</string>
+    <string name="crop_label_heptagon">七边形</string>
+    <string name="crop_label_pentagon">五角大楼</string>
+    <string name="crop_label_hexagon">六边形</string>
+</resources>

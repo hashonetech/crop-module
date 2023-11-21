@@ -186,7 +186,9 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
                 title = {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = cropBuilder.toolBarBuilder.title,
+                        text = cropBuilder.toolBarBuilder.title.ifEmpty {
+                            stringResource(id = R.string.crop_label_crop)
+                        },
                         fontSize = cropBuilder.toolBarBuilder.titleSize.sp,
                         color = colorResource(cropBuilder.toolBarBuilder.titleColor),
                         fontFamily = FontFamily(Font(cropBuilder.toolBarBuilder.titleFont))
@@ -197,7 +199,7 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
                     IconButton(onClick = { activity?.finish() }) {
                         Icon(
                             ImageVector.vectorResource(id = cropBuilder.toolBarBuilder.backIcon),
-                            contentDescription = stringResource(id = R.string.label_back)
+                            contentDescription = stringResource(id = R.string.crop_label_back)
                         )
                     }
                 },
@@ -397,7 +399,7 @@ private fun MainContent(
                     ImageCropper(
                         modifier = Modifier.clipToBounds(),
                         imageBitmap = imageBitmap!!,
-                        contentDescription = stringResource(id = R.string.label_crop),
+                        contentDescription = stringResource(id = R.string.crop_label_crop),
                         cropStyle = cropStyle,
                         cropProperties = cropProperties,
                         crop = crop,
@@ -527,12 +529,16 @@ private fun MainContent(
                             ) {
                                 Icon(
                                     ImageVector.vectorResource(id = cropBuilder.bottomPanelBuilder.cancelButtonBuilder.icon),
-                                    contentDescription = stringResource(id = R.string.label_skip),
+                                    contentDescription = stringResource(id = R.string.crop_label_skip),
                                 )
 
                                 Text(
                                     modifier = Modifier.padding(paddingValues = PaddingValues(8.dp)),
-                                    text = cropBuilder.bottomPanelBuilder.cancelButtonBuilder.buttonText,
+                                    text = cropBuilder.bottomPanelBuilder.cancelButtonBuilder.buttonText.ifEmpty {
+                                        stringResource(
+                                            id = R.string.crop_label_skip
+                                        )
+                                    },
                                     fontSize = cropBuilder.bottomPanelBuilder.cancelButtonBuilder.textSize.sp,
                                     color = colorResource(cropBuilder.bottomPanelBuilder.cancelButtonBuilder.textColor),
                                     fontFamily = FontFamily(Font(cropBuilder.bottomPanelBuilder.cancelButtonBuilder.textFont))
@@ -561,11 +567,15 @@ private fun MainContent(
                             ) {
                                 Icon(
                                     ImageVector.vectorResource(id = cropBuilder.bottomPanelBuilder.doneButtonBuilder.icon),
-                                    contentDescription = stringResource(id = R.string.label_done),
+                                    contentDescription = stringResource(id = R.string.crop_label_done),
                                 )
                                 Text(
                                     modifier = Modifier.padding(paddingValues = PaddingValues(8.dp)),
-                                    text = cropBuilder.bottomPanelBuilder.doneButtonBuilder.buttonText,
+                                    text = cropBuilder.bottomPanelBuilder.doneButtonBuilder.buttonText.ifEmpty {
+                                        stringResource(
+                                            id = R.string.crop_label_crop
+                                        )
+                                    },
                                     fontSize = cropBuilder.bottomPanelBuilder.doneButtonBuilder.textSize.sp,
                                     color = colorResource(cropBuilder.bottomPanelBuilder.doneButtonBuilder.textColor),
                                     fontFamily = FontFamily(Font(cropBuilder.bottomPanelBuilder.doneButtonBuilder.textFont))

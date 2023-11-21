@@ -1,30 +1,29 @@
 <resources>
-    <string name="title_activity_crop">CropActivity</string>
     <!--Crop-->
-    <string name="label_crop">Crop</string>
-    <string name="label_skip">Skip</string>
-    <string name="label_back">Back</string>
-    <string name="label_done">Done</string>
+    <string name="crop_label_crop">Crop</string>
+    <string name="crop_label_skip">Skip</string>
+    <string name="crop_label_back">Back</string>
+    <string name="crop_label_done">Done</string>
 
-    <string name="label_original">Original</string>
-    <string name="label_square">Square</string>
-    <string name="label_2_3">2:3</string>
-    <string name="label_3_4">3:4</string>
-    <string name="label_4_5">4:5</string>
-    <string name="label_9_16">9:16</string>
-    <string name="label_3_2">3:2</string>
-    <string name="label_4_3">4:3</string>
-    <string name="label_5_4">5:4</string>
-    <string name="label_16_9">16:9</string>
-    <string name="label_radius">Radius</string>
-    <string name="label_circle">Circle</string>
-    <string name="label_triangle">Triangle</string>
-    <string name="label_star">Star</string>
-    <string name="label_heart">Heart</string>
-    <string name="label_insquare">Insquare</string>
-    <string name="label_inarc">Inarc</string>
-    <string name="label_heptagon">Heptagon</string>
-    <string name="label_pentagon">Pentagon</string>
-    <string name="label_hexagon">Hexagon</string>
+    <string name="crop_label_original">Original</string>
+    <string name="crop_label_square">Square</string>
+    <string name="crop_label_2_3" translatable="false">2:3</string>
+    <string name="crop_label_3_4" translatable="false">3:4</string>
+    <string name="crop_label_4_5" translatable="false">4:5</string>
+    <string name="crop_label_9_16" translatable="false">9:16</string>
+    <string name="crop_label_3_2" translatable="false">3:2</string>
+    <string name="crop_label_4_3" translatable="false">4:3</string>
+    <string name="crop_label_5_4" translatable="false">5:4</string>
+    <string name="crop_label_16_9" translatable="false">16:9</string>
+    <string name="crop_label_radius">Radius</string>
+    <string name="crop_label_circle">Circle</string>
+    <string name="crop_label_triangle">Triangle</string>
+    <string name="crop_label_star">Star</string>
+    <string name="crop_label_heart">Heart</string>
+    <string name="crop_label_insquare">Insquare</string>
+    <string name="crop_label_inarc">Inarc</string>
+    <string name="crop_label_heptagon">Heptagon</string>
+    <string name="crop_label_pentagon">Pentagon</string>
+    <string name="crop_label_hexagon">Hexagon</string>
 
 </resources>
