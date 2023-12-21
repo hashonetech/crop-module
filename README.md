@@ -154,6 +154,7 @@ Simple image cropping library for Android, used to crop selected image with Powe
  ### AspectRatios list (Ratios and Shapes)
 
    ```kotlin
+	//TODO: For migration OLD to New Version - Do not use id = 3, It is allocated for OLD Crop Shape "Circle"
 
 	aspectRatios = arrayListOf(
 
@@ -173,6 +174,7 @@ Simple image cropping library for Android, used to crop selected image with Powe
                     ratioValue = 1F / 1F,
                     cropOutline = RectCropShape(id = 0, title = "Rect")
                 ),
+		//TODO: For migration to New Version - Do not use id = 3
                 RatioData(
                     id = 4,
                     title = "2:3",
