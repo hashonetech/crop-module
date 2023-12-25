@@ -58,19 +58,16 @@ Simple image cropping library for Android, used to crop selected image with Powe
   	private var myCropDataSaved: CropDataSaved? = null
 	
   	if (checkPermissions()) {
-            mActivityLauncher.launch(
-            Crop.build(
+            val cropIntent = Crop.build(
                 originalImageFilePath = originalImageFilePath,
                 cropDataSaved = myCropDataSaved,
                 cropState = null,
                 croppedImageBitmap = null,
-		//TODO: Crop forcefully for same selected Aspect Ratio
-		forceCrop = true/false
-		//TODO: Use Default Ratios and shapes list for crop
-		useDefaults = true/false
+                useDefaults = true/false,
+                forceCrop = true/false
             ) {
 
-                //TODO: Only work when (useDefaults = false)
+                //TODO: Crop Ratios
                 mAspectRatio = arrayListOf()
 
                 //TODO: Screen
@@ -87,13 +84,13 @@ Simple image cropping library for Android, used to crop selected image with Powe
                 toolBarBuilder = Crop.ToolBarBuilder(
                     toolBarColor = com.hashone.cropper.R.color.white,
                     backIcon = com.hashone.cropper.R.drawable.ic_back,
-                    title = "Crop",
+                    title = "",
                     titleColor = com.hashone.cropper.R.color.black,
                     titleFont = com.hashone.cropper.R.font.roboto_medium,
                     titleSize = 16F,
                 )
 
-                //TODO: Image Size 
+                //TODO: Image Size
                 sizeBuilder = Crop.SizeBuilder(
                     localFileSize = 1080,
                     maxFileSize = 4096,
@@ -105,9 +102,8 @@ Simple image cropping library for Android, used to crop selected image with Powe
                     selectedColor = com.hashone.cropper.R.color.black,
                     unSelectedColor = com.hashone.cropper.R.color.un_select_color,
                     titleFont = com.hashone.cropper.R.font.roboto_medium,
-		 	//TODO: New, title text size
                     titleSize = 12F,
-			originalTitle = "Original",
+                    originalTitle = "Original",
                     squareTitle = "Square",
                     circleTitle = "Circle",
                 )
@@ -120,19 +116,22 @@ Simple image cropping library for Android, used to crop selected image with Powe
                     doneButtonBuilder = Crop.ButtonBuilder(
                         textColor = com.hashone.cropper.R.color.black,
                         icon = com.hashone.cropper.R.drawable.ic_check_croppy_selected,
-                        buttonText = "Crop",
+                        buttonText = "",
                         textFont = com.hashone.cropper.R.font.roboto_medium,
                         textSize = 16F,
                     ),
                     cancelButtonBuilder = Crop.ButtonBuilder(
                         textColor = com.hashone.cropper.R.color.black,
                         icon = com.hashone.cropper.R.drawable.ic_cancel,
-                        buttonText = "Skip",
+                        buttonText = "",
                         textFont = com.hashone.cropper.R.font.roboto_medium,
                         textSize = 16F,
                     ),
                 )
-            }),
+            }
+
+            mActivityLauncher.launch(
+                Crop.open(activity = this, cropIntent),
                 onActivityResult = object : BetterActivityResult.OnActivityResult<ActivityResult> {
                     override fun onActivityResult(activityResult: ActivityResult) {
                         if (activityResult.resultCode == Activity.RESULT_OK) {
