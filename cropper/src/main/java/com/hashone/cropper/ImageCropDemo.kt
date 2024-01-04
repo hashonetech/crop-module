@@ -51,6 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.scale
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.hashone.commons.utils.EXTENSION_PNG
 import com.hashone.cropper.builder.Crop
@@ -284,7 +285,10 @@ private fun MainContent(
                 val bitmap = Glide.with(activity!!)
                     .asBitmap()
                     .load(cropBuilder.originalImageFilePath)
-                    .apply(RequestOptions().override(cropBuilder.sizeBuilder.localFileSize))
+                    .apply(RequestOptions()
+                        .override(cropBuilder.sizeBuilder.localFileSize)
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE))
                     .submit().get()
 
                 val maxSize = max(bitmap.width, bitmap.height)
