@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.hashone"
-version = "1.1.6"
+version = "1.1.7"
 
 android {
     namespace = "com.hashone.cropper"
@@ -64,7 +64,6 @@ dependencies {
     api(libs.core.ktx)
     api(libs.appcompat)
     api(libs.material)
-//    implementation(libs.firebase.crashlytics.buildtools)
     api(libs.lifecycle.runtime.ktx)
     api(libs.activity.compose)
     api(platform(libs.compose.bom))
@@ -95,7 +94,7 @@ afterEvaluate {
             register<MavenPublication>("release") {
                 groupId = "com.hashone"
                 artifactId = "crop"
-                version = "1.1.6"
+                version = "1.1.7"
 
                 afterEvaluate {
                     from(components["release"])
