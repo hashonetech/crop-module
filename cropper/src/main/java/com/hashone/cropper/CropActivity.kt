@@ -9,9 +9,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.core.view.WindowCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hashone.commons.extensions.getColorCode
 import com.hashone.commons.extensions.navigationUI
 import com.hashone.commons.extensions.serializable
@@ -58,6 +61,12 @@ class CropActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(colorResource(id = builder.screenBuilder.windowBackgroundColor))
                 ) {
+                    val systemUiController = rememberSystemUiController()
+                    SideEffect {
+                        systemUiController.setStatusBarColor(color = Color(getColorCode(builder.screenBuilder.statusBarColor)))
+                        systemUiController.setNavigationBarColor(color = Color(getColorCode(builder.screenBuilder.navigationBarColor)))
+                    }
+
 //                    if (builder.mAspectRatio.isNotEmpty() && !builder.useDefaults) {
                     updateAspectRatio()
 

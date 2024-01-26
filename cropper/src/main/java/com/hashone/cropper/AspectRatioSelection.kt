@@ -7,9 +7,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -27,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -97,6 +99,8 @@ internal fun AnimatedAspectRatioSelection(
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
+                .height(60.dp)
+                .align(Alignment.Center)
                 .background(colorResource(id = cropBuilder.aspectRatioBuilder.backgroundColor)),
             state = listState,
         ) {
@@ -115,10 +119,10 @@ internal fun AnimatedAspectRatioSelection(
                             // Here's the content of each list item.
                             AspectRatioSelectionCard(
                                 modifier = Modifier
-                                    .width(Utils.pxToDp((currentHeight * viewRatio).roundToInt()).dp)
-//                                    .defaultMinSize(minWidth = Utils.pxToDp((currentHeight * viewRatio).roundToInt()).dp)
-//                                    .height(56.dp)
+                                    .fillMaxWidth()
+                                    .defaultMinSize(minWidth = Utils.pxToDp((currentHeight * viewRatio).roundToInt()).dp, minHeight = 60.dp)
                                     .clip(CircleShape)
+                                    .align(Alignment.Center)
                                     .clickable(
                                         indication = rememberRipple(),
                                         interactionSource = remember {
@@ -130,12 +134,9 @@ internal fun AnimatedAspectRatioSelection(
                                             if (currentIndex != index) {
                                                 currentIndex = index
                                                 conCropOutlinePropertyChange(
-//                                                    aspectRatios[index].cropOutlineProperty,
                                                     CropOutlineProperty(
                                                         aspectRatios[index].outlineType,
-//                                                        if (aspectRatios[index].outlineType != OutlineType.ImageMask) createCropOutlineContainer(aspectRatios[index].outlineType) else aspectRatios[index].cropOutline
                                                         aspectRatios[index].cropOutline
-//                                                        createCropOutlineContainer(aspectRatios[index].outlineType)
                                                     ),
                                                     aspectRatios[index]
                                                 )

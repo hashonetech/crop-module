@@ -28,7 +28,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -78,15 +77,10 @@ import kotlinx.coroutines.withContext
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-internal enum class SelectionPage {
-    Properties, Style
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 //@Preview
 @Composable
 fun ImageCropDemo(cropBuilder: Crop.Builder) {
-    val coroutineScope = rememberCoroutineScope()
     val activity = (LocalContext.current as? ComponentActivity)
     val cropStyle by remember { mutableStateOf(CropDefaults.style(strokeWidth = cropBuilder.screenBuilder.borderWidth.dp)) }
     val handleSize: Float = LocalDensity.current.run { 15.dp.toPx() }
@@ -100,30 +94,6 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
         OutlineType.Rect,
         RectCropShape(0, "Rect")
     )
-
-    /*
-        val defaultImage1 = ImageBitmap.imageResource(id = R.drawable.squircle)
-        val defaultImage2 = ImageBitmap.imageResource(id = R.drawable.cloud)
-        val defaultImage3 = ImageBitmap.imageResource(id = R.drawable.sun)
-        val defaultImage4 = ImageBitmap.imageResource(id = R.drawable.blob)
-        val defaultImage5 = ImageBitmap.imageResource(id = R.drawable.blob_2)
-    //    val defaultImage6 = ImageBitmap.imageResource(id = R.drawable.blob_3)
-        var defaultImage6 by remember {
-            mutableStateOf(defaultImage5.asAndroidBitmap())
-        }
-
-        val cropFrameFactory = remember {
-            CropFrameFactory(
-                listOf(
-                    defaultImage6!!.asImageBitmap(),
-                    defaultImage5,
-                    defaultImage4,
-                    defaultImage3,
-                    defaultImage2,
-                    defaultImage1,
-                )
-            )
-        }*/
 
     val cropOutlineProperty = if (cropBuilder.cropDataSaved != null) {
         val aspectRatio =
@@ -139,21 +109,6 @@ fun ImageCropDemo(cropBuilder: Crop.Builder) {
                 createCropOutlineContainer(OutlineType.valueOf(cropBuilder.cropDataSaved?.cropOutlineType!!))
             )
         }
-
-        /*CropOutlineProperty(
-            OutlineType.valueOf(Constant.cropDataSaved?.cropOutlineType!!),
-            if (Constant.cropDataSaved?.cropOutlineTitle!! == "Oval") {
-                OvalCropShape(
-                    Constant.cropDataSaved?.cropOutlineId!!,
-                    Constant.cropDataSaved?.cropOutlineTitle!!
-                )
-            } else {
-                RectCropShape(
-                    Constant.cropDataSaved?.cropOutlineId!!,
-                    Constant.cropDataSaved?.cropOutlineTitle!!
-                )
-            }
-        )*/
     } else defaultCropOuterProp
     var cropProperties by remember {
         mutableStateOf(
@@ -274,9 +229,6 @@ private fun MainContent(
     var crop by remember { mutableStateOf(false) }
     var isCropping by remember { mutableStateOf(false) }
 
-
-//    CircularIndeterminateProgressBar(isDisplayed = !isBitmapReady || isCropping || isLoading)
-
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
             val localBitmap = if (mOriginalBitmap != null) {
@@ -285,10 +237,12 @@ private fun MainContent(
                 val bitmap = Glide.with(activity!!)
                     .asBitmap()
                     .load(cropBuilder.originalImageFilePath)
-                    .apply(RequestOptions()
-                        .override(cropBuilder.sizeBuilder.localFileSize)
-                        .skipMemoryCache(true)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE))
+                    .apply(
+                        RequestOptions()
+                            .override(cropBuilder.sizeBuilder.localFileSize)
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    )
                     .submit().get()
 
                 val maxSize = max(bitmap.width, bitmap.height)
@@ -313,12 +267,9 @@ private fun MainContent(
             }
 
             imageBitmap = localBitmap!!.asImageBitmap()
-//            mOriginalBitmap = imageBitmap!!.asAndroidBitmap()
             mOriginalBitmap = imageBitmap!!.asAndroidBitmap()
             delay(700)
             isBitmapReady = true
-//            delay(500)
-//            isLoading = false
         }
         onLoadImage()
     }
@@ -460,7 +411,6 @@ private fun MainContent(
                         isCropping = false
                         onCropTapped(false)
                     }
-//                    delay(500)
                 }
             }
 
@@ -494,9 +444,7 @@ private fun MainContent(
                         onCropReset()
                     }
                 )
-//                isLoading = false
             }
-//            }
             Spacer(
                 modifier = Modifier
                     .height(2.dp)
@@ -606,9 +554,6 @@ fun getCropStateData(cropState: CropState?): CropDataSaved? {
                 cropDataSaved.cropAspectRatioId = it.id
                 cropDataSaved.cropAspectRatioTitle = it.title
                 cropDataSaved.cropAspectRatioImg = it.img
-//                cropDataSaved.cropOutlineType = it.outlineType.name
-//                cropDataSaved.cropOutlineId = it.cropOutline.id
-//                cropDataSaved.cropOutlineTitle = it.cropOutline.title
             }
 
         }

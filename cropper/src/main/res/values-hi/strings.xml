@@ -5,12 +5,12 @@
     <string name="crop_label_done">हो गया</string>
     <string name="crop_label_original">मूल</string>
     <string name="crop_label_square">वर्ग</string>
-    <string name="crop_label_radius">RADIUS</string>
+    <string name="crop_label_radius">त्रिज्या</string>
     <string name="crop_label_circle">घेरा</string>
     <string name="crop_label_triangle">त्रिकोण</string>
     <string name="crop_label_star">तारा</string>
     <string name="crop_label_heart">दिल</string>
-    <string name="crop_label_insquare">पूछताछ करें</string>
+    <string name="crop_label_insquare">इनस्क्वायर</string>
     <string name="crop_label_inarc">इनार्क</string>
     <string name="crop_label_heptagon">सातकोणक</string>
     <string name="crop_label_pentagon">पंचकोण</string>

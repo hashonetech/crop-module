@@ -92,20 +92,20 @@ internal fun DrawingOverlay(
     }
 
     val newRect = Rect(
-        rect.left + dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f),
-        rect.top + dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f),
-        rect.right - dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f),
-        rect.bottom - dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f)
+        rect.left,
+        rect.top,
+        rect.right,
+        rect.bottom
     )
     when (cropOutline) {
         is CropShape -> {
 
             val outline = remember(rect, cropOutline) {
                 val localRect = Rect(
-                    rect.left + dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f),
-                    rect.top + dpToPx(cropBuilder.screenBuilder.borderSpacing * 2f),
-                    rect.right - dpToPx(cropBuilder.screenBuilder.borderSpacing * 4f),
-                    rect.bottom - dpToPx(cropBuilder.screenBuilder.borderSpacing * 4f)
+                    rect.left + dpToPx(cropBuilder.screenBuilder.borderSpacing),
+                    rect.top + dpToPx(cropBuilder.screenBuilder.borderSpacing),
+                    rect.right - dpToPx(cropBuilder.screenBuilder.borderSpacing),
+                    rect.bottom - dpToPx(cropBuilder.screenBuilder.borderSpacing)
                 )
                 cropOutline.shape.createOutline(localRect.size, layoutDirection, density)
             }
@@ -333,7 +333,6 @@ private fun DrawScope.drawOverlay(
 
         // Destination
         drawRect(transparentColor)
-//       drawRect(Color(cropBuilder.cropOuterBorderColor))
         // Source
         translate(
             left = rect.left + dpToPx(cropBuilder.screenBuilder.borderSpacing),
@@ -357,30 +356,11 @@ private fun DrawScope.drawOverlay(
 
     if (drawOverlay) {
         drawRect(
-//            topLeft = Offset(rect.topLeft.x + strokeWidth / 2, rect.topLeft.y + strokeWidth / 2),
-            topLeft = Offset(rect.topLeft.x, rect.topLeft.y ),
-//            size = Size(rect.size.width - strokeWidth, rect.size.height - strokeWidth),
+            topLeft = Offset(rect.topLeft.x, rect.topLeft.y),
             size = Size(rect.size.width, rect.size.height),
             color = overlayColor,
             style = Stroke(width = strokeWidth)
         )
-
-//        if (drawHandles) {
-//            pathHandles.apply {
-//                reset()
-//                updateHandlePath(rect, handleSize)
-//            }
-//
-//            drawPath(
-//                path = pathHandles,
-//                color = handleColor,
-//                style = Stroke(
-//                    width = strokeWidth * 2,
-//                    cap = StrokeCap.Round,
-//                    join = StrokeJoin.Round
-//                )
-//            )
-//        }
     }
 }
 

@@ -29,9 +29,11 @@ fun AspectRatioSelectionCard(
     Box(
         modifier = modifier
             .background(bgColor)
-
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth(),
