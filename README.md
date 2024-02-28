@@ -12,7 +12,7 @@ Simple image cropping library for Android, used to crop selected image with Powe
 	}
   
 	dependencies {
-	        implementation 'com.github.hashonetech:crop-module:v1.2.8'
+	        implementation 'com.github.hashonetech:crop-module:v1.2.9'
 	}
 ```
 
