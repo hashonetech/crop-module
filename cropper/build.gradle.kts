@@ -97,6 +97,7 @@ afterEvaluate {
                 version = "1.2.9"
 
                 afterEvaluate {
+
                     from(components["release"])
                 }
             }

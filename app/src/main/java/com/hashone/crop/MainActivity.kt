@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         checkPermissions(REQUEST_CODE_IMAGE_VIDEO)
 
         setDummyData()
-
         clickEvent()
     }
 
